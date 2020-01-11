@@ -21,7 +21,6 @@ void Game::processEvents()
             handlePlayerInput(event.key.code);
         }
         board.move(event,mWindow);
-//        board.placements(event,mWindow);
     }
 }
 

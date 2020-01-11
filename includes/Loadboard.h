@@ -18,10 +18,11 @@ private:
     sf::Vector2i coordinates[25];
     sf::Texture boardTexture;
     sf::RectangleShape boardImage;
-    bool isMove,isPressed;
+    bool isMove=false,isReleased;
     Tiger tiger[4];
     Goat goat[20];
     int tigerChosen,goatChosen;
+    sf::Vector2i newPos,oldPos;
 
 
 public:
@@ -31,5 +32,6 @@ public:
     Board();
 
 private:
-    bool checkMove(sf::Vector2i );
+    bool checkMove(Tiger &tiger);
+    sf::Vector2i toPosition(Tiger &tiger,sf::Vector2i &);
 };

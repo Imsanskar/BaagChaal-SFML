@@ -6,5 +6,5 @@ CXX_FLAGS =  -pthread -g
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/imsanskar/Desktop/BaagChaal-SFML/BaagChaal-SFML -I/home/imsanskar/Desktop/BaagChaal-SFML/includes 
+CXX_INCLUDES = -I/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/BaagChaal-SFML -I/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/includes 
 

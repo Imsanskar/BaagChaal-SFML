@@ -15,14 +15,14 @@ void Board::LoadBoard(sf::RenderWindow &mWindow)
     {
         tiger[i].render(mWindow);
     }
-    if(goatChosen<20)
-    {
-        goat[goatChosen].render(mWindow);
-    }
     mWindow.display();
 }
 Board::Board() {
+    isReleased=false;
+    tigerChosen=0;
     goatChosen=0;
+    newPos=sf::Vector2i(0,0);
+    oldPos=sf::Vector2i (75,30);
     for(int i=0;i<25;i++)
     {
         coordinates[i].x=(i%5)*187.5+75;
@@ -52,68 +52,93 @@ Board::Board() {
 
 void Board::move(sf::Event &event,sf::RenderWindow &mWindow)
 {
-    float dx,dy;
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
-    sf::Vector2i init;
-    sf::Vector2f final;
     if (event.type == sf::Event::MouseButtonPressed) {
-        init.x = pos.x;
-        init.y=pos.y;
-        if (event.mouseButton.button == sf::Mouse::Left) {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            isReleased=false;
             if (tiger[0].getGlobalBounds().contains(pos.x, pos.y)) {
                 isMove = true;
                 tigerChosen = 0;
+                oldPos.x=tiger[tigerChosen].getPosition().x;
+                oldPos.y=tiger[tigerChosen].getPosition().y;
             }
             if (tiger[1].getGlobalBounds().contains(pos.x, pos.y)) {
                 isMove = true;
                 tigerChosen = 1;
+                oldPos.x=tiger[tigerChosen].getPosition().x;
+                oldPos.y=tiger[tigerChosen].getPosition().y;
             }
             if (tiger[2].getGlobalBounds().contains(pos.x, pos.y)) {
                 isMove = true;
                 tigerChosen = 2;
+                oldPos.x=tiger[tigerChosen].getPosition().x;
+                oldPos.y=tiger[tigerChosen].getPosition().y;
             }
             if (tiger[3].getGlobalBounds().contains(pos.x, pos.y)) {
                 isMove = true;
                 tigerChosen = 3;
+                oldPos.x=tiger[tigerChosen].getPosition().x;
+                oldPos.y=tiger[tigerChosen].getPosition().y;
             }
-            dx = pos.x - tiger[tigerChosen].getPosition().x;
-            dy = pos.y - tiger[tigerChosen].getPosition().y;
         }
     }
     if (event.type == sf::Event::MouseButtonReleased)
     {
         if (event.mouseButton.button == sf::Mouse::Left)
         {
-            std::cout<<"hello"<<std::endl;
+            isReleased=true;
             isMove= false;
-            final.x=sf::Mouse::getPosition(mWindow).x;
-            final.y=sf::Mouse::getPosition(mWindow).y;
+            newPos.x=tiger[tigerChosen].getPosition().x;
+            newPos.y=tiger[tigerChosen].getPosition().y;
         }
     }
     if(isMove)
     {
-        std::cout<<final.x<<"     "<<final.y<<"\n";
-        if (checkMove(pos))
+        tiger[tigerChosen].setPosition(pos.x-25,pos.y-25);
+    }
+    if (isReleased)
+    {
+        isMove=false;
+        if(checkMove(tiger[tigerChosen]))
         {
-            tiger[tigerChosen].setPosition(final.x, final.y);
+            std::cout<<newPos.x<<"     "<<newPos.y<<"\n";
+            tiger[tigerChosen].setPosition(toPosition(tiger[tigerChosen],newPos).x,toPosition(tiger[tigerChosen],newPos).y);
+            isReleased=false;
         }
         else
         {
-            tiger[tigerChosen].setPosition(pos.x,pos.y);
+            tiger[tigerChosen].setPosition(oldPos.x,oldPos.y);
+            isReleased=false;
         }
     }
 }
 
-bool Board::checkMove(sf::Vector2i pos)
+bool Board::checkMove(Tiger &tiger)
 {
+    sf::FloatRect bounds;
+    bounds=tiger.getGlobalBounds();
+    bounds.left=bounds.left-20;
     for(int i=0;i<25;i++)
     {
-        if((coordinates[i]==pos))
+        if((bounds.contains(coordinates[i].x+10,coordinates[i].y+10)))
         {
             return true;
         }
     }
     return false;
+}
+sf::Vector2i Board::toPosition(Tiger &tiger,sf::Vector2i &pos)
+{
+    sf::FloatRect bounds;
+    bounds=tiger.getGlobalBounds();
+    for(int i=0;i<25;i++)
+    {
+        if((bounds.contains(coordinates[i].x+10,coordinates[i].y+10)))
+        {
+            return coordinates[i];
+        }
+    }
 }
 
 void Board::placements(sf::Event &event , sf::RenderWindow &mWindow )

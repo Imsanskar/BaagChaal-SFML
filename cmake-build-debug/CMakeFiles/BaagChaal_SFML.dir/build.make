@@ -43,10 +43,10 @@ RM = /home/imsanskar/Downloads/clion-2019.2.4/bin/cmake/linux/bin/cmake -E remov
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/imsanskar/Desktop/BaagChaal-SFML
+CMAKE_SOURCE_DIR = /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug
+CMAKE_BINARY_DIR = /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/BaagChaal_SFML.dir/depend.make
@@ -59,81 +59,81 @@ include CMakeFiles/BaagChaal_SFML.dir/flags.make
 
 CMakeFiles/BaagChaal_SFML.dir/main.cpp.o: CMakeFiles/BaagChaal_SFML.dir/flags.make
 CMakeFiles/BaagChaal_SFML.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/main.cpp.o -c /home/imsanskar/Desktop/BaagChaal-SFML/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/main.cpp.o -c /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/main.cpp
 
 CMakeFiles/BaagChaal_SFML.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BaagChaal_SFML.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/BaagChaal-SFML/main.cpp > CMakeFiles/BaagChaal_SFML.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/main.cpp > CMakeFiles/BaagChaal_SFML.dir/main.cpp.i
 
 CMakeFiles/BaagChaal_SFML.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BaagChaal_SFML.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/BaagChaal-SFML/main.cpp -o CMakeFiles/BaagChaal_SFML.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/main.cpp -o CMakeFiles/BaagChaal_SFML.dir/main.cpp.s
 
 CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o: CMakeFiles/BaagChaal_SFML.dir/flags.make
 CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o: ../src/Mainmenu.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o -c /home/imsanskar/Desktop/BaagChaal-SFML/src/Mainmenu.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o -c /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Mainmenu.cpp
 
 CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/BaagChaal-SFML/src/Mainmenu.cpp > CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Mainmenu.cpp > CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.i
 
 CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/BaagChaal-SFML/src/Mainmenu.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Mainmenu.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.s
 
 CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o: CMakeFiles/BaagChaal_SFML.dir/flags.make
 CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o: ../src/LoadBoard.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o -c /home/imsanskar/Desktop/BaagChaal-SFML/src/LoadBoard.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o -c /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/LoadBoard.cpp
 
 CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/BaagChaal-SFML/src/LoadBoard.cpp > CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/LoadBoard.cpp > CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.i
 
 CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/BaagChaal-SFML/src/LoadBoard.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/LoadBoard.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.s
 
 CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.o: CMakeFiles/BaagChaal_SFML.dir/flags.make
 CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.o: ../src/tigers.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.o -c /home/imsanskar/Desktop/BaagChaal-SFML/src/tigers.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.o -c /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/tigers.cpp
 
 CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/BaagChaal-SFML/src/tigers.cpp > CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/tigers.cpp > CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.i
 
 CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/BaagChaal-SFML/src/tigers.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/tigers.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.s
 
 CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o: CMakeFiles/BaagChaal_SFML.dir/flags.make
 CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o: ../src/goats.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o -c /home/imsanskar/Desktop/BaagChaal-SFML/src/goats.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o -c /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/goats.cpp
 
 CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/BaagChaal-SFML/src/goats.cpp > CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/goats.cpp > CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.i
 
 CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/BaagChaal-SFML/src/goats.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/goats.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.s
 
 CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o: CMakeFiles/BaagChaal_SFML.dir/flags.make
 CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o: ../src/Game.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o -c /home/imsanskar/Desktop/BaagChaal-SFML/src/Game.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o -c /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Game.cpp
 
 CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/BaagChaal-SFML/src/Game.cpp > CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Game.cpp > CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.i
 
 CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/BaagChaal-SFML/src/Game.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Game.cpp -o CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.s
 
 # Object files for target BaagChaal_SFML
 BaagChaal_SFML_OBJECTS = \
@@ -155,7 +155,7 @@ BaagChaal_SFML: CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o
 BaagChaal_SFML: CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o
 BaagChaal_SFML: CMakeFiles/BaagChaal_SFML.dir/build.make
 BaagChaal_SFML: CMakeFiles/BaagChaal_SFML.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable BaagChaal_SFML"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable BaagChaal_SFML"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/BaagChaal_SFML.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -168,6 +168,6 @@ CMakeFiles/BaagChaal_SFML.dir/clean:
 .PHONY : CMakeFiles/BaagChaal_SFML.dir/clean
 
 CMakeFiles/BaagChaal_SFML.dir/depend:
-	cd /home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/imsanskar/Desktop/BaagChaal-SFML /home/imsanskar/Desktop/BaagChaal-SFML /home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug /home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug /home/imsanskar/Desktop/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/BaagChaal_SFML.dir/depend
 
