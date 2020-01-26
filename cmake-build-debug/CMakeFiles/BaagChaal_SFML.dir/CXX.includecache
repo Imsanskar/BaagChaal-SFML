@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+../includes/Game.h
+SFML/Window.hpp
+-
+SFML/Graphics/RenderWindow.hpp
+-
+SFML/Graphics/Text.hpp
+-
+SFML/Graphics.hpp
+-
+Loadboard.h
+../includes/Loadboard.h
+
 ../includes/Loadboard.h
 SFML/Window.hpp
 -
@@ -42,11 +54,11 @@ SFML/Window.hpp
 SFML/Graphics.hpp
 -
 
-/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/LoadBoard.cpp
-Loadboard.h
-/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Loadboard.h
-MainMenu.h
-/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/MainMenu.h
+/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/Game.cpp
 iostream
 -
+Game.h
+/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/Game.h
+MainMenu.h
+/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/MainMenu.h
 

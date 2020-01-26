@@ -11,7 +11,7 @@ void Goat::render(sf::RenderWindow &mWindow )
 }
 Goat::Goat() 
 {
-    goatImage.setPosition(goatPos.x,goatPos.y);
+    isAlive=false;
     goatTexture.loadFromFile("../Media/Images/goat.jpg");
     goatImage.setTexture(&goatTexture);
     goatImage.setRadius(35);
@@ -32,8 +32,13 @@ void Goat::setPosition(float x, float y)
     goatPos.x=x;
     goatPos.y=y;
 }
-void Goat::render(sf::RenderWindow &mWindow,float x,float y)
+
+
+bool Goat::getState() {
+    return isAlive;
+}
+
+bool Goat::setState(bool flag=true)
 {
-    goatImage.setPosition(x,y);
-    mWindow.draw(goatImage);
+    isAlive=flag;
 }

@@ -44,10 +44,10 @@ RM = /home/imsanskar/Downloads/clion-2019.2.4/bin/cmake/linux/bin/cmake -E remov
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML
+CMAKE_SOURCE_DIR = /home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug
+CMAKE_BINARY_DIR = /home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -74,14 +74,14 @@ preinstall:
 CMakeFiles/BaagChaal_SFML.dir/all:
 	$(MAKE) -f CMakeFiles/BaagChaal_SFML.dir/build.make CMakeFiles/BaagChaal_SFML.dir/depend
 	$(MAKE) -f CMakeFiles/BaagChaal_SFML.dir/build.make CMakeFiles/BaagChaal_SFML.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target BaagChaal_SFML"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target BaagChaal_SFML"
 .PHONY : CMakeFiles/BaagChaal_SFML.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/BaagChaal_SFML.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/BaagChaal_SFML.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/BaagChaal_SFML.dir/rule
 
 # Convenience name for target.

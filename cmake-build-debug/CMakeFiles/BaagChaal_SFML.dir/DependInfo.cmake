@@ -4,12 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/main.cpp" "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/main.cpp.o"
-  "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Game.cpp" "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o"
-  "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/LoadBoard.cpp" "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o"
-  "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/Mainmenu.cpp" "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o"
-  "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/goats.cpp" "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o"
-  "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/src/tigers.cpp" "/home/imsanskar/Desktop/Programming/CPP/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.o"
+  "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/main.cpp" "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/main.cpp.o"
+  "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/Game.cpp" "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o"
+  "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/LoadBoard.cpp" "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o"
+  "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/Mainmenu.cpp" "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o"
+  "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/goats.cpp" "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/goats.cpp.o"
+  "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/tigers.cpp" "/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/cmake-build-debug/CMakeFiles/BaagChaal_SFML.dir/src/tigers.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
