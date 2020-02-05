@@ -1,6 +1,3 @@
-//
-// Created by imsanskar on 2020-01-04.
-//
 
 #include <iostream>
 #include "Loadboard.h"
@@ -8,7 +5,7 @@
 
 
 
-void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool flag)
+void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool *tigerFlag)
 {
     mWindow.draw(boardImage);
     for (int i=0;i<4;i++)
@@ -17,19 +14,18 @@ void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool flag)
     }
     for(int i=0;i<20;i++)
     {
-        if((goat+i)->getState())
-        {
-            (goat+i)->render(mWindow);
+        if(goat->getState()) {
+            (goat + i)->render(mWindow);
         }
     }
-    if(flag)
+    if(*tigerFlag)
     {
         mWindow.draw(tigerText);
     }
-    else
-    {
+    else {
         mWindow.draw(goatText);
     }
+
 }
 Board::Board() {
     font.loadFromFile("../Media/Fonts/Arial.ttf");//font for text
@@ -41,6 +37,9 @@ Board::Board() {
     tigerText.setPosition(900,300);
     goatText.setPosition(900,300);
     isReleased=false;
+    isMove=false;
+    isTigerPressed= false;
+    moveCompleted=false;
     tigerChosen=0;
     newPos=sf::Vector2i(0,0);
     oldPos=sf::Vector2i (75,30);
@@ -67,36 +66,47 @@ Board::Board() {
     }
 }
 
-
-
-
-
-bool Board::move(sf::Event &event,sf::RenderWindow &mWindow)
+bool Board::getState()
 {
+    return moveCompleted;
+}
+
+void Board::setState(bool flag )
+{
+    moveCompleted=flag;
+}
+
+void Board::move(sf::Event &event,sf::RenderWindow &mWindow)
+{
+    bool isPressed;
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
     if (event.type == sf::Event::MouseButtonPressed) {
         if (event.mouseButton.button == sf::Mouse::Left)
         {
             isReleased=false;
             if (tiger[0].getGlobalBounds().contains(pos.x, pos.y)) {
+                isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 0;
                 oldPos.x=tiger[tigerChosen].getPosition().x;
                 oldPos.y=tiger[tigerChosen].getPosition().y;
             }
-            if (tiger[1].getGlobalBounds().contains(pos.x, pos.y)) {
+            else if (tiger[1].getGlobalBounds().contains(pos.x, pos.y)) {
+                isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 1;
                 oldPos.x=tiger[tigerChosen].getPosition().x;
                 oldPos.y=tiger[tigerChosen].getPosition().y;
             }
-            if (tiger[2].getGlobalBounds().contains(pos.x, pos.y)) {
+            else if (tiger[2].getGlobalBounds().contains(pos.x, pos.y)) {
+                isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 2;
                 oldPos.x=tiger[tigerChosen].getPosition().x;
                 oldPos.y=tiger[tigerChosen].getPosition().y;
             }
-            if (tiger[3].getGlobalBounds().contains(pos.x, pos.y)) {
+            else if (tiger[3].getGlobalBounds().contains(pos.x, pos.y)) {
+                isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 3;
                 oldPos.x=tiger[tigerChosen].getPosition().x;
@@ -118,20 +128,22 @@ bool Board::move(sf::Event &event,sf::RenderWindow &mWindow)
     {
         tiger[tigerChosen].setPosition(pos.x-25,pos.y-25);
     }
-    if (isReleased)
+    if (isReleased and isTigerPressed)
     {
         isMove=false;
         if(checkMove(tiger[tigerChosen]))
         {
             tiger[tigerChosen].setPosition(toPosition(tiger[tigerChosen],newPos).x,toPosition(tiger[tigerChosen],newPos).y);
             isReleased=false;
-            return true;
+            moveCompleted=true;
+            isTigerPressed=false;
         }
         else
         {
             tiger[tigerChosen].setPosition(oldPos.x,oldPos.y);
             isReleased=false;
-            return false;
+            moveCompleted=false;
+            isTigerPressed=false;
         }
     }
 }
@@ -150,6 +162,9 @@ bool Board::checkMove(Tiger &tiger)
     }
     return false;
 }
+
+
+
 sf::Vector2i Board::toPosition(Tiger &tiger,sf::Vector2i &pos)
 {
     sf::FloatRect bounds;
@@ -169,13 +184,20 @@ bool Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat &goat )
     if (event.type == sf::Event::MouseButtonPressed)
     {
         goat.setPosition(pos.x-25,pos.y-25);
-        if(checkMove(goat))
-        {
-            goat.setPosition(toPosition(goat).x, toPosition(goat).y);
-            std::cout << "dasjhjsf";
-            return true;
+        if(event.mouseButton.button == sf::Mouse::Left) {
+            goat.setPosition(pos.x-25,pos.y-25);
+            if(checkMove(goat))
+            {
+                goat.setState(true);
+                goat.setPosition(toPosition(goat).x, toPosition(goat).y);
+                return true;
+            }
+            else {
+                goat.setState(false);
+                return false;
+            }
+
         }
-        return false;
     }
     else
     {

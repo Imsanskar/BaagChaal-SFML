@@ -10,7 +10,7 @@ Game::Game(unsigned int width,unsigned int height)
     mWindow.create(sf::VideoMode(width, height), "Baagchaal", sf::Style::Default);
     goatChosen=0;
     tigerTurn=true;
-    goatTurn=true;
+    goatTurn=false;
 }
 
 
@@ -22,12 +22,14 @@ void Game::processEvents()
         }
         if (event.type == sf::Event::KeyPressed) {
             handlePlayerInput(event.key.code);
-        };
+        }
         if(tigerTurn) {
-            if(board.move(event,mWindow))
+            board.move(event, mWindow);
+            if(board.getState())
             {
-                tigerTurn=false;
-                goatTurn=true;
+                std::cout<<"Hello\n";
+                tigerTurn = false;
+                board.setState(false);
             }
         }
         else
@@ -35,8 +37,6 @@ void Game::processEvents()
             if(board.placements(event,mWindow,goat[goatChosen]))
             {
                 tigerTurn=true;
-                goatTurn=false;
-                goat[goatChosen].setState(true);
                 goatChosen++;
                 std::cout<<"Hello"<<"\n";
             }
@@ -64,19 +64,8 @@ void Game::run()
     {
         mWindow.clear();
         processEvents();
-        board.LoadBoard(mWindow,&goat[0],tigerTurn);
+        board.LoadBoard(mWindow,&goat[0],&tigerTurn);
         mWindow.display();  
     }
-
-}
-
-void Game::tigerMove(sf::Event &event)
-{
-    tigerTurn=!(board.move(event,mWindow));
-}
-
-
-void Game::play()
-{
 
 }

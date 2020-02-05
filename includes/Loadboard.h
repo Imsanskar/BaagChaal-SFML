@@ -19,18 +19,19 @@ private:
     sf::Vector2i coordinates[25];
     sf::Texture boardTexture;
     sf::RectangleShape boardImage;
-    bool isMove=false,isReleased;
+    bool isMove,isReleased,moveCompleted,isTigerPressed;
     Tiger tiger[4];
     int tigerChosen;
     sf::Vector2i newPos,oldPos;
     sf::Text tigerText,goatText;
 
 public:
-    void LoadBoard(sf::RenderWindow &,Goat *,bool );
-    bool move(sf::Event &,sf::RenderWindow &);
+    void LoadBoard(sf::RenderWindow &,Goat *,bool *);
+    void move(sf::Event &,sf::RenderWindow &);
     bool placements(sf::Event &,sf::RenderWindow &,Goat &goat);
     Board();
-
+    bool getState();
+    void setState(bool );
 private:
     bool checkMove(Tiger &tiger);
     sf::Vector2i toPosition(Tiger &tiger,sf::Vector2i &);
