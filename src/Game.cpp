@@ -9,8 +9,8 @@ Game::Game(unsigned int width,unsigned int height)
 {
     mWindow.create(sf::VideoMode(width, height), "Baagchaal", sf::Style::Default);
     goatChosen=0;
-    tigerTurn=true;
-    goatTurn=false;
+    tigerTurn=false;
+    goatTurn=true;
 }
 
 
@@ -33,11 +33,12 @@ void Game::processEvents()
         }
         else
         {
-            board.placements(event,mWindow,goat[goatChosen]);
+            board.placements(event,mWindow,&goat[goatChosen]);
             if(board.getState())
             {
                 tigerTurn = true;
                 goatChosen++;
+                board.setState(Dead);
                 board.setState(false);
             }
 
