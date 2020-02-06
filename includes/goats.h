@@ -3,6 +3,14 @@
 //
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+
+enum goatState
+{
+    Alive,
+    Dead,
+};
+
+
 class Goat
 {
 private:
@@ -10,6 +18,7 @@ private:
     sf::CircleShape goatImage;
     sf::Vector2f goatPos;
     bool isAlive;
+    goatState state;
 
 public:
     Goat();
@@ -17,6 +26,6 @@ public:
     sf::Rect<float> getGlobalBounds();
     sf::Vector2f getPosition();
     void setPosition(float x,float y);
-    bool getState();
-    bool setState(bool );
+    goatState getState();
+    void setState(goatState );
 };

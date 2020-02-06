@@ -11,6 +11,7 @@ void Goat::render(sf::RenderWindow &mWindow )
 }
 Goat::Goat() 
 {
+    state=Dead;
     isAlive=false;
     goatTexture.loadFromFile("../Media/Images/goat.jpg");
     goatImage.setTexture(&goatTexture);
@@ -34,11 +35,11 @@ void Goat::setPosition(float x, float y)
 }
 
 
-bool Goat::getState() {
-    return isAlive;
+goatState Goat::getState() {
+    return state;
 }
 
-bool Goat::setState(bool flag=true)
+void Goat::setState(goatState _state)
 {
-    isAlive=flag;
+    state=_state;
 }
