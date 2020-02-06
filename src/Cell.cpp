@@ -13,9 +13,14 @@ void Cell ::setCoord(int i)
     coord.x=(i%5)*187.5+75;
     coord.y=(int(i/5))*147.5+30;
 }
-inline STATE Cell::getState() const
+STATE Cell::getState()
 {
     return state;
+}
+
+sf::Vector2i Cell::getCoord()
+{
+    return coord;
 }
 
 void Cell::setState(STATE _state)

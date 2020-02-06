@@ -19,7 +19,7 @@ private:
 public:
     Cell();
     void setCoord(int i);
-    inline STATE getState() const;
+    sf::Vector2i getCoord();
+    STATE getState();
     void setState(STATE );
-
 };
