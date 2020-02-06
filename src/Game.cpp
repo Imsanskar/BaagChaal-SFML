@@ -24,22 +24,23 @@ void Game::processEvents()
             handlePlayerInput(event.key.code);
         }
         if(tigerTurn) {
-            board.move(event, mWindow);
+            board.tigerMove(event, mWindow);
             if(board.getState())
             {
-                std::cout<<"Hello\n";
                 tigerTurn = false;
                 board.setState(false);
             }
         }
         else
         {
-            if(board.placements(event,mWindow,goat[goatChosen]))
+            board.placements(event,mWindow,goat[goatChosen]);
+            if(board.getState())
             {
-                tigerTurn=true;
+                tigerTurn = true;
                 goatChosen++;
-                std::cout<<"Hello"<<"\n";
+                board.setState(false);
             }
+
         }
     }
 }

@@ -4,30 +4,8 @@
 #include "MainMenu.h"
 
 
-
-void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool *tigerFlag)
+Board::Board() //Constructor
 {
-    mWindow.draw(boardImage);
-    for (int i=0;i<4;i++)
-    {
-        tiger[i].render(mWindow);
-    }
-    for(int i=0;i<20;i++)
-    {
-        if(goat->getState()) {
-            (goat + i)->render(mWindow);
-        }
-    }
-    if(*tigerFlag)
-    {
-        mWindow.draw(tigerText);
-    }
-    else {
-        mWindow.draw(goatText);
-    }
-
-}
-Board::Board() {
     font.loadFromFile("../Media/Fonts/Arial.ttf");//font for text
     tigerText.setFont(font);
     goatText.setFont(font);
@@ -39,7 +17,7 @@ Board::Board() {
     isReleased=false;
     isMove=false;
     isTigerPressed= false;
-    moveCompleted=false;
+    moveCompleted=false;//Checks  if the move is completed or not
     tigerChosen=0;
     newPos=sf::Vector2i(0,0);
     oldPos=sf::Vector2i (75,30);
@@ -47,6 +25,10 @@ Board::Board() {
     {
         coordinates[i].x=(i%5)*187.5+75;
         coordinates[i].y=(int(i/5))*147.5+30;
+    }
+    for(int i=0;i<25;i++)
+    {
+        (cell+i)->setCoord(i);
     }
     boardTexture.loadFromFile("../Media/Images/board.jpg");
     boardImage.setTexture(&boardTexture);
@@ -66,6 +48,37 @@ Board::Board() {
     }
 }
 
+
+
+
+
+void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool *tigerFlag)//Renders on the screen
+{
+    mWindow.draw(boardImage);
+    for (int i=0;i<4;i++)
+    {
+        tiger[i].render(mWindow);
+    }
+    for(int i=0;i<20;i++)
+    {
+        if((goat+i)->getState() or true)
+        {
+
+                (goat + i)->render(mWindow);
+
+        }
+    }
+    if(*tigerFlag)
+    {
+        mWindow.draw(tigerText);
+    }
+    else {
+        mWindow.draw(goatText);
+    }
+
+}
+
+
 bool Board::getState()
 {
     return moveCompleted;
@@ -76,7 +89,7 @@ void Board::setState(bool flag )
     moveCompleted=flag;
 }
 
-void Board::move(sf::Event &event,sf::RenderWindow &mWindow)
+void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
 {
     bool isPressed;
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
@@ -178,7 +191,7 @@ sf::Vector2i Board::toPosition(Tiger &tiger,sf::Vector2i &pos)
     }
 }
 
-bool Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat &goat )
+void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat &goat )
 {
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
     if (event.type == sf::Event::MouseButtonPressed)
@@ -188,20 +201,16 @@ bool Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat &goat )
             goat.setPosition(pos.x-25,pos.y-25);
             if(checkMove(goat))
             {
+                std::cout<<"Hello\n";
                 goat.setState(true);
                 goat.setPosition(toPosition(goat).x, toPosition(goat).y);
-                return true;
+                moveCompleted=true;
             }
             else {
                 goat.setState(false);
-                return false;
             }
 
         }
-    }
-    else
-    {
-        return false;
     }
 }
 

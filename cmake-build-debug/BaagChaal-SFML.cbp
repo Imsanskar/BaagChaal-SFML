@@ -88,6 +88,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/includes/Cell.h">
+			<Option target="BaagChaal_SFML"/>
+		</Unit>
 		<Unit filename="/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/includes/Game.h">
 			<Option target="BaagChaal_SFML"/>
 		</Unit>
@@ -104,6 +107,9 @@
 			<Option target="BaagChaal_SFML"/>
 		</Unit>
 		<Unit filename="/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/main.cpp">
+			<Option target="BaagChaal_SFML"/>
+		</Unit>
+		<Unit filename="/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/Cell.cpp">
 			<Option target="BaagChaal_SFML"/>
 		</Unit>
 		<Unit filename="/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/Game.cpp">

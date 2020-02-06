@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "BaagChaal_SFML"
   "BaagChaal_SFML.pdb"
   "CMakeFiles/BaagChaal_SFML.dir/main.cpp.o"
+  "CMakeFiles/BaagChaal_SFML.dir/src/Cell.cpp.o"
   "CMakeFiles/BaagChaal_SFML.dir/src/Game.cpp.o"
   "CMakeFiles/BaagChaal_SFML.dir/src/LoadBoard.cpp.o"
   "CMakeFiles/BaagChaal_SFML.dir/src/Mainmenu.cpp.o"

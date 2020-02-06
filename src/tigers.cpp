@@ -10,7 +10,8 @@ void Tiger::render(sf::RenderWindow &mWindow)
     mWindow.draw(tigerImage);
 }
 
-Tiger::Tiger() {
+Tiger::Tiger()
+{
     tigerTexture.loadFromFile("../Media/Images/tiger.png");
     tigerImage.setTexture(&tigerTexture);
     tigerImage.setRadius(35);

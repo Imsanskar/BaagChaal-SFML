@@ -150,6 +150,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/BaagChaal_SFML.dir/build.make CMakeFiles/BaagChaal_SFML.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/Cell.o: src/Cell.cpp.o
+
+.PHONY : src/Cell.o
+
+# target to build an object file
+src/Cell.cpp.o:
+	$(MAKE) -f CMakeFiles/BaagChaal_SFML.dir/build.make CMakeFiles/BaagChaal_SFML.dir/src/Cell.cpp.o
+.PHONY : src/Cell.cpp.o
+
+src/Cell.i: src/Cell.cpp.i
+
+.PHONY : src/Cell.i
+
+# target to preprocess a source file
+src/Cell.cpp.i:
+	$(MAKE) -f CMakeFiles/BaagChaal_SFML.dir/build.make CMakeFiles/BaagChaal_SFML.dir/src/Cell.cpp.i
+.PHONY : src/Cell.cpp.i
+
+src/Cell.s: src/Cell.cpp.s
+
+.PHONY : src/Cell.s
+
+# target to generate assembly for a file
+src/Cell.cpp.s:
+	$(MAKE) -f CMakeFiles/BaagChaal_SFML.dir/build.make CMakeFiles/BaagChaal_SFML.dir/src/Cell.cpp.s
+.PHONY : src/Cell.cpp.s
+
 src/Game.o: src/Game.cpp.o
 
 .PHONY : src/Game.o
@@ -297,6 +324,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/Cell.o"
+	@echo "... src/Cell.i"
+	@echo "... src/Cell.s"
 	@echo "... src/Game.o"
 	@echo "... src/Game.i"
 	@echo "... src/Game.s"
