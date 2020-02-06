@@ -17,7 +17,7 @@ Tiger::Tiger()
     tigerImage.setRadius(35);
 }
 
-sf::FloatRect Tiger::getGlobalBounds()
+sf::Rect<float> Tiger::getGlobalBounds()
 {
     return tigerImage.getGlobalBounds();
 }
