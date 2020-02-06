@@ -21,11 +21,11 @@ Board::Board() //Constructor
     tigerChosen=0;
     newPos=sf::Vector2i(0,0);
     oldPos=sf::Vector2i (75,30);
-    for(int i=0;i<25;i++)
-    {
-        coordinates[i].x=(i%5)*187.5+75;
-        coordinates[i].y=(int(i/5))*147.5+30;
-    }
+//    for(int i=0;i<25;i++)
+//    {
+//        coordinates[i].x=(i%5)*187.5+75;
+//        coordinates[i].y=(int(i/5))*147.5+30;
+//    }
     for(int i=0;i<25;i++)
     {
         (cell+i)->setCoord(i);
@@ -42,7 +42,8 @@ Board::Board() //Constructor
     {
         if (i==0 or i==4 or i==20 or i==24)
         {
-            tiger[j].setPosition((i%5)*187.5+75,(int(i/5))*147.5+30);//Sets co ordinates
+            tiger[j].setPosition((cell+i)->getCoord().x,(cell+i)->getCoord().y);//Sets co ordinates
+            (cell+i)->setState(TIGER);
             j++;
         }
     }
@@ -63,8 +64,11 @@ void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool *tigerFlag)//Ren
     {
         if((goat+i)->getState() or true)
         {
-
+            if ((goat + i)->getState() == Alive)
+            {
+                std::cout<<"HelloWorld\n";
                 (goat + i)->render(mWindow);
+            }
 
         }
     }
@@ -91,13 +95,13 @@ void Board::setState(bool flag )
 
 void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
 {
-    bool isPressed;
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
     if (event.type == sf::Event::MouseButtonPressed) {
         if (event.mouseButton.button == sf::Mouse::Left)
         {
             isReleased=false;
             if (tiger[0].getGlobalBounds().contains(pos.x, pos.y)) {
+                initBound=tiger[0].getGlobalBounds();
                 isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 0;
@@ -105,6 +109,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
                 oldPos.y=tiger[tigerChosen].getPosition().y;
             }
             else if (tiger[1].getGlobalBounds().contains(pos.x, pos.y)) {
+                initBound=tiger[1].getGlobalBounds();
                 isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 1;
@@ -112,6 +117,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
                 oldPos.y=tiger[tigerChosen].getPosition().y;
             }
             else if (tiger[2].getGlobalBounds().contains(pos.x, pos.y)) {
+                initBound=tiger[2].getGlobalBounds();
                 isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 2;
@@ -119,6 +125,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
                 oldPos.y=tiger[tigerChosen].getPosition().y;
             }
             else if (tiger[3].getGlobalBounds().contains(pos.x, pos.y)) {
+                initBound=tiger[3].getGlobalBounds();
                 isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 3;
@@ -168,8 +175,10 @@ bool Board::checkMove(Tiger &tiger)
     bounds.left=bounds.left-20;
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains(coordinates[i].x+10,coordinates[i].y+10)))
+        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) && (cell+i)->getState()==EMPTY)
         {
+            setEmpty();
+            (cell+i)->setState(TIGER);
             return true;
         }
     }
@@ -184,34 +193,66 @@ sf::Vector2i Board::toPosition(Tiger &tiger,sf::Vector2i &pos)
     bounds=tiger.getGlobalBounds();
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains(coordinates[i].x+10,coordinates[i].y+10)))
+        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
         {
-            return coordinates[i];
+            return (cell+i)->getCoord();
         }
     }
 }
 
-void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat &goat )
+void Board::setEmpty()
+{
+    for(int i=0;i<25;i++)
+    {
+        if(oldPos==(cell+i)->getCoord())
+        {
+            cell[i].setState(EMPTY);
+        }
+    }
+}
+
+void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
 {
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
     if (event.type == sf::Event::MouseButtonPressed)
     {
-        goat.setPosition(pos.x-25,pos.y-25);
         if(event.mouseButton.button == sf::Mouse::Left) {
-            goat.setPosition(pos.x-25,pos.y-25);
-            if(checkMove(goat))
-            {
-                std::cout<<"Hello\n";
-                goat.setState(true);
-                goat.setPosition(toPosition(goat).x, toPosition(goat).y);
-                moveCompleted=true;
-            }
-            else {
-                goat.setState(false);
-            }
-
+            goat->setState(Alive);
+            isMove=true;
+            isGoatReleased=false;
+            isGoatPressed=true;
+            newPos=sf::Mouse::getPosition(mWindow);
         }
     }
+    if (event.type == sf::Event::MouseButtonReleased)
+    {
+        if(event.mouseButton.button == sf::Mouse::Left)
+        {
+            isGoatReleased=true;
+            isMove=false;
+        }
+    }
+    if(isMove)
+    {
+        goat->setPosition(pos.x-25,pos.y-25);
+    }
+    if(isGoatReleased and isGoatPressed)
+    {
+        isMove=false;
+        if(checkMove(*goat))
+        {
+            goat->setPosition(toPosition(*goat).x, toPosition(*goat).y);
+            isGoatPressed=false;
+            isGoatReleased=false;
+            moveCompleted=true;
+        } else{
+            goat->setState(Dead);
+            moveCompleted=false;
+            isGoatPressed=false;
+            isGoatReleased=false;
+        }
+    }
+
 }
 
 bool Board::checkMove(Goat &goat)
@@ -221,8 +262,9 @@ bool Board::checkMove(Goat &goat)
     bounds.left=bounds.left-20;
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains(coordinates[i].x+10,coordinates[i].y+10)))
+        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) and (cell+i)->getState()==EMPTY)
         {
+            (cell+i)->setState(GOAT);
             return true;
         }
     }
@@ -235,9 +277,9 @@ sf::Vector2i Board::toPosition(Goat &goat)
     bounds=goat.getGlobalBounds();
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains(coordinates[i].x+10,coordinates[i].y+10)))
+        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
         {
-            return coordinates[i];
+            return (cell+i)->getCoord();
         }
     }
 }
