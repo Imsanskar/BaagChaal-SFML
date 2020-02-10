@@ -34,7 +34,7 @@ void Game::processEvents()
         else
         {
             board.placements(event,mWindow,&goat[goatChosen]);
-            if(board.getState())
+            if(board.getState() and goatChosen<20)
             {
                 tigerTurn = true;
                 goatChosen++;
