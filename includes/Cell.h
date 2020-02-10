@@ -18,8 +18,10 @@ private:
     STATE state;
 public:
     Cell();
-    void setCoord(int i);
-    sf::Vector2i getCoord();
+    void setCoord(int i) ;
+    sf::Vector2i getCoord() const;
     STATE getState();
-    void setState(STATE );
+    void setState(STATE ) ;
+    bool operator ==(Cell );
+    bool operator <(const Cell &) const;
 };
