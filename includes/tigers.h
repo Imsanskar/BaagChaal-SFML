@@ -3,6 +3,7 @@
 //
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include "Cell.h"
 
 class Tiger
 {
@@ -12,6 +13,7 @@ private:
     sf::CircleShape tigerImage;
     sf::Vector2f tigerPos;
     bool isPressed;
+    Cell *pos;
 
 public:
     Tiger();
@@ -19,4 +21,6 @@ public:
     sf::Rect<float> getGlobalBounds();
     sf::Vector2f getPosition();
     void setPosition(float x,float y);
+    void setPosition(Cell *);
+    Cell* getSpot();
 };
