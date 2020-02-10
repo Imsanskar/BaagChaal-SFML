@@ -8,6 +8,7 @@ void Tiger::render(sf::RenderWindow &mWindow)
 {
     tigerImage.setPosition(tigerPos.x,tigerPos.y);
     mWindow.draw(tigerImage);
+//    tigerImage.setPosition(pos.getCoord().x,pos.getCoord().y);
 }
 
 Tiger::Tiger()
@@ -31,4 +32,14 @@ void Tiger::setPosition(float x, float y)
 {
     tigerPos.x=x;
     tigerPos.y=y;
+}
+
+void Tiger::setPosition(Cell *cell)
+{
+    pos=cell;
+}
+
+Cell* Tiger::getSpot()
+{
+    return pos;
 }
