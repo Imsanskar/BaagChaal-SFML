@@ -6,9 +6,9 @@
 bool search(std::vector<Cell> list,Cell cell)
 {
     int len=list.size();
-    for(int i=0;i<=len;i++)
+    for(int i=0;i<len;i++)
     {
-        if(list[i]==cell)
+        if(list[i].getCoord().x==cell.getCoord().x && list[i].getCoord().y==cell.getCoord().y)
         {
             std::cout<<"HelloWorld\n";
             return true;
@@ -22,6 +22,7 @@ bool search(std::vector<Cell> list,Cell cell)
 
 Board::Board() //Constructor
 {
+    position=0;
     font.loadFromFile("../Media/Fonts/Arial.ttf");//font for text
     tigerText.setFont(font);
     goatText.setFont(font);
@@ -59,13 +60,6 @@ Board::Board() //Constructor
             j++;
         }
     }
-    setMoveMap();
-}
-
-void Board::setMoveMap()
-{
-    moveMap.insert(std::pair<Cell,vectorCell>(cell[0],{cell[1],cell[5],cell[6]}));
-//    moveMap.insert(std::pair<Cell,vectorCell>());
 }
 
 
@@ -119,6 +113,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
             isReleased=false;
             if (tiger[0].getGlobalBounds().contains(pos.x, pos.y)) {
                 initCell=tiger[0].getSpot();
+                position=findCell();
                 isTigerPressed=true;
                 isMove = true;
                 tigerChosen = 0;
@@ -127,7 +122,8 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
             }
             else if (tiger[1].getGlobalBounds().contains(pos.x, pos.y)) {
                 initCell=tiger[1].getSpot();
-                isTigerPressed=true;
+                isTigerPressed=true ;
+                position=findCell();
                 isMove = true;
                 tigerChosen = 1;
                 oldPos.x=tiger[tigerChosen].getPosition().x;
@@ -136,6 +132,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
             else if (tiger[2].getGlobalBounds().contains(pos.x, pos.y)) {
                 initCell=tiger[2].getSpot();
                 isTigerPressed=true;
+                position=findCell();
                 isMove = true;
                 tigerChosen = 2;
                 oldPos.x=tiger[tigerChosen].getPosition().x;
@@ -144,6 +141,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
             else if (tiger[3].getGlobalBounds().contains(pos.x, pos.y)) {
                 initCell=tiger[3].getSpot();
                 isTigerPressed=true;
+                position=findCell();
                 isMove = true;
                 tigerChosen = 3;
                 oldPos.x=tiger[tigerChosen].getPosition().x;
@@ -192,7 +190,7 @@ bool Board::checkMove(Tiger &tiger)
     bounds.left=bounds.left-20;
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) && (cell+i)->getState()==EMPTY && search(moveMap[*initCell],cell[i]))
+        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) && (cell+i)->getState()==EMPTY && search(getPossibleMoves(),cell[i]))
         {
             setEmpty();
             (cell+i)->setState(TIGER);
@@ -227,6 +225,40 @@ void Board::setEmpty()
             cell[i].setState(EMPTY);
         }
     }
+}
+
+std::vector<Cell> Board::getPossibleMoves()
+{
+    std::vector<Cell> results;
+    // Check for left-corner case
+    if (position % MAX_GRID_X != 0)
+    {
+        if(position%2!=0)
+        {
+            results.push_back(cell[position - 1]);
+        }
+        else if(position+6<MAX_GRID_X*MAX_GRID_Y-1)
+        {
+            results.push_back(cell[position+6]);
+        }
+
+    }
+    // Check for right-corner case
+    if ((position + 1) % MAX_GRID_X != 0)
+    {
+        results.push_back(cell[position + 1]);
+    }
+    // Check for upper-corner case
+    if (position / MAX_GRID_Y != 0)
+    {
+        results.push_back(cell[position - MAX_GRID_X]);
+    }
+    // Check for lower-corner case
+    if (position < MAX_GRID_X*(MAX_GRID_Y-1))
+    {
+        results.push_back(cell[position + MAX_GRID_X]);
+    }
+    return results;
 }
 
 void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
@@ -300,6 +332,19 @@ sf::Vector2i Board::toPosition(Goat &goat)
         if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
         {
             return (cell+i)->getCoord();
+        }
+    }
+}
+
+
+
+int Board::findCell()
+{
+    for(int i=0;i<25;i++)
+    {
+        if(initCell.getCoord().x==cell[i].getCoord().x && initCell.getCoord().y==cell[i].getCoord().y)
+        {
+            return i;
         }
     }
 }

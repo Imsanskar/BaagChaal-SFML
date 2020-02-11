@@ -12,9 +12,11 @@ typedef std::vector<Cell> vectorCell;
 class Board
 {
 private:
+    const int MAX_GRID_X = 5;
+    const int MAX_GRID_Y = 5;
     sf::Font font;
     Cell cell[25];
-    Cell *initCell,finalCell;
+    Cell initCell,finalCell;
     sf::Texture boardTexture;
     sf::RectangleShape boardImage;
     bool isMove,isReleased,moveCompleted,isTigerPressed,isGoatReleased,isGoatPressed;
@@ -22,8 +24,7 @@ private:
     int tigerChosen;
     sf::Vector2i newPos,oldPos;
     sf::Text tigerText,goatText;
-    sf::Rect<float> initBound;
-    std::map<Cell,vectorCell> moveMap;
+    int position;
 
 public:
     void LoadBoard(sf::RenderWindow &,Goat *,bool *);
@@ -38,5 +39,6 @@ private:
     bool checkMove(Goat &goat);
     sf::Vector2i toPosition(Goat &goat);
     void setEmpty();
-    void setMoveMap();
+    int findCell();
+    std::vector<Cell> getPossibleMoves();
 };
