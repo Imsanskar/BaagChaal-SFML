@@ -1,4 +1,3 @@
-#include <SFML/Graphics.hpp>
 #include "MainMenu.h"
 #include "Game.h"
 

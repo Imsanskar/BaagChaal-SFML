@@ -10,18 +10,16 @@
 class Game
 {
 private:
-    sf::Event event={};
+    sf::Event event;
     Board board;
     Goat goat[20];
     int goatChosen=0;
     bool gameOver=false,tigerTurn=true,goatTurn;
 public:
     Game(unsigned int ,unsigned int );
-    void play();
     void run();
     void processEvents();
     void handlePlayerInput(sf::Keyboard::Key & );
-    void tigerMove(sf::Event &event);
 protected:
     sf::RenderWindow mWindow;
 };

@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+../includes/Cell.h
+SFML/System.hpp
+-
+
 ../includes/Loadboard.h
 SFML/Window.hpp
 -
@@ -41,6 +45,8 @@ SFML/Window.hpp
 -
 SFML/Graphics.hpp
 -
+Cell.h
+../includes/Cell.h
 
 /home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/src/LoadBoard.cpp
 iostream
