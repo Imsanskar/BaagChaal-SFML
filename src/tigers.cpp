@@ -39,7 +39,7 @@ void Tiger::setPosition(Cell *cell)
     pos=cell;
 }
 
-Cell* Tiger::getSpot()
+Cell Tiger::getSpot()
 {
-    return pos;
+    return *pos;
 }

@@ -22,5 +22,5 @@ public:
     sf::Vector2f getPosition();
     void setPosition(float x,float y);
     void setPosition(Cell *);
-    Cell* getSpot();
+    Cell getSpot();
 };
