@@ -25,6 +25,8 @@ private:
     sf::Vector2i newPos,oldPos;
     sf::Text tigerText,goatText;
     int position;
+    std::vector<Cell> possibleMoves;
+    std::vector<Cell> goatEatenMoves;
 
 public:
     void LoadBoard(sf::RenderWindow &,Goat *,bool *);
@@ -34,11 +36,12 @@ public:
     bool getState();
     void setState(bool );
 private:
-    bool checkMove(Tiger &);
+    bool checkMove();
     sf::Vector2i toPosition(Tiger &tiger,sf::Vector2i &);
     bool checkMove(Goat &goat);
     sf::Vector2i toPosition(Goat &goat);
     void setEmpty();
     int findCell();
     std::vector<Cell> getPossibleMoves();
+    void getGoatEatenMoves(int direction);
 };

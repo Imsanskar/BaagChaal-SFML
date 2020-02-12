@@ -10,7 +10,6 @@ bool search(std::vector<Cell> list,Cell cell)
     {
         if(list[i].getCoord().x==cell.getCoord().x && list[i].getCoord().y==cell.getCoord().y)
         {
-            std::cout<<"HelloWorld\n";
             return true;
         }
     }
@@ -111,41 +110,17 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
         if (event.mouseButton.button == sf::Mouse::Left)
         {
             isReleased=false;
-            if (tiger[0].getGlobalBounds().contains(pos.x, pos.y)) {
-                initCell=tiger[0].getSpot();
-                position=findCell();
-                isTigerPressed=true;
-                isMove = true;
-                tigerChosen = 0;
-                oldPos.x=tiger[tigerChosen].getPosition().x;
-                oldPos.y=tiger[tigerChosen].getPosition().y;
-            }
-            else if (tiger[1].getGlobalBounds().contains(pos.x, pos.y)) {
-                initCell=tiger[1].getSpot();
-                isTigerPressed=true ;
-                position=findCell();
-                isMove = true;
-                tigerChosen = 1;
-                oldPos.x=tiger[tigerChosen].getPosition().x;
-                oldPos.y=tiger[tigerChosen].getPosition().y;
-            }
-            else if (tiger[2].getGlobalBounds().contains(pos.x, pos.y)) {
-                initCell=tiger[2].getSpot();
-                isTigerPressed=true;
-                position=findCell();
-                isMove = true;
-                tigerChosen = 2;
-                oldPos.x=tiger[tigerChosen].getPosition().x;
-                oldPos.y=tiger[tigerChosen].getPosition().y;
-            }
-            else if (tiger[3].getGlobalBounds().contains(pos.x, pos.y)) {
-                initCell=tiger[3].getSpot();
-                isTigerPressed=true;
-                position=findCell();
-                isMove = true;
-                tigerChosen = 3;
-                oldPos.x=tiger[tigerChosen].getPosition().x;
-                oldPos.y=tiger[tigerChosen].getPosition().y;
+            for(int i=0;i<4;i++)
+            {
+                if (tiger[i].getGlobalBounds().contains(pos.x, pos.y)) {
+                    initCell=tiger[i].getSpot();
+                    position=findCell();
+                    isTigerPressed=true;
+                    isMove = true;
+                    tigerChosen = i;
+                    oldPos.x=tiger[tigerChosen].getPosition().x;
+                    oldPos.y=tiger[tigerChosen].getPosition().y;
+                }
             }
         }
     }
@@ -166,7 +141,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
     if (isReleased and isTigerPressed)
     {
         isMove=false;
-        if(checkMove(tiger[tigerChosen]))
+        if(checkMove())
         {
             tiger[tigerChosen].setPosition(toPosition(tiger[tigerChosen],newPos).x,toPosition(tiger[tigerChosen],newPos).y);
             isReleased=false;
@@ -183,14 +158,16 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
     }
 }
 
-bool Board::checkMove(Tiger &tiger)
+bool Board::checkMove()
 {
+    goatEatenMoves.clear();//clears goat eaten moves for every new operation
     sf::FloatRect bounds;
-    bounds=tiger.getGlobalBounds();
+    bounds=tiger[tigerChosen].getGlobalBounds();
     bounds.left=bounds.left-20;
+    possibleMoves=getPossibleMoves();
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) && (cell+i)->getState()==EMPTY && search(getPossibleMoves(),cell[i]))
+        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) && (cell+i)->getState()==EMPTY && (search(possibleMoves,cell[i]) or search(goatEatenMoves,cell[i])))
         {
             setEmpty();
             (cell+i)->setState(TIGER);
@@ -227,40 +204,105 @@ void Board::setEmpty()
     }
 }
 
+
+void Board::getGoatEatenMoves(int direction)
+{
+    if((position+direction)>=0 && (position+direction)<25)//checks the overflow  of cell array
+    {
+        goatEatenMoves.push_back(cell[position+direction]);
+    }
+}
+
+
+
+//returns the possible moves for the current position of tiger
 std::vector<Cell> Board::getPossibleMoves()
 {
     std::vector<Cell> results;
     // Check for left-corner case
     if (position % MAX_GRID_X != 0)
     {
-        if(position%2!=0)
+        results.push_back(cell[position - 1]);
+        if(cell[position-1].getState()==GOAT)//checks for goar eaten moves
         {
-            results.push_back(cell[position - 1]);
+            getGoatEatenMoves(-2);
         }
-        else if(position+6<MAX_GRID_X*MAX_GRID_Y-1)
+    }
+    //Check for diagonal  movement
+    if(position%2==0)
+    {
+        //check for downward right downward diagonal movement
+        if(position<MAX_GRID_Y*(MAX_GRID_X-1))
         {
             results.push_back(cell[position+6]);
+            if(cell[position+6].getState()==GOAT)//checks for goar eaten moves
+            {
+                getGoatEatenMoves(12);
+            }
         }
-
+        //check for downward left downward diagonal movement
+        if(position % MAX_GRID_X != 0 && position<MAX_GRID_Y*(MAX_GRID_X-1))
+        {
+            results.push_back(cell[position+4]);
+            if(cell[position+4].getState()==GOAT)//checks for goar eaten moves
+            {
+                getGoatEatenMoves(8);
+            }
+        }
+        //check for upward right upward diagonal movement
+        if(position>MAX_GRID_X-1)
+        {
+            results.push_back(cell[position-4]);
+            if(cell[position-4].getState()==GOAT)//checks for goar eaten moves
+            {
+                getGoatEatenMoves(-8);
+            }
+        }
+        //check for upward left upward diagonal movement
+        if((position+1)%MAX_GRID_X!=0 && position>MAX_GRID_X-1)//checks for goar eaten moves
+        {
+            results.push_back(cell[position-6]);
+            if(cell[position-6].getState()==GOAT)
+            {
+                getGoatEatenMoves(-12);
+            }
+        }
     }
     // Check for right-corner case
     if ((position + 1) % MAX_GRID_X != 0)
     {
         results.push_back(cell[position + 1]);
+        if(cell[position+1].getState()==GOAT)//checks for goar eaten moves
+        {
+            getGoatEatenMoves(2);
+        }
     }
     // Check for upper-corner case
     if (position / MAX_GRID_Y != 0)
     {
         results.push_back(cell[position - MAX_GRID_X]);
+        if(cell[position-MAX_GRID_X].getState()==GOAT)//checks for goar eaten moves
+        {
+            getGoatEatenMoves(-(MAX_GRID_X*2));
+        }
     }
     // Check for lower-corner case
-    if (position < MAX_GRID_X*(MAX_GRID_Y-1))
+    if (position < MAX_GRID_X*(MAX_GRID_Y-1))//checks for goar eaten moves
     {
         results.push_back(cell[position + MAX_GRID_X]);
+        if(cell[position+MAX_GRID_X].getState()==GOAT)
+        {
+            getGoatEatenMoves(MAX_GRID_X*2);
+        }
     }
     return results;
 }
 
+
+
+
+
+//GOAT SECTION
 void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
 {
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
@@ -337,7 +379,7 @@ sf::Vector2i Board::toPosition(Goat &goat)
 }
 
 
-
+//finds the initial index of the cell tiger is in
 int Board::findCell()
 {
     for(int i=0;i<25;i++)
@@ -348,6 +390,8 @@ int Board::findCell()
         }
     }
 }
+
+
 
 
 
