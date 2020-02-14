@@ -8,7 +8,14 @@
 #include "tigers.h"
 #include "goats.h"
 
-typedef std::vector<Cell> vectorCell;
+enum GameState
+{
+    goatWin,
+    tigerWin,
+    Progress,
+};
+
+
 class Board
 {
 private:
@@ -19,23 +26,26 @@ private:
     Cell initCell,finalCell;
     sf::Texture boardTexture;
     sf::RectangleShape boardImage;
-    bool isMove,isReleased,moveCompleted,isTigerPressed,isGoatReleased,isGoatPressed;
+    bool isMove,isReleased,moveCompleted,isTigerPressed,isGoatReleased,isGoatPressed,goatEatenMove;
     Tiger tiger[4];
     int tigerChosen;
     sf::Vector2i newPos,oldPos;
-    sf::Text tigerText,goatText;
+    sf::Text tigerText,goatText,goatWinText;
     int position;
     std::vector<Cell> possibleMoves;
     std::vector<Cell> goatEatenMoves;
 
 public:
-    void LoadBoard(sf::RenderWindow &,Goat *,bool *);
+    void LoadBoard(sf::RenderWindow &,Goat *,bool *, bool ,bool);
     void tigerMove(sf::Event &,sf::RenderWindow &);
     void placements(sf::Event &,sf::RenderWindow &,Goat *);
     Board();
     bool getState();
     void setState(bool );
+    bool goatWin();
+    bool eatGoat(Goat *);
 private:
+    int getCellIndex(Cell &cell);
     bool checkMove();
     sf::Vector2i toPosition(Tiger &tiger,sf::Vector2i &);
     bool checkMove(Goat &goat);

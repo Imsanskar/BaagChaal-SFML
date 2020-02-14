@@ -30,18 +30,22 @@ Board::Board() //Constructor
     tigerText.setStyle(sf::Text::Bold);
     tigerText.setString("TIGER'S TURN");
     goatText.setString("GOAT'S TURN");
+    goatWinText.setString("Goat wins!");
     tigerText.setPosition(900,300);
     goatText.setPosition(900,300);
+    goatWinText.setPosition(1000,400);
     isReleased=false;
     isMove=false;
     isTigerPressed= false;
+    goatEatenMove=true;
     moveCompleted=false;//Checks  if the move is completed or not
     tigerChosen=0;
     newPos=sf::Vector2i(0,0);
     oldPos=sf::Vector2i (75,30);
     for(int i=0;i<25;i++)
     {
-            (cell+i)->setCoord(i);
+        (cell+i)->setCoord(i);
+        goatEatenMoves.push_back(cell[i]);
     }
     boardTexture.loadFromFile("../Media/Images/board.jpg");
     boardImage.setTexture(&boardTexture);
@@ -65,13 +69,13 @@ Board::Board() //Constructor
 
 
 
-void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool *tigerFlag)//Renders on the screen
+void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool *tigerFlag,bool goatWin,bool tigerWin)//Renders on the screen
 {
 //    *tigerFlag=false;
     mWindow.draw(boardImage);
-    for (int i=0;i<4;i++)
+    for (auto & _tiger : tiger)
     {
-        tiger[i].render(mWindow);
+        _tiger.render(mWindow);
     }
     for(int i=0;i<20;i++)
     {
@@ -91,7 +95,10 @@ void Board::LoadBoard(sf::RenderWindow &mWindow,Goat *goat,bool *tigerFlag)//Ren
     else {
         mWindow.draw(goatText);
     }
-
+    if(goatWin)
+    {
+        mWindow.draw(goatWinText);
+    }
 }
 
 
@@ -169,11 +176,22 @@ bool Board::checkMove()
     possibleMoves=getPossibleMoves();
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) && (cell+i)->getState()==EMPTY && (search(possibleMoves,cell[i]) or search(goatEatenMoves,cell[i])))
+        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) && (cell+i)->getState()==EMPTY )
         {
-            setEmpty();
-            (cell+i)->setState(TIGER);
-            return true;
+            if(search(possibleMoves,cell[i] ))
+            {
+                finalCell=cell[i];
+                setEmpty();
+                (cell + i)->setState(TIGER);
+                return true;
+            }
+            else if (search(goatEatenMoves,cell[i]))
+            {
+                finalCell=cell[i];
+                setEmpty();
+                (cell + i)->setState(TIGER);
+                return true;
+            }
         }
     }
     return false;
@@ -309,7 +327,7 @@ std::vector<Cell> Board::getPossibleMoves()
     {
         direction=-MAX_GRID_X;
         results.push_back(cell[position - MAX_GRID_X]);
-        if(cell[position-MAX_GRID_X].getState()==GOAT)//checks for goar eaten moves
+        if(cell[position-MAX_GRID_X].getState()==GOAT)//checks for goat eaten moves
         {
             getGoatEatenMoves(-(MAX_GRID_X*2));
         }
@@ -427,7 +445,47 @@ int Board::findCell()
     }
 }
 
+bool Board::goatWin() {
+    return possibleMoves.empty() and goatEatenMoves.empty();
+}
 
+int Board::getCellIndex(Cell &_cell)
+{
+    for(int i=0;i<25;i++)
+    {
+        if (cell[i]==_cell)
+        {
+            return i;
+        }
+    }
+}
+
+
+
+bool Board::eatGoat(Goat *goat)
+{
+    Cell deadGoatCell;
+    sf::Vector2i tempPos=sf::Vector2i(0,0);
+    if((getCellIndex(initCell)+getCellIndex(finalCell))%2==0)
+    {
+        std::cout<<getCellIndex(initCell)<<" "<<getCellIndex(finalCell);
+        int index = (getCellIndex(initCell) + getCellIndex(finalCell)) / 2;
+        deadGoatCell = cell[index];
+        cell[index].setState(EMPTY);
+        for (int i = 0; i < 20; i++) {
+            if (goat[i].getState() == Dead) {
+                continue;
+            }
+            tempPos.x = goat[i].getPosition().x;
+            tempPos.y = goat[i].getPosition().y;
+            if (tempPos.x == deadGoatCell.getCoord().x and tempPos.y == deadGoatCell.getCoord().y) {
+                goat[i].setState(Dead);
+            }
+        }
+    }
+    return false;
+
+}
 
 
 
