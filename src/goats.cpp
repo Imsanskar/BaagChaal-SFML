@@ -25,7 +25,7 @@ sf::FloatRect Goat::getGlobalBounds()
 
 sf::Vector2f Goat::getPosition()
 {
-    return goatImage.getPosition();
+    return  goatImage.getPosition();
 }
 
 void Goat::setPosition(float x, float y)
