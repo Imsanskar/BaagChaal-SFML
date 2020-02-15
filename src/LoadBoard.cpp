@@ -634,6 +634,7 @@ bool Board::goatWin()
     return move.size()==2;
 }
 
+
 void Board::goatMove(sf::Vector2i &pos) {
 
 }

@@ -36,7 +36,7 @@ private:
     std::vector<Cell> goatEatenMoves;
 
 public:
-    void LoadBoard(sf::RenderWindow &,Goat *,bool *, bool ,bool);
+    void render(sf::RenderWindow &,Goat *,const bool *, bool ,bool);
     void tigerMove(sf::Event &,sf::RenderWindow &);
     void placements(sf::Event &,sf::RenderWindow &,Goat *);
     Board();
@@ -44,6 +44,7 @@ public:
     void setState(bool );
     bool goatWin();
     bool eatGoat(Goat *);
+    void goatMove(sf::Vector2i &);
 private:
     int getCellIndex(Cell &cell);
     bool checkMove();
