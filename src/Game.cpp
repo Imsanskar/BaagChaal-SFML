@@ -30,7 +30,7 @@ void Game::processEvents()
             board.tigerMove(event, mWindow);
             if(board.getState())
             {
-                tigerTurn = false;
+                tigerTurn = true;
                 if(board.eatGoat(&goat[0]))
                 {
                     goatEaten++;
@@ -38,7 +38,7 @@ void Game::processEvents()
                 board.setState(false);
             }
         }
-        else
+        else if(goatChosen<20)
         {
             board.placements(event,mWindow,&goat[goatChosen]);
             if(board.getState() and goatChosen<20)
@@ -48,12 +48,12 @@ void Game::processEvents()
                 board.setState(Dead);
                 board.setState(false);
             }
-
         }
-        if(board.goatWin())
+        else if(goatChosen==20)
         {
-            goatWin=true;
+            mWindow.close();
         }
+
     }
 }
 
@@ -78,13 +78,13 @@ void Game::run()
         mWindow.clear();
         checkGameOver();
         processEvents();
-        board.LoadBoard(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin);
+        board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin);
         mWindow.display();  
     }
 }
 
 void Game::checkGameOver() {
-    if(goatEaten==5 )
+    if(goatEaten>=5 )
     {
         std::cout<<"Tiger Win";
         mWindow.close();
@@ -92,6 +92,7 @@ void Game::checkGameOver() {
     if(board.goatWin())
     {
         std::cout<<"Goat win";
+        mWindow.close();
     }
 }
 

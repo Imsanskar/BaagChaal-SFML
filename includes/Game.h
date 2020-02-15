@@ -13,7 +13,7 @@
 class Game
 {
 private:
-    sf::Event event;
+    sf::Event event{};
     Goat goat[20];
     Board board;
     int goatChosen,goatEaten;
