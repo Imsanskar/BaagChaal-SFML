@@ -19,6 +19,7 @@ private:
     int goatChosen,goatEaten;
     bool gameOver=false,tigerTurn=true;
     bool tigerWin,goatWin;
+    sf::Vector2i pos;
 public:
     Game(unsigned int ,unsigned int );
     void run();

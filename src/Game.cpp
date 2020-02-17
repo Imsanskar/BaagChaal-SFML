@@ -14,12 +14,14 @@ Game::Game(unsigned int width,unsigned int height)
     goatWin=false;
     goatChosen=0;
     goatEaten=0;
+    pos=sf::Mouse::getPosition(mWindow);
 }
 
 
 void Game::processEvents()
 {
     while (mWindow.pollEvent(event)) {
+        pos=sf::Mouse::getPosition(mWindow);
         if (event.type == sf::Event::Closed) {
             mWindow.close();
         }
@@ -30,7 +32,7 @@ void Game::processEvents()
             board.tigerMove(event, mWindow);
             if(board.getState())
             {
-                tigerTurn = true;
+                tigerTurn = false;
                 if(board.eatGoat(&goat[0]))
                 {
                     goatEaten++;
@@ -41,17 +43,21 @@ void Game::processEvents()
         else if(goatChosen<20)
         {
             board.placements(event,mWindow,&goat[goatChosen]);
-            if(board.getState() and goatChosen<20)
+            if(board.getState())
             {
                 tigerTurn = true;
                 goatChosen++;
-                board.setState(Dead);
                 board.setState(false);
             }
         }
-        else if(goatChosen==20)
+        else if(goatChosen>=20)
         {
-            mWindow.close();
+            board.goatMove(event,pos,&goat[0]);
+            if(board.getState())
+            {
+                tigerTurn=true;
+                board.setState(false);
+            }
         }
 
     }
