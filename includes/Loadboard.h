@@ -6,7 +6,6 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics.hpp>
 #include "tigers.h"
-#include "goats.h"
 
 enum GameState
 {
@@ -28,7 +27,7 @@ private:
     sf::RectangleShape boardImage;
     bool isMove,isReleased,moveCompleted,isTigerPressed,isGoatReleased,isGoatPressed,goatEatenMove;
     Tiger tiger[4];
-    int tigerChosen;
+    int tigerChosen,goatChosen;
     sf::Vector2i newPos,oldPos;
     sf::Text tigerText,goatText,goatWinText;
     int position;
@@ -44,12 +43,12 @@ public:
     void setState(bool );
     bool goatWin();
     bool eatGoat(Goat *);
-    void goatMove(sf::Vector2i &);
+    void goatMove(sf::Event & ,sf::Vector2i &,Goat *goat);
 private:
     int getCellIndex(Cell &cell);
     bool checkMove();
     sf::Vector2i toPosition(Tiger &tiger,sf::Vector2i &);
-    bool checkMove(Goat &goat);
+    bool checkMove(Goat &goat,bool);
     sf::Vector2i toPosition(Goat &goat);
     void setEmpty();
     int findCell();

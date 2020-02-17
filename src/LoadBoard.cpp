@@ -1,8 +1,7 @@
 
-#include <iostream>
 #include "Loadboard.h"
 #include "MainMenu.h"
-
+#include<iostream>
 
 //linear search of vector
 bool search(std::vector<Cell> list,Cell cell)
@@ -37,7 +36,7 @@ Board::Board() //Constructor
     isReleased=false;
     isMove=false;
     isTigerPressed= false;
-    goatEatenMove=true;
+    goatEatenMove=false;
     moveCompleted=false;//Checks  if the move is completed or not
     tigerChosen=0;
     newPos=sf::Vector2i(0,0);
@@ -115,7 +114,8 @@ void Board::setState(bool flag )
 void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
 {
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
-    if (event.type == sf::Event::MouseButtonPressed) {
+    if (event.type == sf::Event::MouseButtonPressed)
+    {
         if (event.mouseButton.button == sf::Mouse::Left)
         {
             isReleased=false;
@@ -385,7 +385,7 @@ void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
     if(isGoatReleased and isGoatPressed)
     {
         isMove=false;
-        if(checkMove(*goat))
+        if(checkMove(*goat,false))
         {
             goat->setPosition(toPosition(*goat).x, toPosition(*goat).y);
             isGoatPressed=false;
@@ -402,17 +402,36 @@ void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
 
 }
 
-bool Board::checkMove(Goat &goat)
+bool Board::checkMove(Goat &goat,bool flag=false)
 {
     sf::FloatRect bounds;
     bounds=goat.getGlobalBounds();
-    bounds.left=bounds.left;
-    for(int i=0;i<25;i++)
+    bounds.left=bounds.left-20;
+    possibleMoves=getPossibleMoves();
+    if(!flag)
     {
-        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) and (cell+i)->getState()==EMPTY )
+        for (int i = 0; i < 25; i++) {
+            if ((bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)) and (cell + i)->getState() == EMPTY)
+            {
+                (cell + i)->setState(GOAT);
+                return true;
+            }
+        }
+    }
+    if(flag)
+    {
+        for (int i = 0; i < 25; i++)
         {
-            (cell+i)->setState(GOAT);
-            return true;
+            if ((bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)) and (cell + i)->getState() == EMPTY)
+            {;
+                if(search(possibleMoves,cell[i]))
+                {
+                    finalCell=cell[i];
+                    setEmpty();
+                    finalCell.setState(GOAT);
+                    return true;
+                }
+            }
         }
     }
     return false;
@@ -422,11 +441,12 @@ sf::Vector2i Board::toPosition(Goat &goat)
 {
     sf::FloatRect bounds;
     bounds=goat.getGlobalBounds();
-    bounds.left=bounds.left-20;
+    bounds.left=bounds.left;
     for(int i=0;i<25;i++)
     {
         if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
         {
+            goat.setPosition(cell+i);
             return (cell+i)->getCoord();
         }
     }
@@ -634,9 +654,67 @@ bool Board::goatWin()
     return move.size()==2;
 }
 
-
-void Board::goatMove(sf::Vector2i &pos) {
-
+void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
+{
+    if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            isReleased=false;
+            for(int i=0;i<20;i++)
+            {
+                if((goat+i)->getState()==Dead)
+                {
+                    continue;
+                }
+                (goat+i)->setState(Alive);
+                if((goat+i)->getGlobalBounds().contains(pos.x,pos.y))
+                {
+                    goatChosen=i;
+                    initCell=(goat+i)->getSpot();
+                    position=findCell();
+                    isGoatPressed=true;
+                    isMove=true;
+                    goatChosen=i;
+                    oldPos.x=(goat+i)->getPosition().x;
+                    oldPos.y=(goat+i)->getPosition().y;
+                }
+            }
+        }
+    }
+    if(event.type==sf::Event::MouseButtonReleased)
+    {
+        if(event.mouseButton.button==sf::Mouse::Left)
+        {
+            isReleased=true;
+            isMove=false;
+            newPos.x=(goat+goatChosen)->getPosition().x;
+            newPos.y=(goat+goatChosen)->getPosition().y;
+        }
+    }
+    if(isMove)
+    {
+        (goat+goatChosen)->setPosition(pos.x-25,pos.y-25);
+    }
+    if(isReleased and isGoatPressed)
+    {
+        isMove=false;
+        if(checkMove(*(goat+goatChosen),true))
+        {
+            (goat+goatChosen)->setPosition( toPosition(*(goat+goatChosen)).x, toPosition(*(goat+goatChosen)).y);
+            isReleased=false;
+            moveCompleted=true;
+            isGoatPressed=false;
+        }
+        else
+        {
+            (goat+goatChosen)->setPosition(oldPos.x,oldPos.y);
+            isReleased=false;
+            moveCompleted=false;
+            isGoatPressed=false;
+        }
+    }
 }
+
+
 
 
