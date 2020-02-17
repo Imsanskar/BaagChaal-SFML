@@ -43,3 +43,15 @@ void Goat::setState(goatState _state)
 {
     state=_state;
 }
+
+void Goat::setPosition(Cell *_cell)
+{
+    pos=_cell;
+}
+
+Cell Goat::getSpot()
+{
+    return *pos;
+}
+
+
