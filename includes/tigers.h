@@ -3,7 +3,7 @@
 //
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "Cell.h"
+#include "goats.h"
 
 class Tiger
 {
