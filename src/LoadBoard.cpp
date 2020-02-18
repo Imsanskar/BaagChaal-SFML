@@ -159,7 +159,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
         }
         else
         {
-            tiger[tigerChosen].setPosition(oldPos.x,oldPos.y);
+            tiger[tigerChosen].setPosition(initCell.getCoord().x,initCell.getCoord().y);
             isReleased=false;
             moveCompleted=false;
             isTigerPressed=false;
@@ -714,7 +714,3 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
         }
     }
 }
-
-
-
-

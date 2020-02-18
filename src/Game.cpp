@@ -5,9 +5,9 @@
 #include "Game.h"
 #include "MainMenu.h"
 
-Game::Game(unsigned int width,unsigned int height)
+Game::Game(unsigned int _width,unsigned int _height)
 {
-    mWindow.create(sf::VideoMode(width, height), "Baagchaal", sf::Style::Default);
+    mWindow.create(sf::VideoMode(_width, _height), "Baagchaal", sf::Style::Default);
     goatChosen=0;
     tigerTurn=false;
     tigerWin=false;

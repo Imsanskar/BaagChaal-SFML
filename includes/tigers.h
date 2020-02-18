@@ -4,16 +4,24 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "goats.h"
-#include "Piece.h"
 
-class Tiger:public Piece
+
+class Tiger
 {
+private:
+    sf::Font font;
+    sf::Texture tigerTexture;
+    sf::CircleShape tigerImage;
+    sf::Vector2f tigerPos;
+    bool isPressed;
+    Cell *pos;
+
 public:
     Tiger();
-//    void render(sf::RenderWindow &) override;
-//    sf::Rect<float> getGlobalBounds();
-//    sf::Vector2f getPosition();
-//    void setPosition(float x,float y);
-//    void setPosition(Cell *);
-//    Cell getSpot();
+    void render(sf::RenderWindow &);
+    sf::Rect<float> getGlobalBounds();
+    sf::Vector2f getPosition();
+    void setPosition(float x,float y);
+    void setPosition(Cell *);
+    Cell getSpot();
 };

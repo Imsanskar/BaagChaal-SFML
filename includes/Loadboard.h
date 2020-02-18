@@ -7,12 +7,6 @@
 #include <SFML/Graphics.hpp>
 #include "tigers.h"
 
-enum GameState
-{
-    goatWin,
-    tigerWin,
-    Progress,
-};
 
 
 class Board
