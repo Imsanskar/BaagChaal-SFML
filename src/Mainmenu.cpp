@@ -9,30 +9,6 @@
 void MainMenu::LoadMenu()//Renders window
 {
 
-    sf::Text menu[3];
-    sf::Font font;
-    font.loadFromFile("../Media/Fonts/Arial.ttf");//font for text
-
-    for(int j=0;j<3;j++)
-    {
-        menu[j].setFont(font);//sets font for text
-        menu[j].setStyle(sf::Text::Bold);//creates bold text
-    }
-    for(int i=0;i<3;i++)
-    {
-        menu[i].setCharacterSize(40);
-        menu[i].setFillColor(sf::Color::Black);
-    }
-    //Sets co ordinates for menu text
-    menu[0].setPosition(630, 410);
-    menu[1].setPosition(652, 520);
-    menu[2].setPosition(670, 638);
-
-
-    //Sting values for menu text
-    menu[0].setString("Play Game");
-    menu[1].setString("About");
-    menu[2].setString("Exit");
     if (!enterAbout)
     {
         window.clear(sf::Color::White);
@@ -60,6 +36,28 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     enterAbout=false;
     width=width;
     height=height;
+    font.loadFromFile("../Media/Fonts/Arial.ttf");//font for text
+
+    for(int j=0;j<3;j++)
+    {
+        menu[j].setFont(font);//sets font for text
+        menu[j].setStyle(sf::Text::Bold);//creates bold text
+    }
+    for(int i=0;i<3;i++)
+    {
+        menu[i].setCharacterSize(40);
+        menu[i].setFillColor(sf::Color::Black);
+    }
+    //Sets co ordinates for menu text
+    menu[0].setPosition(630, 410);
+    menu[1].setPosition(652, 520);
+    menu[2].setPosition(670, 638);
+
+
+    //Sting values for menu text
+    menu[0].setString("Play Game");
+    menu[1].setString("About");
+    menu[2].setString("Exit");
     menuTexture.loadFromFile("../Media/Images/menu.png");
     menuImage.setTexture(&menuTexture);
     menuImage.setPosition(0,0);
@@ -74,6 +72,11 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
             aboutTextString.append(detail + "\n");
         }
     }
+    aboutText.setString(aboutTextString);
+    aboutText.setFont(font);
+    aboutText.setFillColor(sf::Color::Black);
+    aboutText.setCharacterSize(18);
+    aboutText.setPosition(300, 300);
 }
 
 void MainMenu::processEvents()
@@ -162,14 +165,7 @@ void MainMenu::onPressEnter()
  }
 void MainMenu::about()
 {
-    sf::Font font;
-    font.loadFromFile("../Media/Fonts/Arial.ttf");//font for text
-    aboutText.setFont(font);
     window.clear(sf::Color::White);
-    aboutText.setString(aboutTextString);
-    aboutText.setFillColor(sf::Color::Black);
-    aboutText.setCharacterSize(18);
-    aboutText.setPosition(300, 300);
     window.draw(aboutText);
     window.display();
 }
