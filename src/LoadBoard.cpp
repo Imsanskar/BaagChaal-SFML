@@ -119,17 +119,53 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
         if (event.mouseButton.button == sf::Mouse::Left)
         {
             isReleased=false;
-            for(int i=0;i<4;i++)
-            {
-                if (tiger[i].getGlobalBounds().contains(pos.x, pos.y)) {
-                    initCell=tiger[i].getSpot();
-                    position=findCell();
-                    isTigerPressed=true;
-                    isMove = true;
-                    tigerChosen = i;
-                    oldPos.x=tiger[tigerChosen].getPosition().x;
-                    oldPos.y=tiger[tigerChosen].getPosition().y;
-                }
+//            for(int i=0;i<4;i++)
+//            {
+//                if (tiger[i].getGlobalBounds().contains(pos.x, pos.y)) {
+//                    position=findCell();
+//                    isTigerPressed=true;
+//                    isMove = true;
+//                    tigerChosen = i;
+//                    oldPos.x=tiger[tigerChosen].getPosition().x;
+//                    oldPos.y=tiger[tigerChosen].getPosition().y;
+//                    initCell=tiger[tigerChosen].getSpot();
+//                }
+//            }
+            if (tiger[0].getGlobalBounds().contains(pos.x, pos.y)) {
+                initCell=tiger[0].getSpot();
+                position=findCell();
+                isTigerPressed=true;
+                isMove = true;
+                tigerChosen = 0;
+                oldPos.x=tiger[tigerChosen].getPosition().x;
+                oldPos.y=tiger[tigerChosen].getPosition().y;
+            }
+            else if (tiger[1].getGlobalBounds().contains(pos.x, pos.y)) {
+                initCell=tiger[1].getSpot();
+                isTigerPressed=true ;
+                position=findCell();
+                isMove = true;
+                tigerChosen = 1;
+                oldPos.x=tiger[tigerChosen].getPosition().x;
+                oldPos.y=tiger[tigerChosen].getPosition().y;
+            }
+            else if (tiger[2].getGlobalBounds().contains(pos.x, pos.y)) {
+                initCell=tiger[2].getSpot();
+                isTigerPressed=true;
+                position=findCell();
+                isMove = true;
+                tigerChosen = 2;
+                oldPos.x=tiger[tigerChosen].getPosition().x;
+                oldPos.y=tiger[tigerChosen].getPosition().y;
+            }
+            else if (tiger[3].getGlobalBounds().contains(pos.x, pos.y)) {
+                initCell=tiger[3].getSpot();
+                isTigerPressed=true;
+                position=findCell();
+                isMove = true;
+                tigerChosen = 3;
+                oldPos.x=tiger[tigerChosen].getPosition().x;
+                oldPos.y=tiger[tigerChosen].getPosition().y;
             }
         }
     }
@@ -153,6 +189,8 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
         if(checkMove())
         {
             tiger[tigerChosen].setPosition(toPosition(tiger[tigerChosen],newPos).x,toPosition(tiger[tigerChosen],newPos).y);
+//            tiger[tigerChosen].setPosition(finalCell.getCoord().x,finalCell.getCoord().y);
+            tiger[tigerChosen].setPosition(&finalCell);
             isReleased=false;
             moveCompleted=true;
             isTigerPressed=false;
@@ -176,21 +214,22 @@ bool Board::checkMove()
     possibleMoves=getPossibleMoves();
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)) && (cell+i)->getState()==EMPTY )
+        if( (cell+i)->getState()==EMPTY and (bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
         {
-            if(search(possibleMoves,cell[i] ))
-            {
-                finalCell=cell[i];
-                setEmpty();
-                (cell + i)->setState(TIGER);
-                return true;
-            }
-            else if (search(goatEatenMoves,cell[i]))
-            {
-                finalCell=cell[i];
-                setEmpty();
-                (cell + i)->setState(TIGER);
-                return true;
+                if (search(possibleMoves, cell[i]))
+                {
+                    finalCell = cell[i];
+                    tiger[tigerChosen].setPosition(&finalCell);
+                    setEmpty();
+                    (cell + i)->setState(TIGER);
+                    return true;
+                }
+                else if (search(goatEatenMoves, cell[i])) {
+                    finalCell = cell[i];
+                    tiger[tigerChosen].setPosition(&finalCell);
+                    setEmpty();
+                    (cell + i)->setState(TIGER);
+                    return true;
             }
         }
     }
