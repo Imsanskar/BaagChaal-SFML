@@ -176,7 +176,6 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
         isMove=false;
         if(checkMove())
         {
-            std::cout<<tigerChosen<<"   "<<tiger[tigerChosen].getPosition().x<<"     "<<tiger[tigerChosen].getPosition().x<<std::endl;
             isReleased=false;
             moveCompleted=true;
             isTigerPressed=false;
@@ -368,10 +367,10 @@ std::vector<Cell> Board::getPossibleMoves()
             getGoatEatenMoves(MAX_GRID_X*2);
         }
     }
-    for(auto &i:results)
+    for(auto &i:goatEatenMoves)
     {
-        std::cout<<tigerChosen<<":";
-        std::cout<<getCellIndex(i)<<"\n";
+        Cell fvs=tiger[tigerChosen].getSpot();
+        std::cout<<getCellIndex(fvs)<<":"<<getCellIndex(i)<<"\n";
     }
     return results;
 }
@@ -411,7 +410,7 @@ void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
         isMove=false;
         if(checkMove(*goat,false))
         {
-            (goat)->setPosition(toPosition(*goat).x, toPosition(*goat).y);
+//            (goat)->setPosition(toPosition(*goat).x, toPosition(*goat).y);
             isGoatPressed=false;
             isGoatReleased=false;
             moveCompleted=true;
@@ -429,6 +428,8 @@ void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
 
 bool Board::checkMove(Goat &goat,bool flag=false)
 {
+    bool moveFlag=false;
+    sf::Vector2i temp;
     sf::FloatRect bounds;
     bounds=goat.getGlobalBounds();
     bounds.left=bounds.left-20;
@@ -438,6 +439,8 @@ bool Board::checkMove(Goat &goat,bool flag=false)
         for (int i = 0; i < 25; i++) {
             if ((bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)) and (cell + i)->getState() == EMPTY)
             {
+                goat.setPosition(cell[i].getCoord().x,cell[i].getCoord().y);
+                goat.setPosition(&cell[i]);
                 (cell + i)->setState(GOAT);
                 return true;
             }
@@ -451,6 +454,10 @@ bool Board::checkMove(Goat &goat,bool flag=false)
             {;
                 if(search(possibleMoves,cell[i]))
                 {
+                    temp.x=cell[i].getCoord().y;
+                    temp.y=cell[i].getCoord().y;
+                    goat.setPosition(temp.x,temp.y);
+                    goat.setPosition(&cell[i]);
                     finalCell=cell[i];
                     setEmpty();
                     finalCell.setState(GOAT);
@@ -508,12 +515,13 @@ int Board::getCellIndex(Cell &_cell)
 bool Board::eatGoat(Goat *goat)
 {
     Cell deadGoatCell;
+    Cell tempCell;
     int initIndex=getCellIndex(initCell);
     int finalIndex=getCellIndex(finalCell);
     sf::Vector2i tempPos=sf::Vector2i(0,0);
     if((getCellIndex(initCell)+getCellIndex(finalCell))%2==0)
     {
-        if((initIndex+finalIndex)%5!=1 and (initIndex+finalIndex)%5!=4)
+        if((initIndex/5-finalIndex/5)!=1 and (-initIndex/5+finalIndex/5)!=1)
         {
             int index = (getCellIndex(initCell) + getCellIndex(finalCell)) / 2;
             deadGoatCell = cell[index];
@@ -522,9 +530,13 @@ bool Board::eatGoat(Goat *goat)
                 if (goat[i].getState() == Dead) {
                     continue;
                 }
-                tempPos.x = goat[i].getPosition().x;
-                tempPos.y = goat[i].getPosition().y;
-                if (tempPos.x == deadGoatCell.getCoord().x and tempPos.y == deadGoatCell.getCoord().y) {
+//                tempPos.x = goat[i].getPosition().x;
+//                tempPos.y = goat[i].getPosition().y;
+                tempCell=goat[i].getSpot();
+                std::cout<<getCellIndex(tempCell)<<"     "<<getCellIndex(deadGoatCell)<<"\n";
+                if (tempCell== deadGoatCell)
+                {
+                    std::cout<<"Hello\n";
                     goat[i].setState(Dead);
                     return true;
                 }
@@ -730,7 +742,6 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
         isMove=false;
         if(checkMove(*(goat+goatChosen),true))
         {
-            (goat+goatChosen)->setPosition( toPosition(*(goat+goatChosen)).x, toPosition(*(goat+goatChosen)).y);
             isReleased=false;
             moveCompleted=true;
             isGoatPressed=false;
