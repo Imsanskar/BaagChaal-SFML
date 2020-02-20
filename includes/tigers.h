@@ -17,11 +17,11 @@ private:
     Cell *pos;
 
 public:
-    Tiger();
-    void render(sf::RenderWindow &);
-    sf::Rect<float> getGlobalBounds();
-    sf::Vector2f getPosition();
-    void setPosition(float x,float y);
-    void setPosition(Cell *);
-    Cell getSpot();
+    Tiger();//constructor
+    void render(sf::RenderWindow &);//renders the tiger
+    sf::Rect<float> getGlobalBounds();//returns the boundary of the tiger
+    sf::Vector2f getPosition();//getter of the position of the tiger
+    void setPosition(float x,float y);//setter of the position of the  tiger
+    void setPosition(Cell *);//setter of the cell of the tiger
+    Cell getSpot();//getter of the cell of the tiger
 };

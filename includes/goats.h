@@ -23,13 +23,13 @@ private:
     Cell *pos;
 
 public:
-    Goat();
-    void render(sf::RenderWindow &);
-    sf::Rect<float> getGlobalBounds();
-    sf::Vector2f getPosition();
-    void setPosition(float x,float y);
-    void setPosition(Cell *);
-    Cell getSpot();
-    goatState getState();
-    void setState(goatState );
+    Goat();//constructor
+    void render(sf::RenderWindow &);//renders to the screen
+    sf::Rect<float> getGlobalBounds();//returns the boundary of the goat
+    sf::Vector2f getPosition();//return the position the the goat
+    void setPosition(float x,float y);//sets the position of the goat
+    void setPosition(Cell *);//sets the cell of the goat
+    Cell getSpot();//returns the cell of the goat
+    goatState getState();//getter of the state of the goat
+    void setState(goatState );//setter of the goat state
 };

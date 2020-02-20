@@ -17,7 +17,7 @@ Game::Game(unsigned int _width,unsigned int _height)
     pos=sf::Mouse::getPosition(mWindow);
 }
 
-
+//handles the event of the game
 void Game::processEvents()
 {
     while (mWindow.pollEvent(event)) {
@@ -29,18 +29,18 @@ void Game::processEvents()
             handlePlayerInput(event.key.code);
         }
         if(tigerTurn) {
-            board.tigerMove(event, mWindow);
+            board.tigerMove(event, mWindow);//for the movement of goat
             if(board.getState())
             {
                 tigerTurn = false;
-                if(board.eatGoat(&goat[0]))
+                if(board.eatGoat(&goat[0]))//checks if the the move if goat eating move
                 {
                     goatEaten++;
                 }
                 board.setState(false);
             }
         }
-        else if(goatChosen<20)
+        else if(goatChosen<20)//placing the goat
         {
             board.placements(event,mWindow,&goat[goatChosen]);
             if(board.getState())
@@ -52,7 +52,7 @@ void Game::processEvents()
         }
         else if(goatChosen>=20)
         {
-            board.goatMove(event,pos,&goat[0]);
+            board.goatMove(event,pos,&goat[0]);//moving the goat after all the goats are pressed
             if(board.getState())
             {
                 tigerTurn=true;
@@ -69,7 +69,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key & key)
     switch(key)
     {
         case sf::Keyboard::Escape:
-            mWindow.close();
+            mWindow.close();//for closing the window on key  press
             MainMenu myMenu(1377,720);
             myMenu.run();
             break;
@@ -77,7 +77,7 @@ void Game::handlePlayerInput(sf::Keyboard::Key & key)
     }
 }
 
-void Game::run()
+void Game::run()//main game loo[
 {
     while(mWindow.isOpen())
     {
@@ -89,7 +89,8 @@ void Game::run()
     }
 }
 
-void Game::checkGameOver() {
+void Game::checkGameOver()//checks if the game is over
+{
     if(goatEaten>=5 )
     {
         std::cout<<"Tiger Win";

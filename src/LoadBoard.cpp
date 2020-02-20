@@ -36,15 +36,15 @@ Board::Board() //Constructor
     isReleased=false;
     isMove=false;
     isTigerPressed= false;
-    goatEatenMove=false;
+    goatEatenMove=false;//checks if the  move is goat eating move or nor
     moveCompleted=false;//Checks  if the move is completed or not
     tigerChosen=0;
     newPos=sf::Vector2i(0,0);
     oldPos=sf::Vector2i (75,30);
     for(int i=0;i<25;i++)
     {
-        (cell+i)->setCoord(i);
-        goatEatenMoves.push_back(cell[i]);
+        (cell+i)->setCoord(i);//sets the co ordinates
+        goatEatenMoves.push_back(cell[i]);//just because the vector wont be empty  at the beginning
     }
     boardTexture.loadFromFile("../Media/Images/board.jpg");
     boardImage.setTexture(&boardTexture);
@@ -53,7 +53,7 @@ Board::Board() //Constructor
 
 
     //Tiger initialization
-    int j=0;
+    int j=0;//used for tiger array
     for(int i=0;i<25;i++)
     {
         if (i==0 or i==4 or i==20 or i==24)
@@ -71,28 +71,24 @@ Board::Board() //Constructor
 void Board::render(sf::RenderWindow &mWindow,Goat *goat,const bool *tigerFlag,bool goatWin,bool tigerWin)//Renders on the screen
 {
 //    *tigerFlag=false;
-    mWindow.draw(boardImage);
+    mWindow.draw(boardImage);//renders the board image
     for (auto & _tiger : tiger)
     {
-        _tiger.render(mWindow);
+        _tiger.render(mWindow);//renders the tiger
     }
     for(int i=0;i<20;i++)
     {
-        if((goat+i)->getState() or true)
+        if ((goat + i)->getState() == Alive)//checks if the goat is alive or dead
         {
-            if ((goat + i)->getState() == Alive)
-            {
-                (goat + i)->render(mWindow);
-            }
-
+            (goat + i)->render(mWindow);//renders the goat
         }
     }
     if(*tigerFlag)
     {
-        mWindow.draw(tigerText);
+        mWindow.draw(tigerText);//for tiger turn
     }
     else {
-        mWindow.draw(goatText);
+        mWindow.draw(goatText);//for goat turn
     }
     if(goatWin)
     {
@@ -101,7 +97,8 @@ void Board::render(sf::RenderWindow &mWindow,Goat *goat,const bool *tigerFlag,bo
 }
 
 
-bool Board::getState()
+bool Board::getState()//return boolean if the move is completed or not
+
 {
     return moveCompleted;
 }
@@ -111,6 +108,8 @@ void Board::setState(bool flag )
     moveCompleted=flag;
 }
 
+
+//function for movement of the tigers
 void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
 {
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
@@ -167,7 +166,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
             newPos.y=tiger[tigerChosen].getPosition().y;
         }
     }
-    if(isMove)
+    if(isMove)//moves the tiger according to th position of the mouse
     {
         tiger[tigerChosen].setPosition(pos.x-25,pos.y-25);
     }
@@ -290,7 +289,6 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
     position=getCellIndex(_cell);
     std::vector<Cell> results;
     // Check for left-corner case
-    std::cout<<tigerChosen<<"   "<<position<<"\n";
     if (position % MAX_GRID_X != 0)
     {
         results.push_back(cell[position - 1]);
@@ -427,19 +425,19 @@ bool Board::checkMove(Goat &goat,bool flag=false)
     sf::FloatRect bounds;
     bounds=goat.getGlobalBounds();
     bounds.left=bounds.left-20;
-    if(!flag)
+    if(!flag)//checks move for  placement part
     {
         for (int i = 0; i < 25; i++) {
             if ((bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)) and (cell + i)->getState() == EMPTY)
             {
-                goat.setPosition(cell[i].getCoord().x,cell[i].getCoord().y);
-                goat.setPosition(&cell[i]);
-                (cell + i)->setState(GOAT);
+                goat.setPosition(cell[i].getCoord().x,cell[i].getCoord().y);//gets the co ordinate  of the goat
+                goat.setPosition(&cell[i]);//sets the cell to goat
+                (cell + i)->setState(GOAT);//sets the state of the the final cell to GOAT
                 return true;
             }
         }
     }
-    if(flag)
+    if(flag)//checks move for movement part
     {
         Cell _cell=goat.getSpot();
         possibleMoves=getPossibleMoves(_cell);
@@ -557,7 +555,7 @@ bool Board::goatWin()
         if (currentPosition % MAX_GRID_X != 0)
         {
             direction=-1;
-            if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)
+            if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY and (currentPosition/5-(currentPosition+direction)/5!=1))
             {
                 if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25 )//checks the overflow  of cell array
                 {
@@ -576,7 +574,7 @@ bool Board::goatWin()
             if(currentPosition<MAX_GRID_Y*(MAX_GRID_X-1) and currentPosition%MAX_GRID_X!=(MAX_GRID_X-1))
             {
                 direction=6;
-                if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)//checks for goar eaten moves
+                if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)
                 {
                     if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25)//checks the overflow  of cell array
                     {
@@ -687,6 +685,10 @@ bool Board::goatWin()
             }
         }
     }
+    for(auto &i:move)
+    {
+        std::cout<<getCellIndex(i)<<"\n";
+    }
     return move.size()==2;
 }
 
@@ -696,11 +698,11 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
         if (event.mouseButton.button == sf::Mouse::Left)
         {
             isReleased=false;
-            for(int i=0;i<1;i++)
+            for(int i=0;i<20;i++)
             {
                 if((goat+i)->getState()==Dead)
                 {
-                    continue;
+                    continue;//reject the dead goad
                 }
                 (goat+i)->setState(Alive);
                 if((goat+i)->getGlobalBounds().contains(pos.x,pos.y))
