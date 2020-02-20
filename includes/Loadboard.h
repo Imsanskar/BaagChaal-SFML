@@ -46,6 +46,6 @@ private:
     sf::Vector2i toPosition(Goat &goat);
     void setEmpty();
     int findCell();
-    std::vector<Cell> getPossibleMoves();
+    std::vector<Cell> getPossibleMoves(Cell &);
     void getGoatEatenMoves(int direction);
 };

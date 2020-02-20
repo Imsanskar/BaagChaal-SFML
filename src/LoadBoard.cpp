@@ -201,7 +201,8 @@ bool Board::checkMove()
     sf::FloatRect bounds;
     bounds=tiger[tigerChosen].getGlobalBounds();
     bounds.left=bounds.left-20;
-    possibleMoves=getPossibleMoves();
+    Cell _cell=tiger[tigerChosen].getSpot();
+    possibleMoves=getPossibleMoves(_cell);
     for(int i=0;i<25;i++)
     {
         if( (cell+i)->getState()==EMPTY and (bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
@@ -284,10 +285,8 @@ void Board::getGoatEatenMoves(int direction)
 
 
 //returns the possible moves for the current position of tiger
-std::vector<Cell> Board::getPossibleMoves()
+std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
 {
-    int pos;
-    Cell _cell=tiger[tigerChosen].getSpot();
     position=getCellIndex(_cell);
     std::vector<Cell> results;
     // Check for left-corner case
@@ -367,11 +366,6 @@ std::vector<Cell> Board::getPossibleMoves()
             getGoatEatenMoves(MAX_GRID_X*2);
         }
     }
-    for(auto &i:goatEatenMoves)
-    {
-        Cell fvs=tiger[tigerChosen].getSpot();
-        std::cout<<getCellIndex(fvs)<<":"<<getCellIndex(i)<<"\n";
-    }
     return results;
 }
 
@@ -433,7 +427,6 @@ bool Board::checkMove(Goat &goat,bool flag=false)
     sf::FloatRect bounds;
     bounds=goat.getGlobalBounds();
     bounds.left=bounds.left-20;
-    possibleMoves=getPossibleMoves();
     if(!flag)
     {
         for (int i = 0; i < 25; i++) {
@@ -448,19 +441,20 @@ bool Board::checkMove(Goat &goat,bool flag=false)
     }
     if(flag)
     {
+        Cell _cell=goat.getSpot();
+        possibleMoves=getPossibleMoves(_cell);
+
         for (int i = 0; i < 25; i++)
         {
             if ((bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)) and (cell + i)->getState() == EMPTY)
             {;
                 if(search(possibleMoves,cell[i]))
                 {
-                    temp.x=cell[i].getCoord().y;
-                    temp.y=cell[i].getCoord().y;
-                    goat.setPosition(temp.x,temp.y);
+                    goat.setPosition(cell[i].getCoord().x,cell[i].getCoord().y);
                     goat.setPosition(&cell[i]);
                     finalCell=cell[i];
                     setEmpty();
-                    finalCell.setState(GOAT);
+                    cell[i].setState(GOAT);
                     return true;
                 }
             }
@@ -702,7 +696,7 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
         if (event.mouseButton.button == sf::Mouse::Left)
         {
             isReleased=false;
-            for(int i=0;i<20;i++)
+            for(int i=0;i<1;i++)
             {
                 if((goat+i)->getState()==Dead)
                 {
