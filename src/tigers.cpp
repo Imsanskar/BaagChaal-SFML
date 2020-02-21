@@ -1,7 +1,7 @@
 //
 // Created bx imsanskar on 2020-01-05.
 //
-#include"tigers.h"
+#include"../includes/tigers.h"
 
 
 

@@ -2,7 +2,7 @@
 // Created by imsanskar on 2020-02-18.
 //
 
-#include <Piece.h>
+#include "../includes/Piece.h"
 
 
 void Piece::render(sf::RenderWindow &window)

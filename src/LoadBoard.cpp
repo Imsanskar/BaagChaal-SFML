@@ -1,6 +1,6 @@
 
-#include "Loadboard.h"
-#include "MainMenu.h"
+#include "../includes/Loadboard.h"
+#include "../includes/MainMenu.h"
 #include<iostream>
 
 //linear search of vector

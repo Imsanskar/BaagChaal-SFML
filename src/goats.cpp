@@ -2,7 +2,7 @@
 // Created by imsanskar on 2020-01-05.
 //
 
-#include "goats.h"
+#include "../includes/goats.h"
 
 Goat::Goat() 
 {

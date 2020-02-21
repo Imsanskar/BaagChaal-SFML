@@ -2,8 +2,8 @@
 // Created by imsanskar on 2020-01-10.
 //
 #include <iostream>
-#include "Game.h"
-#include "MainMenu.h"
+#include "../includes/Game.h"
+#include "../includes/MainMenu.h"
 
 Game::Game(unsigned int width,unsigned int height)
 {
