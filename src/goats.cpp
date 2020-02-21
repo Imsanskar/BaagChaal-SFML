@@ -1,7 +1,7 @@
 //
 // Created by imsanskar on 2020-01-05.
 //
-#include <SFML>
+#include <SFML/Graphics.hpp>
 #include "../includes/goats.h"
 
 
