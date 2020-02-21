@@ -1,8 +1,8 @@
 //
 // Created by imsanskar on 2019-12-07.
 //
-#include "MainMenu.h"
-#include "Game.h"
+#include "../includes/MainMenu.h"
+#include "../includes/Game.h"
 #include<fstream>
 #include <iostream>
 
