@@ -277,6 +277,7 @@ void Board::getGoatEatenMoves(int direction)
 {
     if((position+direction)>=0 && (position+direction)<25)//checks the overflow  of cell array
     {
+
         goatEatenMoves.push_back(cell[position+direction]);
     }
 }
@@ -291,7 +292,8 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
     // Check for left-corner case
     if (position % MAX_GRID_X != 0)
     {
-        results.push_back(cell[position - 1]);
+        if(cell[position-1].getState()==EMPTY)
+            results.push_back(cell[position - 1]);
         if(cell[position-1].getState()==GOAT)//checks for goat eaten moves
         {
             getGoatEatenMoves(-2);
@@ -303,7 +305,8 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
         //check for downward right downward diagonal movement
         if(position<MAX_GRID_Y*(MAX_GRID_X-1) and position%MAX_GRID_X!=(MAX_GRID_X-1))
         {
-            results.push_back(cell[position + 6]);
+            if(cell[position+6].getState()==EMPTY)
+                results.push_back(cell[position + 6]);
             if(cell[position+6].getState()==GOAT)//checks for goar eaten moves
             {
                 getGoatEatenMoves(12);
@@ -312,7 +315,8 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
         //check for downward left downward diagonal movement
         if(position % MAX_GRID_X != 0 and position<MAX_GRID_Y*(MAX_GRID_X-1) )
         {
-            results.push_back(cell[position + 4]);
+            if(cell[position+4].getState()==EMPTY)
+                results.push_back(cell[position + 4]);
             if(cell[position+4].getState()==GOAT)
             {
                 getGoatEatenMoves(8);
@@ -321,7 +325,8 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
         //check for upward right upward diagonal movement
         if((position>MAX_GRID_X-1) and (position % MAX_GRID_X)!=(MAX_GRID_X-1) )
         {
-            results.push_back(cell[position - 4]);
+            if(cell[position-4].getState()==EMPTY)
+                results.push_back(cell[position - 4]);
             if(cell[position-4].getState()==GOAT)
             {
                 getGoatEatenMoves(-8);
@@ -330,7 +335,8 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
         //check for upward left upward diagonal movement
         if((position)%MAX_GRID_X!=0 and position>MAX_GRID_X)//checks for goat eaten moves
         {
-            results.push_back(cell[position-6]);
+            if(cell[position-6].getState()==EMPTY)
+                results.push_back(cell[position-6]);
             if(cell[position-6].getState()==GOAT )
             {
                 getGoatEatenMoves(-12);
@@ -340,7 +346,8 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
     // Check for right-corner case
     if ((position + 1) % MAX_GRID_X != 0)
     {
-        results.push_back(cell[position + 1]);
+        if(cell[position+1].getState()==EMPTY)
+            results.push_back(cell[position + 1]);
         if(cell[position+1].getState()==GOAT )//checks for goat eaten moves
         {
             getGoatEatenMoves(2);
@@ -349,7 +356,8 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
     // Check for upper-corner case
     if (position / MAX_GRID_Y != 0)
     {
-        results.push_back(cell[position - 5]);
+        if(cell[position-5].getState()==EMPTY)
+            results.push_back(cell[position - 5]);
         if(cell[position-MAX_GRID_X].getState()==GOAT )//checks for goat eaten moves
         {
             getGoatEatenMoves(-(MAX_GRID_X*2));
@@ -358,7 +366,8 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
     // Check for lower-corner case
     if (position < MAX_GRID_X*(MAX_GRID_Y-1))//checks for goat eaten moves
     {
-        results.push_back(cell[position + 5]);
+        if(cell[position+5].getState()==EMPTY)
+            results.push_back(cell[position + 5]);
         if(cell[position+MAX_GRID_X].getState()==GOAT )
         {
             getGoatEatenMoves(MAX_GRID_X*2);
@@ -547,7 +556,7 @@ bool Board::goatWin()
     int direction = 0;
     move.clear();
 
-    for(auto & i : tiger )
+    for(auto & i : tiger)
     {
         Cell _cell=i.getSpot();
         int currentPosition=getCellIndex(_cell);
@@ -555,14 +564,14 @@ bool Board::goatWin()
         if (currentPosition % MAX_GRID_X != 0)
         {
             direction=-1;
-            if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY and (currentPosition/5-(currentPosition+direction)/5!=1))
+            if(cell[currentPosition-1].getState()==GOAT and cell[currentPosition-2].getState()==EMPTY and (currentPosition/5-(currentPosition-2)/5!=1))
             {
                 if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25 )//checks the overflow  of cell array
                 {
                     move.push_back(cell[currentPosition+direction*2]);
                 }
             }
-            else if(cell[currentPosition+direction].getState()==EMPTY and currentPosition+direction>=0 )
+            if(cell[currentPosition-1].getState()==EMPTY)
             {
                 move.push_back(cell[currentPosition + direction]);
             }
@@ -574,64 +583,64 @@ bool Board::goatWin()
             if(currentPosition<MAX_GRID_Y*(MAX_GRID_X-1) and currentPosition%MAX_GRID_X!=(MAX_GRID_X-1))
             {
                 direction=6;
-                if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)
+                if(cell[currentPosition+6].getState()==GOAT and cell[currentPosition+6*2].getState()==EMPTY)
                 {
-                    if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25)//checks the overflow  of cell array
+                    if((currentPosition+6*2)>=0 && (currentPosition+6*2)<25)//checks the overflow  of cell array
                     {
-                        move.push_back(cell[currentPosition+direction*2]);
+                        move.push_back(cell[currentPosition+6*2]);
                     }
                 }
-                else if(cell[currentPosition+direction].getState()==EMPTY and currentPosition+direction>=0 and currentPosition+direction<25)
+                if(cell[currentPosition+6].getState()==EMPTY)
                 {
-                    move.push_back(cell[currentPosition + direction]);
+                    move.push_back(cell[currentPosition + 6]);
                 }
             }
             //check for downward left downward diagonal movement
             if(currentPosition % MAX_GRID_X != 0 && currentPosition<MAX_GRID_Y*(MAX_GRID_X-1))
             {
                 direction = 4;
-                if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)
+                if(cell[currentPosition+4].getState()==GOAT and cell[currentPosition+4*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+8)/5!=1))
                 {
-                    if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25)//checks the overflow  of cell array
+                    if((currentPosition+4*2)>=0 && (currentPosition+4*2)<25)//checks the overflow  of cell array
                     {
-                        move.push_back(cell[currentPosition+direction*2]);
+                        move.push_back(cell[currentPosition+4*2]);
                     }
                 }
-                else if(cell[currentPosition+direction].getState()==EMPTY and currentPosition+direction>=0 and currentPosition+direction<25)
+                if(cell[currentPosition+4].getState()==EMPTY)
                 {
-                    move.push_back(cell[currentPosition + direction]);
+                    move.push_back(cell[currentPosition + 4]);
                 }
             }
             //check for upward right upward diagonal movement
             if(currentPosition>MAX_GRID_X-1 and (currentPosition % MAX_GRID_X)!=(MAX_GRID_X-1))
             {
                 direction=-4;
-                if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)//checks for goar eaten moves
+                if(cell[currentPosition-4].getState()==GOAT and cell[currentPosition-4*2].getState()==EMPTY and (currentPosition/5-(currentPosition-8)/5!=1))
                 {
-                    if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25)//checks the overflow  of cell array
+                    if((currentPosition-4*2)>=0 && (currentPosition-4*2)<25)//checks the overflow  of cell array
                     {
-                        move.push_back(cell[currentPosition+direction*2]);
+                        move.push_back(cell[currentPosition-4*2]);
                     }
                 }
-                else if(cell[currentPosition+direction].getState()==EMPTY and currentPosition+direction>=0 and currentPosition+direction<25)
+                if(cell[currentPosition-4].getState()==EMPTY and currentPosition-4>=0 )
                 {
-                    move.push_back(cell[currentPosition + direction]);
+                    move.push_back(cell[currentPosition -4]);
                 }
             }
             //check for upward left upward diagonal movement
             if((currentPosition)%MAX_GRID_X!=0 && currentPosition>MAX_GRID_X-1)
             {
                 direction=-6;
-                if(cell[currentPosition+direction*2].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)
+                if(cell[currentPosition-6*2].getState()==GOAT and cell[currentPosition-6*2].getState()==EMPTY )
                 {
-                    if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25)//checks the overflow  of cell array
+                    if((currentPosition+-6*2)>=0 && (currentPosition+-6*2)<25)//checks the overflow  of cell array
                     {
-                        move.push_back(cell[currentPosition+direction*2]);
+                        move.push_back(cell[currentPosition-12]);
                     }
                 }
-                else if(cell[currentPosition+direction].getState()==EMPTY and currentPosition+direction>=0)
+                if(cell[currentPosition-6].getState()==EMPTY and currentPosition-6>=0)
                 {
-                    move.push_back(cell[currentPosition + direction]);
+                    move.push_back(cell[currentPosition  -6]);
                 }
             }
         }
@@ -639,31 +648,30 @@ bool Board::goatWin()
         if ((currentPosition + 1) % MAX_GRID_X != 0)
         {
             direction = 1;
-            if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)//checks for goar eaten moves
+            if(cell[currentPosition+1].getState()==GOAT and cell[currentPosition+1*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+2)/5!=1))//checks for goar eaten moves
             {
-                if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25)//checks the overflow  of cell array
+                if((currentPosition+1*2)>=0 && (currentPosition+2)<25)//checks the overflow  of cell array
                 {
-                    move.push_back(cell[currentPosition+direction*2]);
+                    move.push_back(cell[currentPosition+1*2]);
                 }
             }
-            else if(cell[currentPosition+direction].getState()==EMPTY and currentPosition+direction>=0 and currentPosition+direction<25)
+            if(cell[currentPosition+1].getState()==EMPTY and currentPosition+1>=0 and currentPosition+1<25)
             {
-                move.push_back(cell[currentPosition + direction]);
+                move.push_back(cell[currentPosition + 1]);
             }
         }
         // Check for upper-corner case
         if (currentPosition / MAX_GRID_Y != 0)
         {
             direction=-MAX_GRID_X;
-            move.push_back(cell[currentPosition - MAX_GRID_X]);
-            if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)
+            if(cell[currentPosition-5].getState()==GOAT and cell[currentPosition-5*2].getState()==EMPTY and (currentPosition/5-(currentPosition-10)/5!=1))
             {
-                if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25)//checks the overflow  of cell array
+                if((currentPosition-10)>=0)//checks the overflow  of cell array
                 {
-                    move.push_back(cell[currentPosition+direction*2]);
+                    move.push_back(cell[currentPosition-5*2]);
                 }
             }
-            else if(cell[currentPosition-5].getState()==EMPTY and currentPosition+direction>=0 )
+            if(cell[currentPosition-5].getState()==EMPTY and currentPosition-5>=0 )
             {
                 move.push_back(cell[currentPosition + direction]);
             }
@@ -672,24 +680,20 @@ bool Board::goatWin()
         if (currentPosition < MAX_GRID_X*(MAX_GRID_Y-1))
         {
             direction = MAX_GRID_X;
-            if(cell[currentPosition+direction].getState()==GOAT and cell[currentPosition+direction*2].getState()==EMPTY)
+            if(cell[currentPosition+5].getState()==GOAT and cell[currentPosition+5*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+10)/5!=1))
             {
-                if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25)//checks the overflow  of cell array
+                if((currentPosition+5*2)>=0 && (currentPosition+5*2)<25)//checks the overflow  of cell array
                 {
-                    move.push_back(cell[currentPosition+direction*2]);
+                    move.push_back(cell[currentPosition+5*2]);
                 }
             }
-            else if(cell[currentPosition+direction].getState()==EMPTY and currentPosition+direction<25)
+            if(cell[currentPosition+5].getState()==EMPTY)
             {
                 move.push_back(cell[currentPosition + direction]);
             }
         }
     }
-    for(auto &i:move)
-    {
-        std::cout<<getCellIndex(i)<<"\n";
-    }
-    return move.size()==2;
+    return move.empty();
 }
 
 void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)

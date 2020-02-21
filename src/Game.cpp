@@ -82,8 +82,8 @@ void Game::run()//main game loo[
     while(mWindow.isOpen())
     {
         mWindow.clear();
-        checkGameOver();
         processEvents();
+        checkGameOver();
         board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin);
         mWindow.display();  
     }
