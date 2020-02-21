@@ -3,12 +3,12 @@
 //
 #include "../includes/MainMenu.h"
 #include "../includes/Game.h"
+#include "../includes/quitGame.h"
 #include<fstream>
 #include <iostream>
 
 void MainMenu::LoadMenu()//Renders window
 {
-
     if (!enterAbout)
     {
         window.clear(sf::Color::White);
@@ -37,7 +37,6 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     width=width;
     height=height;
     font.loadFromFile("../Media/Fonts/font.ttf");//font for text
-
     for(int j=0;j<3;j++)
     {
         menu[j].setFont(font);//sets font for text
@@ -59,9 +58,12 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     menu[1].setString("About");
     menu[2].setString("Exit");
     menuTexture.loadFromFile("../Media/Images/baaghchaal.jpg");
+    aboutTexture.loadFromFile("../Media/Images/about.jpg");
     menuImage.setTexture(&menuTexture);
+    aboutImage.setTexture(&aboutTexture);
     menuImage.setPosition(0,0);
     menuImage.setSize(sf::Vector2f(1377,720));//size of the image
+    aboutImage.setSize(sf::Vector2f(1377,720));
     std::string detail;
     std::fstream aboutFile;
     aboutFile.open(("../about.txt"));
@@ -75,8 +77,8 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     aboutText.setString(aboutTextString);
     aboutText.setFont(font);
     aboutText.setFillColor(sf::Color::Black);
-    aboutText.setCharacterSize(16);
-    aboutText.setPosition(25, 120);
+    aboutText.setCharacterSize(24);
+    aboutText.setPosition(250, 200);
 }
 
 void MainMenu::processEvents()
@@ -139,20 +141,21 @@ void MainMenu::MoveUp(bool goUp=true)
 }
 void MainMenu::onPressEnter()
 {
-    switch (selectedItem)
+    if(selectedItem==1)
     {
-        case(1) :
-            enterAbout=true;
-            about();
-            break;
-        case(2):
-            exit(0);
-        case(0):
-            window.close();
-            Game game(1377,720);
-            game.run();
-            break;
-
+        enterAbout=true;
+        about();
+    }
+    else if(selectedItem==0)
+    {
+        window.close();
+        Game game(1377,720);
+        game.run();
+    }
+    else
+    {
+        quitGame quit;
+        quit.gameExit(window);
     }
 }
  void MainMenu::run()
@@ -166,6 +169,7 @@ void MainMenu::onPressEnter()
 void MainMenu::about()
 {
     window.clear(sf::Color::White);
+    window.draw(aboutImage);
     window.draw(aboutText);
     window.display();
 
