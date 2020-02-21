@@ -3,6 +3,9 @@ Bagh-Chal is a strategic, two-player board game that originated in Nepal. The ga
 player controls four tigers and the other player controls up to twenty goats. The tigers 'hunt' the goats while
 the goats attempt to block the tigers' movements.This game is developed as a part of the academic project for
 Object Oriented Programming.
+
 Developers:
+
 1. Sanskar Amgain(075BCT080)
+
 2. Sandip Puri (075BCT077)
