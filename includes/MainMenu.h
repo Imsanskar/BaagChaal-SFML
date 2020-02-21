@@ -11,7 +11,7 @@ class MainMenu
 private:
     unsigned width,height;
     sf::Font font;
-    sf::Text menu[3];
+    sf::Text menu[3],headline;
     sf::Texture menuTexture;
     sf::RectangleShape menuImage;
     sf::Text myMenu[3];

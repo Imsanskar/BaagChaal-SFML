@@ -36,7 +36,7 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     enterAbout=false;
     width=width;
     height=height;
-    font.loadFromFile("../Media/Fonts/Arial.ttf");//font for text
+    font.loadFromFile("../Media/Fonts/font.ttf");//font for text
 
     for(int j=0;j<3;j++)
     {
@@ -45,20 +45,20 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     }
     for(int i=0;i<3;i++)
     {
-        menu[i].setCharacterSize(40);
+        menu[i].setCharacterSize(50);
         menu[i].setFillColor(sf::Color::Black);
     }
     //Sets co ordinates for menu text
-    menu[0].setPosition(630, 410);
-    menu[1].setPosition(652, 520);
-    menu[2].setPosition(670, 638);
+    menu[0].setPosition(520, 240);
+    menu[1].setPosition(590, 370);
+    menu[2].setPosition(625, 500);
 
 
     //Sting values for menu text
     menu[0].setString("Play Game");
     menu[1].setString("About");
     menu[2].setString("Exit");
-    menuTexture.loadFromFile("../Media/Images/menu.png");
+    menuTexture.loadFromFile("../Media/Images/baaghchaal.jpg");
     menuImage.setTexture(&menuTexture);
     menuImage.setPosition(0,0);
     menuImage.setSize(sf::Vector2f(1377,720));//size of the image
@@ -75,8 +75,8 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     aboutText.setString(aboutTextString);
     aboutText.setFont(font);
     aboutText.setFillColor(sf::Color::Black);
-    aboutText.setCharacterSize(18);
-    aboutText.setPosition(300, 300);
+    aboutText.setCharacterSize(16);
+    aboutText.setPosition(25, 120);
 }
 
 void MainMenu::processEvents()
@@ -168,4 +168,5 @@ void MainMenu::about()
     window.clear(sf::Color::White);
     window.draw(aboutText);
     window.display();
+
 }

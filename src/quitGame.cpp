@@ -5,8 +5,8 @@ using namespace std;
 
 quitGame::quitGame()
 {
-     window.create(sf::VideoMode(300,75),"Quit Game",sf::Style::Close);
-    if(!font.loadFromFile("../Media/Fonts/Arial.ttf"))
+     window.create(sf::VideoMode(400,75),"Quit Game",sf::Style::Close);
+    if(!font.loadFromFile("../Media/Fonts/font.ttf"))
     {
         cout<<"Error in loading Font."<<endl;
     }
@@ -25,11 +25,11 @@ quitGame::quitGame()
     //Sets co ordinates for text text
     text[0].setPosition(10,10);
     text[1].setPosition(40,40);
-    text[2].setPosition(170,40);
+    text[2].setPosition(160,40);
 
 
     //Sting values for text text
-    text[0].setString("Do you really want to quit this game?");
+    text[0].setString("Do  you  really  want  to  quit  this  game ?");
     text[1].setString("Yes");
     text[2].setString("No");
 
