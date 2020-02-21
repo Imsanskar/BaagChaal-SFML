@@ -20,6 +20,8 @@ private:
     bool gameOver=false,tigerTurn=true;
     bool tigerWin,goatWin;
     sf::Vector2i pos;
+    bool quit;
+
 public:
     Game(unsigned int ,unsigned int );
     void run();

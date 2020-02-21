@@ -4,6 +4,7 @@
 #include <iostream>
 #include "../includes/Game.h"
 #include "../includes/MainMenu.h"
+#include "../includes/quitGame.h"
 
 Game::Game(unsigned int _width,unsigned int _height)
 {
@@ -14,6 +15,7 @@ Game::Game(unsigned int _width,unsigned int _height)
     goatWin=false;
     goatChosen=0;
     goatEaten=0;
+    quit = false;
     pos=sf::Mouse::getPosition(mWindow);
 }
 
@@ -23,7 +25,7 @@ void Game::processEvents()
     while (mWindow.pollEvent(event)) {
         pos=sf::Mouse::getPosition(mWindow);
         if (event.type == sf::Event::Closed) {
-            mWindow.close();
+            quit= true;
         }
         if (event.type == sf::Event::KeyPressed) {
             handlePlayerInput(event.key.code);
@@ -69,9 +71,8 @@ void Game::handlePlayerInput(sf::Keyboard::Key & key)
     switch(key)
     {
         case sf::Keyboard::Escape:
-            mWindow.close();//for closing the window on key  press
             MainMenu myMenu(1377,720);
-            myMenu.run();
+            quit= true;
             break;
 
     }
@@ -82,6 +83,12 @@ void Game::run()//main game loo[
     while(mWindow.isOpen())
     {
         mWindow.clear();
+        if(quit)
+        {
+            quitGame q;
+            q.gameExit(mWindow);
+            quit=false;
+        }
         processEvents();
         checkGameOver();
         board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin);
