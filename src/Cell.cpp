@@ -2,7 +2,7 @@
 // Created by imsanskar on 2020-02-06.
 //
 
-#include <Cell.h>
+#include "../includes/Cell.h"
 
 Cell::Cell()
 {

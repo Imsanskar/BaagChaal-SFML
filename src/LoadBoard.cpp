@@ -1,6 +1,6 @@
 
-#include "Loadboard.h"
-#include "MainMenu.h"
+#include "../includes/Loadboard.h"
+#include "../includes/MainMenu.h"
 #include<iostream>
 
 //linear search of vector
@@ -23,15 +23,17 @@ bool search(std::vector<Cell> list,Cell cell)
 Board::Board() //Constructor
 {
     position=0;
-    font.loadFromFile("../Media/Fonts/Arial.ttf");//font for text
+    font.loadFromFile("../Media/Fonts/font.ttf");//font for text
     tigerText.setFont(font);
     goatText.setFont(font);
     tigerText.setStyle(sf::Text::Bold);
     tigerText.setString("TIGER'S TURN");
     goatText.setString("GOAT'S TURN");
+    tigerText.setFillColor(sf::Color::Red);
+    goatText.setFillColor(sf::Color::Red);
     goatWinText.setString("Goat wins!");
-    tigerText.setPosition(900,300);
-    goatText.setPosition(900,300);
+    tigerText.setPosition(1000,300);
+    goatText.setPosition(1000,300);
     goatWinText.setPosition(1000,400);
     isReleased=false;
     isMove=false;

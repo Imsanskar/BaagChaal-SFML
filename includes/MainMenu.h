@@ -1,10 +1,6 @@
 //
 // Created by imsanskar on 2019-11-30.
 //
-
-
-
-
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -15,7 +11,7 @@ class MainMenu
 private:
     unsigned width,height;
     sf::Font font;
-    sf::Text menu[3];
+    sf::Text menu[3],headline;
     sf::Texture menuTexture;
     sf::RectangleShape menuImage;
     sf::Text myMenu[3];

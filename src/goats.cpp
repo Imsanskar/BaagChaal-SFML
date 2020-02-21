@@ -1,9 +1,9 @@
 //
 // Created by imsanskar on 2020-01-05.
 //
+#include <SFML/Graphics.hpp>
+#include "../includes/goats.h"
 
-
-#include "goats.h"
 
 void Goat::render(sf::RenderWindow &mWindow )
 {
