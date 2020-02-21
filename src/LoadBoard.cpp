@@ -46,7 +46,7 @@ Board::Board() //Constructor
         (cell+i)->setCoord(i);//sets the co ordinates
         goatEatenMoves.push_back(cell[i]);//just because the vector wont be empty  at the beginning
     }
-    boardTexture.loadFromFile("../Media/Images/board.jpg");
+    boardTexture.loadFromFile("../Media/Images/board1.jpg");
     boardImage.setTexture(&boardTexture);
     boardImage.setPosition(0, 0);
     boardImage.setSize(sf::Vector2f(1377, 720));
