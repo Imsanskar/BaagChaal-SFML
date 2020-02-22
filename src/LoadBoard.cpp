@@ -29,11 +29,13 @@ Board::Board() //Constructor
     tigerText.setStyle(sf::Text::Bold);
     tigerText.setString("TIGER'S TURN");
     goatText.setString("GOAT'S TURN");
+    tigerText.setCharacterSize(42);
+    goatText.setCharacterSize(42);
     tigerText.setFillColor(sf::Color::Red);
     goatText.setFillColor(sf::Color::Red);
     goatWinText.setString("Goat wins!");
-    tigerText.setPosition(1000,300);
-    goatText.setPosition(1000,300);
+    tigerText.setPosition(965,225);
+    goatText.setPosition(980,225);
     goatWinText.setPosition(1000,400);
     isReleased=false;
     isMove=false;
