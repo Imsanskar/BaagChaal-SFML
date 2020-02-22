@@ -14,9 +14,9 @@ void Tiger::render(sf::RenderWindow &mWindow)
 
 Tiger::Tiger()
 {
-    tigerTexture.loadFromFile("../Media/Images/tiger.png");
+    tigerTexture.loadFromFile("../Media/Images/tiger.jpg");
     tigerImage.setTexture(&tigerTexture);
-    tigerImage.setRadius(35);
+    tigerImage.setRadius(40);
 }
 
 sf::Rect<float> Tiger::getGlobalBounds()
