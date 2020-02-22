@@ -12,29 +12,25 @@ private:
     unsigned width,height;
     sf::Font font;
     sf::Event event;
-    sf::Text menu[3],headline;
-    sf::Texture menuTexture,aboutTexture;
-    sf::RectangleShape menuImage,aboutImage;
-    sf::Text myMenu[3];
-    int selectedItem=0;
-    bool isPressedUp, isPressedDown, isPressedReturn, enterAbout=false,isQuitPressed;
+    sf::Text menu[3];
+    sf::Texture menuTexture,aboutTexture,backButtonTexture;
+    sf::RectangleShape menuImage,aboutImage,backButtonImage;
+    bool enterAbout=false;
     sf::Text aboutText;
     std::string aboutTextString;
 
 private:
     void LoadMenu();
     void processEvents();
-    void handlePlayerInput(sf::Keyboard::Key &key, bool isPressed);
-    void update();
-    void MoveUp(bool goUp);
-    void onPressEnter();
     void about();
+
 
 
 
 public:
     void run();
     MainMenu(unsigned , unsigned );
+
 
 protected:
     sf::RenderWindow window;
