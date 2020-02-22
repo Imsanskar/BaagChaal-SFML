@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics.hpp>
 #include "tigers.h"
+#include "goats.h"
 
 
 

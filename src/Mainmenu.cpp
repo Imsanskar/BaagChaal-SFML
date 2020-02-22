@@ -26,7 +26,6 @@ void MainMenu::LoadMenu()//Renders window
 
 
 MainMenu::MainMenu(unsigned int width,unsigned int height)
-
 {
     window.create(sf::VideoMode(width,height),"Baagchaal",sf::Style::Default);
     selectedItem=0,
@@ -34,6 +33,7 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     isPressedDown=false;
     isPressedReturn=false;
     enterAbout=false;
+    isQuitPressed=false;
     width=width;
     height=height;
     font.loadFromFile("../Media/Fonts/font.ttf");//font for text
@@ -83,7 +83,6 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
 
 void MainMenu::processEvents()
 {
-    sf::Event event;
     while (window.pollEvent(event))
     {
         switch (event.type)
@@ -95,7 +94,8 @@ void MainMenu::processEvents()
                 handlePlayerInput(event.key.code, false);
                 break;
             case sf::Event::Closed:
-                window.close();
+                quitGame quit;
+                quit.gameExit(window);
                 break;
         }
     }
@@ -104,21 +104,22 @@ void MainMenu::processEvents()
 
 void MainMenu::handlePlayerInput(sf::Keyboard::Key & key, bool isPressed)
 {
-    switch (key){
+    switch (key) {
         case sf::Keyboard::Up:
-            isPressedUp=isPressed;
+            isPressedUp = isPressed;
             break;
         case sf::Keyboard::Down:
-            isPressedDown=isPressed;
+            isPressedDown = isPressed;
             break;
         case sf::Keyboard::Return:
-            isPressedReturn=isPressed;
+            isPressedReturn = isPressed;
             break;
         case sf::Keyboard::Escape:
             enterAbout = false;
             break;
     }
     update();
+
 }
 
 void MainMenu::update()

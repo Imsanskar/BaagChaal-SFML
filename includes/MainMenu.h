@@ -11,12 +11,13 @@ class MainMenu
 private:
     unsigned width,height;
     sf::Font font;
+    sf::Event event;
     sf::Text menu[3],headline;
     sf::Texture menuTexture,aboutTexture;
     sf::RectangleShape menuImage,aboutImage;
     sf::Text myMenu[3];
     int selectedItem=0;
-    bool isPressedUp, isPressedDown, isPressedReturn, enterAbout=false;
+    bool isPressedUp, isPressedDown, isPressedReturn, enterAbout=false,isQuitPressed;
     sf::Text aboutText;
     std::string aboutTextString;
 
