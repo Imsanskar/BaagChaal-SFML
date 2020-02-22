@@ -80,60 +80,52 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     aboutText.setPosition(250, 200);
 }
 
-void MainMenu::processEvents()
-{
-    while (window.pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-        {
-
+void MainMenu::processEvents() {
+    while (window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+        }
         sf::Vector2i mouse;
-        mouse=sf::Mouse::getPosition(window);
-        if(menu[0].getGlobalBounds().contains(mouse.x,mouse.y))//checks if the mouse co-ordinates is in text boundary
+        mouse = sf::Mouse::getPosition(window);
+        if (menu[0].getGlobalBounds().contains(mouse.x,mouse.y))//checks if the mouse co-ordinates is in text boundary
         {
             menu[0].setFillColor(sf::Color::Red);
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            {
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 window.close();
-                Game game(1377,720);
+                Game game(1377, 720);
                 game.run();
             }
-        }
-
-        else if(menu[1].getGlobalBounds().contains(mouse.x,mouse.y))//checks if the mouse co-ordinates is in text boundary
+        } else if (menu[1].getGlobalBounds().contains(mouse.x,mouse.y))//checks if the mouse co-ordinates is in text boundary
         {
             menu[1].setFillColor(sf::Color::Red);
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                enterAbout=true;
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                enterAbout = true;
                 about();
-                std::cout<<"about"<<std::endl;
-
             }
-        }
-        else if(menu[2].getGlobalBounds().contains(mouse.x,mouse.y))//checks if the mouse co-ordinates is in text boundary
+        } else if (menu[2].getGlobalBounds().contains(mouse.x,mouse.y))//checks if the mouse co-ordinates is in text boundary
         {
             menu[2].setFillColor(sf::Color::Red);
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-               window.close();
+                window.close();
             }
-        }
-        else if(backButtonImage.getGlobalBounds().contains(mouse.x,mouse.y) and enterAbout)
+        } else if (backButtonImage.getGlobalBounds().contains(mouse.x, mouse.y) and enterAbout)
         {
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-               enterAbout=false;
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                enterAbout = false;
             }
-        }
-        else
-        {
+        } else {
             menu[0].setFillColor(sf::Color::Black);
             menu[1].setFillColor(sf::Color::Black);
             menu[2].setFillColor(sf::Color::Black);
         }
     }
+
 }
 
- void MainMenu::run()
- {
+void MainMenu::run()
+{
      while (window.isOpen())
      {
          processEvents();
