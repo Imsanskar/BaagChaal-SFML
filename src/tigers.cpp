@@ -14,7 +14,7 @@
 
 Tiger::Tiger()
 {
-    texture.loadFromFile("../Media/Images/tiger.png");
+    texture.loadFromFile("../Media/Images/tiger.jpg");
     image.setTexture(&texture);
-    image.setRadius(35);
+    image.setRadius(40);
 }
