@@ -5,12 +5,6 @@
 
 
 
-//void Tiger::render(sf::RenderWindow &mWindow)
-//{
-//    tigerImage.setPosition(tigerPos.x,tigerPos.y);
-//    mWindow.draw(tigerImage);
-////    tigerImage.setPosition(pos.getCoord().x,pos.getCoord().y);
-//}
 
 Tiger::Tiger()
 {
