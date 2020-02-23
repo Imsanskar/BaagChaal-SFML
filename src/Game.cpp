@@ -91,7 +91,7 @@ void Game::run()//main game loo[
         }
         processEvents();
         checkGameOver();
-        board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin);
+        board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin,20-goatChosen,goatEaten);
         mWindow.display();  
     }
 }

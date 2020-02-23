@@ -20,6 +20,7 @@ private:
     Cell initCell,finalCell;
     sf::Texture boardTexture;
     sf::RectangleShape boardImage;
+    sf::Text goatsAtt[2];
     bool isMove,isReleased,moveCompleted,isTigerPressed,isGoatReleased,isGoatPressed,goatEatenMove;
     Tiger tiger[4];
     int tigerChosen,goatChosen;
@@ -30,7 +31,7 @@ private:
     std::vector<Cell> goatEatenMoves;
 
 public:
-    void render(sf::RenderWindow &,Goat *,const bool *, bool ,bool);
+    void render(sf::RenderWindow &,Goat *,const bool *, bool ,bool,int ,int );//renders the goat into ths screen
     void tigerMove(sf::Event &,sf::RenderWindow &);//for the movement of the tiger
     void placements(sf::Event &,sf::RenderWindow &,Goat *);//for the placement of the goat
     Board();//constructor
@@ -38,6 +39,7 @@ public:
     void setState(bool );
     bool goatWin();//checks for the goat win case
     bool eatGoat(Goat *);//for killing the goats
+    std::vector<Cell> getGoatEatenMoves();//returns the goat eaten moves
     void goatMove(sf::Event & ,sf::Vector2i &,Goat *goat);//for the movement  of the goats
 private:
     int getCellIndex(Cell &cell);//returns the index of the cell

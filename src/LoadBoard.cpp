@@ -45,12 +45,18 @@ Board::Board() //Constructor
     tigerChosen=0;
     newPos=sf::Vector2i(0,0);
     oldPos=sf::Vector2i (75,30);
+    goatsAtt[0].setCharacterSize(50);
+    goatsAtt[1].setCharacterSize(50);
+    goatsAtt[0].setPosition(1275,335);
+    goatsAtt[1].setPosition(1170,430);
+    goatsAtt[0].setFont(font);
+    goatsAtt[1].setFont(font);
     for(int i=0;i<25;i++)
     {
         (cell+i)->setCoord(i);//sets the co ordinates
         goatEatenMoves.push_back(cell[i]);//just because the vector wont be empty  at the beginning
     }
-    boardTexture.loadFromFile("../Media/Images/board.jpg");
+    boardTexture.loadFromFile("../Media/Images/board1.jpg");
     boardImage.setTexture(&boardTexture);
     boardImage.setPosition(0, 0);
     boardImage.setSize(sf::Vector2f(1377, 720));
@@ -72,10 +78,21 @@ Board::Board() //Constructor
 
 
 
-void Board::render(sf::RenderWindow &mWindow,Goat *goat,const bool *tigerFlag,bool goatWin,bool tigerWin)//Renders on the screen
+void Board::render(sf::RenderWindow &mWindow,Goat *goat,const bool *tigerFlag,bool goatWin,bool tigerWin,int goatsInHand,int goatsEaten)//Renders on the screen
 {
 //    *tigerFlag=false;
+    goatsAtt[1].setString(std::to_string(goatsInHand));
+    goatsAtt[0].setString(std::to_string(goatsEaten));
+    if(goatsInHand>9 and goatsInHand<20 and goatsInHand!=11)
+        goatsAtt[1].setPosition(1175,430);
+    else if(goatsInHand<10 or goatsInHand==11)
+        goatsAtt[1].setPosition(1185,430);
+    std::cout<<goatsInHand<<"   "<<goatsEaten<<"\n";
+//    goatsAtt[0].setColor(sf::Color::White);
+//    goatsAtt[1].setColor(sf::Color::White);
     mWindow.draw(boardImage);//renders the board image
+    mWindow.draw(goatsAtt[0]);
+    mWindow.draw(goatsAtt[1]);
     for (auto & _tiger : tiger)
     {
         _tiger.render(mWindow);//renders the tiger
@@ -281,7 +298,6 @@ void Board::getGoatEatenMoves(int direction)
 {
     if((position+direction)>=0 && (position+direction)<25)//checks the overflow  of cell array
     {
-
         goatEatenMoves.push_back(cell[position+direction]);
     }
 }
@@ -291,7 +307,8 @@ void Board::getGoatEatenMoves(int direction)
 //returns the possible moves for the current position of tiger
 std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
 {
-    position=getCellIndex(_cell);
+    position=getCellIndex(_cell);//gets the current position of the cell
+    goatEatenMoves.clear();
     std::vector<Cell> results;
     // Check for left-corner case
     if (position % MAX_GRID_X != 0)
@@ -758,4 +775,8 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
             isGoatPressed=false;
         }
     }
+}
+
+std::vector<Cell> Board::getGoatEatenMoves() {
+    return goatEatenMoves;
 }
