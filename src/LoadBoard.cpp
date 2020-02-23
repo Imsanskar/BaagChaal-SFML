@@ -47,8 +47,8 @@ Board::Board() //Constructor
     oldPos=sf::Vector2i (75,30);
     goatsAtt[0].setCharacterSize(50);
     goatsAtt[1].setCharacterSize(50);
-    goatsAtt[0].setPosition(1275,335);
-    goatsAtt[1].setPosition(1170,430);
+    goatsAtt[0].setPosition(1240,335);
+    goatsAtt[1].setPosition(1220,435);
     goatsAtt[0].setFont(font);
     goatsAtt[1].setFont(font);
     for(int i=0;i<25;i++)
@@ -84,9 +84,9 @@ void Board::render(sf::RenderWindow &mWindow,Goat *goat,const bool *tigerFlag,bo
     goatsAtt[1].setString(std::to_string(goatsInHand));
     goatsAtt[0].setString(std::to_string(goatsEaten));
     if(goatsInHand>9 and goatsInHand<20 and goatsInHand!=11)
-        goatsAtt[1].setPosition(1175,430);
+        goatsAtt[1].setPosition(1220,435);
     else if(goatsInHand<10 or goatsInHand==11)
-        goatsAtt[1].setPosition(1185,430);
+        goatsAtt[1].setPosition(1220,435);
     std::cout<<goatsInHand<<"   "<<goatsEaten<<"\n";
 //    goatsAtt[0].setColor(sf::Color::White);
 //    goatsAtt[1].setColor(sf::Color::White);
