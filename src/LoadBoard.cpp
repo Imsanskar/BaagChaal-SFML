@@ -87,9 +87,6 @@ void Board::render(sf::RenderWindow &mWindow,Goat *goat,const bool *tigerFlag,bo
         goatsAtt[1].setPosition(1175,430);
     else if(goatsInHand<10 or goatsInHand==11)
         goatsAtt[1].setPosition(1185,430);
-    std::cout<<goatsInHand<<"   "<<goatsEaten<<"\n";
-//    goatsAtt[0].setColor(sf::Color::White);
-//    goatsAtt[1].setColor(sf::Color::White);
     mWindow.draw(boardImage);//renders the board image
     mWindow.draw(goatsAtt[0]);
     mWindow.draw(goatsAtt[1]);

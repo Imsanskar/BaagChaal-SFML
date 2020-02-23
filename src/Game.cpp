@@ -13,10 +13,24 @@ Game::Game(unsigned int _width,unsigned int _height)
     tigerTurn=false;
     tigerWin=false;
     goatWin=false;
+    gameOver=false;
     goatChosen=0;
     goatEaten=0;
     quit = false;
     pos=sf::Mouse::getPosition(mWindow);
+    backButtonTexture.loadFromFile("../Media/Images/backButton.png");
+    backButtonImage.setTexture(&backButtonTexture);
+    backButtonImage.setPosition(1190,25);
+    backButtonImage.setSize(sf::Vector2f(150,70));
+    tigerWinTexture.loadFromFile("../Media/Images/tigerWins.jpg");
+    tigerWinImage.setTexture(&tigerWinTexture);
+    tigerWinImage.setPosition(0,0);
+    tigerWinImage.setSize(sf::Vector2f(1377,720));
+    goatWinTexture.loadFromFile("../Media/Images/goatWins.jpg");
+    goatWinImage.setTexture(&goatWinTexture);
+    goatWinImage.setPosition(0,0);
+    goatWinImage.setSize(sf::Vector2f(1377,720));
+    
 }
 
 //handles the event of the game
@@ -61,7 +75,14 @@ void Game::processEvents()
                 board.setState(false);
             }
         }
-
+    }
+    if(gameOver and backButtonImage.getGlobalBounds().contains(pos.x,pos.y))
+    {
+        if(event.type==sf::Event::MouseButtonPressed) {
+            mWindow.close();
+            MainMenu menu(1377, 720);
+            menu.run();
+        }
     }
 }
 
@@ -91,7 +112,8 @@ void Game::run()//main game loo[
         }
         processEvents();
         checkGameOver();
-        board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin,20-goatChosen,goatEaten);
+        if(!gameOver)
+            board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin,20-goatChosen,goatEaten);
         mWindow.display();  
     }
 }
@@ -100,14 +122,30 @@ void Game::checkGameOver()//checks if the game is over
 {
     if(goatEaten>=5 )
     {
-        std::cout<<"Tiger Win";
-        mWindow.close();
+        gameOver=true;
+        tigerWins();
     }
     if(board.goatWin())
     {
-        std::cout<<"Goat win";
-        mWindow.close();
+        gameOver=true;
+        goatWins();
     }
+}
+
+void Game::goatWins()
+{
+    mWindow.clear();
+    mWindow.draw(goatWinImage);
+    mWindow.draw(backButtonImage);
+    mWindow.display();
+}
+
+void Game::tigerWins()
+{
+    mWindow.clear();
+    mWindow.draw(tigerWinImage);
+    mWindow.draw(backButtonImage);
+    mWindow.display();
 }
 
 
