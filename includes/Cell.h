@@ -1,9 +1,16 @@
 
+
+#ifndef BAAGCHAAL_CELL_H
+#define BAAGCHAAL_CELL_H
+
+
+
 #include <SFML/System.hpp>
 
 //
 // Created by imsanskar on 2020-02-06.
 //
+
 enum STATE
 {
     EMPTY,
@@ -25,3 +32,6 @@ public:
     bool operator ==(Cell );//operator overloading
     bool operator <(const Cell &) const;
 };
+
+
+#endif

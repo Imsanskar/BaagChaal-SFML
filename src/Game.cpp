@@ -1,12 +1,11 @@
 //
 // Created by imsanskar on 2020-01-10.
 //
-#include <iostream>
-#include "../includes/Game.h"
-#include "../includes/MainMenu.h"
-#include "../includes/quitGame.h"
 
-Game::Game(unsigned int _width,unsigned int _height)
+
+#include "../includes/Game.h"
+
+Game::Game(unsigned int _width, unsigned int _height)
 {
     mWindow.create(sf::VideoMode(_width, _height), "Baagchaal", sf::Style::Default);
     goatChosen=0;
@@ -111,9 +110,9 @@ void Game::run()//main game loo[
             quit=false;
         }
         processEvents();
-        checkGameOver();
         if(!gameOver)
             board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin,20-goatChosen,goatEaten);
+        checkGameOver();
         mWindow.display();  
     }
 }
@@ -122,12 +121,14 @@ void Game::checkGameOver()//checks if the game is over
 {
     if(goatEaten>=5 )
     {
+        usleep(10000);
         gameOver=true;
         tigerWins();
     }
     if(board.goatWin())
     {
         gameOver=true;
+        usleep(10000);
         goatWins();
     }
 }

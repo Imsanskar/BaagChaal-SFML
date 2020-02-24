@@ -1,6 +1,11 @@
 //
 // Created by imsanskar on 2019-11-30.
 //
+
+
+#ifndef BAAGCHAAL_MAINMENU_H
+#define BAAGCHAAL_MAINMENU_H
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -38,3 +43,4 @@ protected:
 };
 
 
+#endif

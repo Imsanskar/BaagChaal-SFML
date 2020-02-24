@@ -1,6 +1,10 @@
 //
 // Created by imsanskar on 2020-01-04.
 //
+
+#ifndef BAAGCHAAL_LOARDBOARD_H
+#define BAAGCHAAL_LOARDBOARD_H
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -52,3 +56,5 @@ private:
     std::vector<Cell> getPossibleMoves(Cell &);//returns possible moves of the tiger
     void getGoatEatenMoves(int direction);//creates the goat eating moves of the tiger
 };
+
+#endif

@@ -7,7 +7,9 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics.hpp>
 #include "Loadboard.h"
-
+#include "MainMenu.h"
+#include "quitGame.h"
+#include <unistd.h>
 
 
 class Game

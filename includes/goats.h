@@ -1,6 +1,11 @@
 //
 // Created by imsanskar on 2020-01-05.
 //
+
+#ifndef BAAGCHAAL_GOATS_H
+#define BAAGCHAAL_GOATS_H
+
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "Piece.h"
@@ -28,3 +33,6 @@ public:
     goatState getState();//getter of the state of the goat
     void setState(goatState );//setter of the goat state
 };
+
+
+#endif

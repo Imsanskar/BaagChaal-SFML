@@ -1,3 +1,7 @@
+#ifndef QUIT_GAME_H
+#define QUIT_GAME_H
+
+
 #include <SFML/Graphics.hpp>
 
 class quitGame
@@ -14,3 +18,5 @@ public:
      void gameExit(sf::RenderWindow &);
 
 };
+
+#endif
