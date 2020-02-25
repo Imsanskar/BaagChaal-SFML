@@ -121,14 +121,12 @@ void Game::checkGameOver()//checks if the game is over
 {
     if(goatEaten>=5 )
     {
-        usleep(10000);
         gameOver=true;
         tigerWins();
     }
     if(board.goatWin())
     {
         gameOver=true;
-        usleep(10000);
         goatWins();
     }
 }
