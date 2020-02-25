@@ -1,7 +1,6 @@
 
 #include "../includes/Loadboard.h"
 #include "../includes/MainMenu.h"
-#include<iostream>
 
 //linear search of vector
 bool search(std::vector<Cell> list,Cell cell)
@@ -33,7 +32,6 @@ Board::Board() //Constructor
     goatText.setCharacterSize(42);
     tigerText.setFillColor(sf::Color::Red);
     goatText.setFillColor(sf::Color::Red);
-    goatWinText.setString("Goat wins!");
     tigerText.setPosition(965,225);
     goatText.setPosition(980,225);
     goatWinText.setPosition(1000,400);
@@ -51,6 +49,10 @@ Board::Board() //Constructor
     goatsAtt[1].setPosition(1220,435);
     goatsAtt[0].setFont(font);
     goatsAtt[1].setFont(font);
+    normalMoveBuffer.loadFromFile("../Media/Sound/tyak.wav");
+    normalMove.setBuffer(normalMoveBuffer);
+    goatEatenMoveBuffer.loadFromFile("../Media/Sound/swapp.wav");
+    goatEatenMoveSound.setBuffer(goatEatenMoveBuffer);
     for(int i=0;i<25;i++)
     {
         (cell+i)->setCoord(i);//sets the co ordinates
@@ -87,9 +89,6 @@ void Board::render(sf::RenderWindow &mWindow,Goat *goat,const bool *tigerFlag,bo
         goatsAtt[1].setPosition(1220,435);
     else if(goatsInHand<10 or goatsInHand==11)
         goatsAtt[1].setPosition(1220,435);
-    std::cout<<goatsInHand<<"   "<<goatsEaten<<"\n";
-//    goatsAtt[0].setColor(sf::Color::White);
-//    goatsAtt[1].setColor(sf::Color::White);
     mWindow.draw(boardImage);//renders the board image
     mWindow.draw(goatsAtt[0]);
     mWindow.draw(goatsAtt[1]);
@@ -194,7 +193,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
     if (isReleased and isTigerPressed)
     {
         isMove=false;
-        if(checkMove())
+        if(checkMove(tiger[tigerChosen]))
         {
             isReleased=false;
             moveCompleted=true;
@@ -432,6 +431,7 @@ void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
         isMove=false;
         if(checkMove(*goat,false))
         {
+            normalMove.play();
 //            (goat)->setPosition(toPosition(*goat).x, toPosition(*goat).y);
             isGoatPressed=false;
             isGoatReleased=false;
@@ -552,13 +552,9 @@ bool Board::eatGoat(Goat *goat)
                 if (goat[i].getState() == Dead) {
                     continue;
                 }
-//                tempPos.x = goat[i].getPosition().x;
-//                tempPos.y = goat[i].getPosition().y;
                 tempCell=goat[i].getSpot();
-                std::cout<<getCellIndex(tempCell)<<"     "<<getCellIndex(deadGoatCell)<<"\n";
                 if (tempCell== deadGoatCell)
                 {
-                    std::cout<<"Hello\n";
                     goat[i].setState(Dead);
                     return true;
                 }
@@ -763,6 +759,7 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
         isMove=false;
         if(checkMove(*(goat+goatChosen),true))
         {
+            normalMove.play();
             isReleased=false;
             moveCompleted=true;
             isGoatPressed=false;
@@ -777,6 +774,87 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
     }
 }
 
-std::vector<Cell> Board::getGoatEatenMoves() {
+std::vector<Cell> Board::getGoatEatenMoves()
+{
     return goatEatenMoves;
+}
+
+bool Board::checkMove(Tiger &_tiger)
+{
+    sf::Vector2i temp;
+    temp.x=0;
+    temp.y=0;
+    int num=0;
+    bool flag=false;
+//    goatEatenMoves.clear();//clears goat eaten moves for every new operation
+    sf::FloatRect bounds;
+    bounds=_tiger.getGlobalBounds();
+    bounds.left=bounds.left-20;
+    Cell _cell=_tiger.getSpot();
+    possibleMoves=getPossibleMoves(_cell);
+    for(int i=0;i<25;i++) {
+        if ((cell + i)->getState() == EMPTY and
+            (bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10))) {
+            if (search(possibleMoves, cell[i]))
+            {
+                normalMove.play();
+                flag = true;
+                finalCell = cell[i];
+                num = i;
+                temp.x = cell[i].getCoord().x;
+                temp.y = cell[i].getCoord().y;
+                _tiger.setPosition(&finalCell);
+                _tiger.setPosition(&cell[i]);
+                setEmpty();
+                (cell + i)->setState(TIGER);
+                break;
+            }
+            else if (search(goatEatenMoves, cell[i]))
+            {
+                goatEatenMoveSound.play();
+                flag = true;
+                temp.x = cell[i].getCoord().x;
+                temp.y = cell[i].getCoord().y;
+                finalCell = cell[i];
+                _tiger.setPosition(&cell[i]);
+                setEmpty();
+                (cell + i)->setState(TIGER);
+                break;
+            }
+        }
+    }
+    if (flag)
+    {
+        _tiger.setPosition(temp.x, temp.y);
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+bool Board::isClosed(Cell &_cell)
+{
+    /*
+    Returns True if the position is closed else False.
+    Closed means that the position is empty and surrounded
+    by all the neighbouring goats.  In addition, no tigers
+    can access the empty position by capturing.
+     */
+    if(_cell.getState()!=EMPTY)
+    {
+        return false;
+    }
+    bool flag=true;
+    int index=getCellIndex(_cell);
+    if(index%MAX_GRID_X!=0 and _cell.getState()==EMPTY)
+    {
+        return false;
+    }
+    if(index%5)
+    return flag;
+}
+
+int Board::noOfClosedCell() {
+    return 0;
 }

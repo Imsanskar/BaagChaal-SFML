@@ -9,6 +9,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "tigers.h"
 #include "goats.h"
 
@@ -30,6 +31,8 @@ private:
     int tigerChosen,goatChosen;
     sf::Vector2i newPos,oldPos;
     sf::Text tigerText,goatText,goatWinText;
+    sf::SoundBuffer normalMoveBuffer,goatEatenMoveBuffer;
+    sf::Sound normalMove,goatEatenMoveSound;
     int position;
     std::vector<Cell> possibleMoves;
     std::vector<Cell> goatEatenMoves;
@@ -45,9 +48,12 @@ public:
     bool eatGoat(Goat *);//for killing the goats
     std::vector<Cell> getGoatEatenMoves();//returns the goat eaten moves
     void goatMove(sf::Event & ,sf::Vector2i &,Goat *goat);//for the movement  of the goats
+    bool isClosed(Cell &_cell);//checks if the cell is closed
+    int noOfClosedCell();//return the number of closed cell
 private:
     int getCellIndex(Cell &cell);//returns the index of the cell
     bool checkMove();//checks if the move is valid
+    bool checkMove(Tiger &tiger);
     sf::Vector2i toPosition(Tiger &tiger,sf::Vector2i &);//function not used
     bool checkMove(Goat &goat,bool);//checks if the move of goat is valid
     sf::Vector2i toPosition(Goat &goat);//function not used
