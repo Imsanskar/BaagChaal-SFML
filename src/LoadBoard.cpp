@@ -22,6 +22,7 @@ bool search(std::vector<Cell> list,Cell cell)
 Board::Board() //Constructor
 {
     position=0;
+    goatEaten=0;
     font.loadFromFile("../Media/Fonts/font.ttf");//font for text
     tigerText.setFont(font);
     goatText.setFont(font);
@@ -53,6 +54,8 @@ Board::Board() //Constructor
     normalMove.setBuffer(normalMoveBuffer);
     goatEatenMoveBuffer.loadFromFile("../Media/Sound/swapp.wav");
     goatEatenMoveSound.setBuffer(goatEatenMoveBuffer);
+    wrongBuffer.loadFromFile("../Media/Sound/wrong.wav");
+    wrongSound.setBuffer(wrongBuffer);
     for(int i=0;i<25;i++)
     {
         (cell+i)->setCoord(i);//sets the co ordinates
@@ -201,6 +204,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
         }
         else
         {
+            wrongSound.play();
             tiger[tigerChosen].setPosition(oldPos.x,oldPos.y);
             isReleased=false;
             moveCompleted=false;
@@ -297,7 +301,10 @@ void Board::getGoatEatenMoves(int direction)
 {
     if((position+direction)>=0 && (position+direction)<25)//checks the overflow  of cell array
     {
-        goatEatenMoves.push_back(cell[position+direction]);
+        if(cell[position+direction].getState()==EMPTY)
+        {
+            goatEatenMoves.push_back(cell[position + direction]);
+        }
     }
 }
 
@@ -367,7 +374,7 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
     if ((position + 1) % MAX_GRID_X != 0)
     {
         if(cell[position+1].getState()==EMPTY)
-            results.push_back(cell[position + 1]);
+            results.emplace_back(cell[position + 1]);
         if(cell[position+1].getState()==GOAT )//checks for goat eaten moves
         {
             getGoatEatenMoves(2);
@@ -403,10 +410,12 @@ std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
 //GOAT SECTION
 void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
 {
+    bool flag=false;
     sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
     if (event.type == sf::Event::MouseButtonPressed)
     {
         if(event.mouseButton.button == sf::Mouse::Left) {
+            flag=true;
             goat->setState(Alive);
             isMove=true;
             isGoatReleased=false;
@@ -429,16 +438,16 @@ void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
     if(isGoatReleased and isGoatPressed)
     {
         isMove=false;
-        if(checkMove(*goat,false))
+        if(checkMove(*goat,false) and !flag)
         {
             normalMove.play();
-//            (goat)->setPosition(toPosition(*goat).x, toPosition(*goat).y);
             isGoatPressed=false;
             isGoatReleased=false;
             moveCompleted=true;
         }
         else
         {
+            wrongSound.play();
             goat->setState(Dead);
             moveCompleted=false;
             isGoatPressed=false;
@@ -521,7 +530,7 @@ int Board::findCell()
 
 
 
-int Board::getCellIndex(Cell &_cell)
+int Board::getCellIndex(Cell _cell)
 {
     for(int i=0;i<25;i++)
     {
@@ -545,6 +554,7 @@ bool Board::eatGoat(Goat *goat)
     {
         if((initIndex/5-finalIndex/5)!=1 and (-initIndex/5+finalIndex/5)!=1)
         {
+            goatEaten++;
             int index = (getCellIndex(initCell) + getCellIndex(finalCell)) / 2;
             deadGoatCell = cell[index];
             cell[index].setState(EMPTY);
@@ -766,6 +776,7 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
         }
         else
         {
+            wrongSound.play();
             (goat+goatChosen)->setPosition(oldPos.x,oldPos.y);
             isReleased=false;
             moveCompleted=false;
@@ -792,9 +803,10 @@ bool Board::checkMove(Tiger &_tiger)
     bounds.left=bounds.left-20;
     Cell _cell=_tiger.getSpot();
     possibleMoves=getPossibleMoves(_cell);
-    for(int i=0;i<25;i++) {
-        if ((cell + i)->getState() == EMPTY and
-            (bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10))) {
+    for(int i=0;i<25;i++)
+    {
+        if ((cell + i)->getState() == EMPTY and (bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)))
+        {
             if (search(possibleMoves, cell[i]))
             {
                 normalMove.play();
@@ -827,7 +839,9 @@ bool Board::checkMove(Tiger &_tiger)
     {
         _tiger.setPosition(temp.x, temp.y);
         return true;
-    } else {
+    }
+    else
+        {
         return false;
     }
 
@@ -849,12 +863,165 @@ bool Board::isClosed(Cell &_cell)
     int index=getCellIndex(_cell);
     if(index%MAX_GRID_X!=0 and _cell.getState()==EMPTY)
     {
-        return false;
+        if(cell[index-1].getState()==EMPTY or cell[index-1].getState()==TIGER)
+        {
+            return false;
+        }
+        if((index-1)%MAX_GRID_Y!=0)
+        {
+            if(cell[index-2].getState()==EMPTY or cell[index-2].getState()==TIGER)
+            {
+                return false;
+            }
+        }
     }
-    if(index%5)
-    return flag;
+    if((index+1)%MAX_GRID_X!=0 and _cell.getState()==EMPTY)
+    {
+        if(cell[index+1].getState()==EMPTY or _cell.getState()==TIGER)
+        {
+            return false;
+        }
+        if((index+2)%MAX_GRID_Y!=0)
+        {
+            if(cell[index+2].getState()==EMPTY or cell[index+2].getState()==TIGER)
+            {
+                return false;
+            }
+        }
+    }
+    if(index%2==0)
+    {
+        //check for downward right movement
+        if(index<MAX_GRID_X*(MAX_GRID_Y-1) and position%MAX_GRID_X!=(MAX_GRID_X-1))
+        {
+            if(cell[index+6].getState()==EMPTY or cell[index+6].getState()==TIGER)
+            {
+                return false;
+            }
+            if((index+12)<25)
+            {
+                if(cell[index+12].getState()==EMPTY or cell[index+6].getState()==TIGER)
+                {
+                    return false;
+                }
+            }
+        }
+        //check for upward left
+        if(index%MAX_GRID_X!=0 and index>MAX_GRID_X)
+        {
+            if(cell[index-6].getState()==EMPTY or cell[index-6].getState()==TIGER)
+            {
+                return false;
+            }
+            if((index-12)>=0)
+            {
+                if(cell[index-12].getState()==EMPTY or cell[index-12].getState()==TIGER)
+                {
+                    return false;
+                }
+            }
+        }
+        //check for downward left
+        if(index%MAX_GRID_X!=0 and index<MAX_GRID_X*(MAX_GRID_Y-1))
+        {
+            if(cell[index+4].getState()==EMPTY or cell[index+4].getState()==TIGER)
+            {
+                return false;
+            }
+            if((index+8)<24)
+            {
+                if(cell[index+8].getState()!=GOAT)
+                {
+                    return false;
+                }
+            }
+        }
+        //check for upward right
+        if(index>MAX_GRID_X-1 and (index%MAX_GRID_Y)!=(MAX_GRID_X-1))
+        {
+            if(cell[index-4].getState()==EMPTY or cell[index-4].getState()==TIGER)
+            {
+                return false;
+            }
+            if((index-8)>=0)
+            {
+                if(cell[index-8].getState()!=GOAT)
+                {
+                    return false;
+                }
+            }
+        }
+
+    }
+    //check for uppper corner case
+    if(index/5!=0)
+    {
+        if(cell[index-5].getState()==EMPTY or cell[index-5].getState()==TIGER)
+        {
+            return false;
+        }
+        if((index-10)>=0)
+        {
+            if(cell[index+10].getState()!=GOAT)
+            {
+                return false;
+            }
+        }
+    }
+    //check for lower corner case
+    if(index<MAX_GRID_X*(MAX_GRID_Y-1))
+    {
+        if(cell[index+5].getState()==EMPTY or cell[index+5].getState()==TIGER)
+        {
+            return false;
+        }
+        if((index+10)<25)
+        {
+            if(cell[index+10].getState()!=GOAT)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 int Board::noOfClosedCell() {
-    return 0;
+    int count =0;
+    for(auto & i : cell)
+    {
+        if(isClosed(i))
+        {
+            count++;
+        }
+    }
+    return count;
 }
+
+int Board::movableTigers() {
+    int count=0;
+    for (auto & i : tiger)
+    {
+        Cell spot=i.getSpot();
+        position=getCellIndex(spot);
+        possibleMoves=getPossibleMoves(spot);
+        if(!possibleMoves.empty() or !goatEatenMoves.empty())
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
+int Board::evaluateBoard(int depth) {
+    if(goatEaten>=5)
+    {
+        return 1000000;
+    }
+    if(goatWin())
+    {
+        return -1000000;
+    }
+    return 300*movableTigers()+700*(goatEaten)-700*noOfClosedCell()-depth;
+}
+

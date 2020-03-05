@@ -10,7 +10,7 @@
 #include "MainMenu.h"
 #include "quitGame.h"
 #include <unistd.h>
-
+#include "AI.h"
 
 class Game
 {
@@ -28,6 +28,8 @@ private:
     bool gameOver,tigerTurn=true;
     bool tigerWin,goatWin;
     sf::Vector2i pos;
+    sf::SoundBuffer tigerWinBuffer,winBuffer;
+    sf::Sound tigerWinSound,winSound;
     bool quit;
 
 public:

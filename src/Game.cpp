@@ -16,6 +16,7 @@ Game::Game(unsigned int _width, unsigned int _height)
     goatChosen=0;
     goatEaten=0;
     quit = false;
+    tigerWin=false;
     pos=sf::Mouse::getPosition(mWindow);
     backButtonTexture.loadFromFile("../Media/Images/backButton.png");
     backButtonImage.setTexture(&backButtonTexture);
@@ -29,7 +30,10 @@ Game::Game(unsigned int _width, unsigned int _height)
     goatWinImage.setTexture(&goatWinTexture);
     goatWinImage.setPosition(0,0);
     goatWinImage.setSize(sf::Vector2f(1377,720));
-    
+    tigerWinBuffer.loadFromFile("../Media/Sound/tiger.wav");
+    tigerWinSound.setBuffer(tigerWinBuffer);
+    winBuffer.loadFromFile("../Media/Sound/victory.wav");
+    winSound.setBuffer(winBuffer);
 }
 
 //handles the event of the game
@@ -75,9 +79,15 @@ void Game::processEvents()
             }
         }
     }
+    if(tigerWin)
+    {
+        tigerWinSound.play();
+    }
+
     if(gameOver and backButtonImage.getGlobalBounds().contains(pos.x,pos.y))
     {
-        if(event.type==sf::Event::MouseButtonPressed) {
+        if(event.type==sf::Event::MouseButtonPressed)
+        {
             mWindow.close();
             MainMenu menu(1377, 720);
             menu.run();
@@ -103,15 +113,18 @@ void Game::run()//main game loo[
     while(mWindow.isOpen())
     {
         mWindow.clear();
-        if(quit)
-        {
+        if(quit) {
             quitGame q;
             q.gameExit(mWindow);
-            quit=false;
+            quit = false;
         }
-        processEvents();
         if(!gameOver)
             board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin,20-goatChosen,goatEaten);
+        if(tigerWin)
+        {
+            tigerWinSound.play();
+        }
+        processEvents();
         checkGameOver();
         mWindow.display();  
     }
@@ -121,18 +134,22 @@ void Game::checkGameOver()//checks if the game is over
 {
     if(goatEaten>=5 )
     {
+
+        tigerWin= true;
         gameOver=true;
         tigerWins();
     }
     if(board.goatWin())
     {
         gameOver=true;
+        tigerWin= true;
         goatWins();
     }
 }
 
 void Game::goatWins()
 {
+    winSound.play();
     mWindow.clear();
     mWindow.draw(goatWinImage);
     mWindow.draw(backButtonImage);
@@ -144,6 +161,8 @@ void Game::tigerWins()
     mWindow.clear();
     mWindow.draw(tigerWinImage);
     mWindow.draw(backButtonImage);
+    if(!tigerWinSound.getStatus()==sf::Sound::Playing)
+        tigerWinSound.play();
     mWindow.display();
 }
 

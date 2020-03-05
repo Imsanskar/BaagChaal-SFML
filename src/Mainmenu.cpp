@@ -1,8 +1,8 @@
-//
-// Created by imsanskar on 2019-12-07.
-//
+
 #include "../includes/Game.h"
 #include "../includes/quitGame.h"
+#include "../includes/MainMenu.h"
+
 #include<fstream>
 #include <iostream>
 
@@ -83,7 +83,7 @@ void MainMenu::processEvents() {
     while (window.pollEvent(event)) {
 
         if (event.type == sf::Event::Closed) {
-            window.close();
+            onExit();
         }
         sf::Vector2i mouse;
         mouse = sf::Mouse::getPosition(window);
@@ -94,6 +94,7 @@ void MainMenu::processEvents() {
                 window.close();
                 Game game(1377, 720);
                 game.run();
+
             }
         } else if (menu[1].getGlobalBounds().contains(mouse.x,mouse.y))//checks if the mouse co-ordinates is in text boundary
         {
@@ -143,4 +144,10 @@ void MainMenu::about()
         window.draw(backButtonImage);
         window.display();
     }
+}
+
+
+void MainMenu::onExit()
+{
+    window.close();
 }

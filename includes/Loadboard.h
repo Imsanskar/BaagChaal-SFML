@@ -2,8 +2,8 @@
 // Created by imsanskar on 2020-01-04.
 //
 
-#ifndef BAAGCHAAL_LOARDBOARD_H
-#define BAAGCHAAL_LOARDBOARD_H
+#ifndef BAAGCHAAL_LOADBOARD_H
+#define BAAGCHAAL_LOADBOARD_H
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -18,8 +18,8 @@
 class Board
 {
 private:
-    const int MAX_GRID_X = 5;
-    const int MAX_GRID_Y = 5;
+    int MAX_GRID_X = 5;
+    int MAX_GRID_Y = 5;
     sf::Font font;
     Cell cell[25];
     Cell initCell,finalCell;
@@ -31,11 +31,12 @@ private:
     int tigerChosen,goatChosen;
     sf::Vector2i newPos,oldPos;
     sf::Text tigerText,goatText,goatWinText;
-    sf::SoundBuffer normalMoveBuffer,goatEatenMoveBuffer;
-    sf::Sound normalMove,goatEatenMoveSound;
+    sf::SoundBuffer normalMoveBuffer,goatEatenMoveBuffer,wrongBuffer;
+    sf::Sound normalMove,goatEatenMoveSound,wrongSound;
     int position;
     std::vector<Cell> possibleMoves;
     std::vector<Cell> goatEatenMoves;
+    int goatEaten;
 
 public:
     void render(sf::RenderWindow &,Goat *,const bool *, bool ,bool,int ,int );//renders the goat into ths screen
@@ -50,8 +51,11 @@ public:
     void goatMove(sf::Event & ,sf::Vector2i &,Goat *goat);//for the movement  of the goats
     bool isClosed(Cell &_cell);//checks if the cell is closed
     int noOfClosedCell();//return the number of closed cell
+    int movableTigers();
+    int getCellIndex(Cell cell);//returns the index of the cell
+    int evaluateBoard(int );
+    std::vector<Cell> getPossibleMoves(Cell &);//returns possible moves of the tiger
 private:
-    int getCellIndex(Cell &cell);//returns the index of the cell
     bool checkMove();//checks if the move is valid
     bool checkMove(Tiger &tiger);
     sf::Vector2i toPosition(Tiger &tiger,sf::Vector2i &);//function not used
@@ -59,8 +63,9 @@ private:
     sf::Vector2i toPosition(Goat &goat);//function not used
     void setEmpty();//sets the state of the cell to empty after the move is completed
     int findCell();//return the initial index of final cell
-    std::vector<Cell> getPossibleMoves(Cell &);//returns possible moves of the tiger
     void getGoatEatenMoves(int direction);//creates the goat eating moves of the tiger
+    friend class Node;
+    friend class AI;
 };
 
 #endif

@@ -1,0 +1,3 @@
+/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/CMakeFiles/rebuild_cache.dir
+/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/CMakeFiles/Baagchaal.dir
+/home/imsanskar/Desktop/PROJECTS/BaagChaal-SFML/CMakeFiles/edit_cache.dir

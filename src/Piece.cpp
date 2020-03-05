@@ -1,6 +1,3 @@
-//
-// Created by imsanskar on 2020-02-22.
-//
 
 #include "../includes/Piece.h"
 
@@ -39,5 +36,7 @@ Cell Piece::getSpot()
 }
 
 Piece::Piece() {
-
+    Cell cell;
+    cell.setCoord(0);
+    pos=&cell;
 }

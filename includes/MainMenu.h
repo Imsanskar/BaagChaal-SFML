@@ -28,6 +28,7 @@ private:
     void LoadMenu();
     void processEvents();
     void about();
+    void onExit();
 
 
 

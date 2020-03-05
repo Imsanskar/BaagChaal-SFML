@@ -7,9 +7,6 @@
 
 #include <SFML/System.hpp>
 
-//
-// Created by imsanskar on 2020-02-06.
-//
 
 enum STATE
 {

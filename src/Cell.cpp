@@ -35,3 +35,4 @@ bool Cell::operator <(const Cell &_cell) const
 {
     return _cell.coord.x < this -> coord.x && _cell.coord.y < this -> coord.y;
 }
+
