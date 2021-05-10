@@ -6,7 +6,7 @@ The project was done using Linux filesystem, for the ease of building, use a lin
 
 Dependencies: SFML 2.5.1
 
-##### **Installing SFML using command line on Debian architecture**
+##### **Installing SFML using command line on Debian Family**
 `sudo apt-get install libsfml-dev`
 
 ##### **Using Cmake from commandline**
