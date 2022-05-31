@@ -17,15 +17,15 @@ Game::Game(unsigned int _width, unsigned int _height)
     goatEaten=0;
     quit = false;
     pos=sf::Mouse::getPosition(mWindow);
-    backButtonTexture.loadFromFile("../Media/Images/backButton.png");
+    backButtonTexture.loadFromFile("Media/Images/backButton.png");
     backButtonImage.setTexture(&backButtonTexture);
     backButtonImage.setPosition(1190,25);
     backButtonImage.setSize(sf::Vector2f(150,70));
-    tigerWinTexture.loadFromFile("../Media/Images/tigerWins.jpg");
+    tigerWinTexture.loadFromFile("Media/Images/tigerWins.jpg");
     tigerWinImage.setTexture(&tigerWinTexture);
     tigerWinImage.setPosition(0,0);
     tigerWinImage.setSize(sf::Vector2f(1377,720));
-    goatWinTexture.loadFromFile("../Media/Images/goatWins.jpg");
+    goatWinTexture.loadFromFile("Media/Images/goatWins.jpg");
     goatWinImage.setTexture(&goatWinTexture);
     goatWinImage.setPosition(0,0);
     goatWinImage.setSize(sf::Vector2f(1377,720));

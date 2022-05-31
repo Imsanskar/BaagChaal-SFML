@@ -28,7 +28,7 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     enterAbout=false;
     width=width;
     height=height;
-    font.loadFromFile("../Media/Fonts/font.ttf");//font for text
+    font.loadFromFile("Media/Fonts/font.ttf");//font for text
     for(int j=0;j<3;j++)
     {
         menu[j].setFont(font);//sets font for text
@@ -49,9 +49,9 @@ MainMenu::MainMenu(unsigned int width,unsigned int height)
     menu[0].setString("Play Game");
     menu[1].setString("About");
     menu[2].setString("Exit");
-    menuTexture.loadFromFile("../Media/Images/baaghchaal.jpg");
-    aboutTexture.loadFromFile("../Media/Images/about.jpg");
-    backButtonTexture.loadFromFile("../Media/Images/backButton.png");
+    menuTexture.loadFromFile("Media/Images/baaghchaal.jpg");
+    aboutTexture.loadFromFile("Media/Images/about.jpg");
+    backButtonTexture.loadFromFile("Media/Images/backButton.png");
     menuImage.setTexture(&menuTexture);
     aboutImage.setTexture(&aboutTexture);
     backButtonImage.setTexture(&backButtonTexture);

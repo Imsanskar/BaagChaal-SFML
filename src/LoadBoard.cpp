@@ -22,7 +22,7 @@ bool search(std::vector<Cell> list,Cell cell)
 Board::Board() //Constructor
 {
     position=0;
-    font.loadFromFile("../Media/Fonts/font.ttf");//font for text
+    font.loadFromFile("Media/Fonts/font.ttf");//font for text
     tigerText.setFont(font);
     goatText.setFont(font);
     tigerText.setStyle(sf::Text::Bold);
@@ -49,16 +49,16 @@ Board::Board() //Constructor
     goatsAtt[1].setPosition(1220,435);
     goatsAtt[0].setFont(font);
     goatsAtt[1].setFont(font);
-    normalMoveBuffer.loadFromFile("../Media/Sound/tyak.wav");
+    normalMoveBuffer.loadFromFile("Media/Sound/tyak.wav");
     normalMove.setBuffer(normalMoveBuffer);
-    goatEatenMoveBuffer.loadFromFile("../Media/Sound/swapp.wav");
+    goatEatenMoveBuffer.loadFromFile("Media/Sound/swapp.wav");
     goatEatenMoveSound.setBuffer(goatEatenMoveBuffer);
     for(int i=0;i<25;i++)
     {
         (cell+i)->setCoord(i);//sets the co ordinates
         goatEatenMoves.push_back(cell[i]);//just because the vector wont be empty  at the beginning
     }
-    boardTexture.loadFromFile("../Media/Images/board1.jpg");
+    boardTexture.loadFromFile("Media/Images/board1.jpg");
     boardImage.setTexture(&boardTexture);
     boardImage.setPosition(0, 0);
     boardImage.setSize(sf::Vector2f(1377, 720));

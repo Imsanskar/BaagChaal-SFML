@@ -6,7 +6,7 @@ using namespace std;
 quitGame::quitGame()
 {
      window.create(sf::VideoMode(400,75),"Quit Game",sf::Style::Close);
-    if(!font.loadFromFile("../Media/Fonts/font.ttf"))
+    if(!font.loadFromFile("Media/Fonts/font.ttf"))
     {
         cout<<"Error in loading Font."<<endl;
     }

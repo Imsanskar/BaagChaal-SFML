@@ -6,7 +6,7 @@
 Goat::Goat()
 {
     state=Dead;
-    texture.loadFromFile("../Media/Images/goat.jpg");
+    texture.loadFromFile("Media/Images/goat.jpg");
     image.setTexture(&texture);
     image.setRadius(35);
 }
