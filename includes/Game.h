@@ -10,11 +10,12 @@
 #include "MainMenu.h"
 #include "quitGame.h"
 #include <unistd.h>
+#include <unordered_map>
 
 
-class Game
+struct Game
 {
-private:
+public:
     sf::Texture goatWinTexture;
     sf::Texture tigerWinTexture;
     sf::RectangleShape goatWinImage;
@@ -38,6 +39,7 @@ public:
     void checkGameOver();
     void goatWins();
     void tigerWins();
+    float getBestMove();
 protected:
     sf::RenderWindow mWindow;
 };

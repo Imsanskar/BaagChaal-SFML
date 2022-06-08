@@ -118,7 +118,6 @@ void Board::render(sf::RenderWindow &mWindow,Goat *goat,const bool *tigerFlag,bo
 
 
 bool Board::getState()//return boolean if the move is completed or not
-
 {
     return moveCompleted;
 }
@@ -304,9 +303,9 @@ void Board::getGoatEatenMoves(int direction)
 
 
 //returns the possible moves for the current position of tiger
-std::vector<Cell> Board::getPossibleMoves(Cell &_cell)
+std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
 {
-    position=getCellIndex(_cell);//gets the current position of the cell
+    position = getCellIndex(_cell);//gets the current position of the cell
     goatEatenMoves.clear();
     std::vector<Cell> results;
     // Check for left-corner case
@@ -521,7 +520,7 @@ int Board::findCell()
 
 
 
-int Board::getCellIndex(Cell &_cell)
+int Board::getCellIndex(const Cell &_cell)
 {
     for(int i=0;i<25;i++)
     {

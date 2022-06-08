@@ -5,6 +5,14 @@
 
 #include "../includes/Game.h"
 
+
+static void getBestMove(Board board, Game game) {
+    if (game.tigerTurn) {
+        std::map<Tiger, std::vector<Cell>> moves = board.getTigerMoves();
+    }
+}
+
+
 Game::Game(unsigned int _width, unsigned int _height)
 {
     mWindow.create(sf::VideoMode(_width, _height), "Baagchaal", sf::Style::Default);
@@ -130,6 +138,17 @@ void Game::checkGameOver()//checks if the game is over
         goatWins();
     }
 }
+
+float Game::getBestMove() {
+    if (goatEaten >= 5) {
+        // return 100;
+    }
+    if(board.goatWin()) {
+        // gameOver=true;
+        return -100;
+    }
+}
+
 
 void Game::goatWins()
 {

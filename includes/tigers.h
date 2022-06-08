@@ -17,6 +17,10 @@ class Tiger:public Piece
 
 public:
     Tiger();//constructor
+
+    bool operator < (Tiger t) const {
+        return *pos < *t.pos;
+    } 
 };
 
 #endif

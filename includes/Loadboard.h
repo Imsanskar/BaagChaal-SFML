@@ -12,12 +12,12 @@
 #include <SFML/Audio.hpp>
 #include "tigers.h"
 #include "goats.h"
-
+#include <map>
 
 
 class Board
 {
-private:
+public:
     const int MAX_GRID_X = 5;
     const int MAX_GRID_Y = 5;
     sf::Font font;
@@ -50,8 +50,16 @@ public:
     void goatMove(sf::Event & ,sf::Vector2i &,Goat *goat);//for the movement  of the goats
     bool isClosed(Cell &_cell);//checks if the cell is closed
     int noOfClosedCell();//return the number of closed cell
+
+
+    std::map <Tiger, std::vector<Cell>> getTigerMoves() {
+        std::map<Tiger, std::vector<Cell>> moves;
+        for (int i = 0; i < 4; i++) {
+            moves.insert(std::pair<Tiger, std::vector<Cell>> (tiger[i], getPossibleMoves(tiger[i].getSpot())));
+        }
+    }
 private:
-    int getCellIndex(Cell &cell);//returns the index of the cell
+    int getCellIndex(const Cell &cell);//returns the index of the cell
     bool checkMove();//checks if the move is valid
     bool checkMove(Tiger &tiger);
     sf::Vector2i toPosition(Tiger &tiger,sf::Vector2i &);//function not used
@@ -59,7 +67,7 @@ private:
     sf::Vector2i toPosition(Goat &goat);//function not used
     void setEmpty();//sets the state of the cell to empty after the move is completed
     int findCell();//return the initial index of final cell
-    std::vector<Cell> getPossibleMoves(Cell &);//returns possible moves of the tiger
+    std::vector<Cell> getPossibleMoves(const Cell &);//returns possible moves of the tiger
     void getGoatEatenMoves(int direction);//creates the goat eating moves of the tiger
 };
 
