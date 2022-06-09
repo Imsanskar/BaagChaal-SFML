@@ -30,6 +30,7 @@ public:
     bool tigerWin,goatWin;
     sf::Vector2i pos;
     bool quit;
+    void getBestMove();
 
 public:
     Game(unsigned int ,unsigned int );
@@ -39,7 +40,6 @@ public:
     void checkGameOver();
     void goatWins();
     void tigerWins();
-    float getBestMove();
 protected:
     sf::RenderWindow mWindow;
 };

@@ -6,9 +6,12 @@
 #include "../includes/Game.h"
 
 
-static void getBestMove(Board board, Game game) {
-    if (game.tigerTurn) {
-        std::map<Tiger, std::vector<Cell>> moves = board.getTigerMoves();
+void Game::getBestMove() {
+    if (tigerTurn) {
+        std::map<int, std::vector<Cell>> moves = board.getTigerMoves();
+        
+        board.moveTiger(0, moves[0][0]);
+        tigerTurn = false;
     }
 }
 
@@ -52,15 +55,14 @@ void Game::processEvents()
             handlePlayerInput(event.key.code);
         }
         if(tigerTurn) {
-            board.tigerMove(event, mWindow);//for the movement of goat
-            if(board.getState())
+            // board.tigerMove(event, mWindow);//for the movement of goat
+            getBestMove();
+    
+            tigerTurn = false;
+            if(board.eatGoat(&goat[0]))//checks if the the move if goat eating move
             {
-                tigerTurn = false;
-                if(board.eatGoat(&goat[0]))//checks if the the move if goat eating move
-                {
-                    goatEaten++;
-                }
-                board.setState(false);
+                goatEaten++;
+                board.goatEatenMoveSound.play();
             }
         }
         else if(goatChosen<20)//placing the goat
@@ -139,15 +141,6 @@ void Game::checkGameOver()//checks if the game is over
     }
 }
 
-float Game::getBestMove() {
-    if (goatEaten >= 5) {
-        // return 100;
-    }
-    if(board.goatWin()) {
-        // gameOver=true;
-        return -100;
-    }
-}
 
 
 void Game::goatWins()

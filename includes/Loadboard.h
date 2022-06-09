@@ -32,7 +32,7 @@ public:
     sf::Vector2i newPos,oldPos;
     sf::Text tigerText,goatText,goatWinText;
     sf::SoundBuffer normalMoveBuffer,goatEatenMoveBuffer;
-    sf::Sound normalMove,goatEatenMoveSound;
+    sf::Sound normalMoveSound,goatEatenMoveSound;
     int position;
     std::vector<Cell> possibleMoves;
     std::vector<Cell> goatEatenMoves;
@@ -52,12 +52,29 @@ public:
     int noOfClosedCell();//return the number of closed cell
 
 
-    std::map <Tiger, std::vector<Cell>> getTigerMoves() {
-        std::map<Tiger, std::vector<Cell>> moves;
+    std::map <int, std::vector<Cell>> getTigerMoves() {
+        std::map<int, std::vector<Cell>> moves;
         for (int i = 0; i < 4; i++) {
-            moves.insert(std::pair<Tiger, std::vector<Cell>> (tiger[i], getPossibleMoves(tiger[i].getSpot())));
+            std::vector<Cell> possibleMoves;
+            std::vector<Cell> normalMoves = getPossibleMoves(tiger[i].getSpot());
+            possibleMoves.reserve(normalMoves.size() + goatEatenMoves.size());
+            possibleMoves.insert(possibleMoves.end(), goatEatenMoves.begin(), goatEatenMoves.end());
+            possibleMoves.insert(possibleMoves.end(), normalMoves.begin(), normalMoves.end());
+            moves.insert(std::pair<int, std::vector<Cell>> (i, possibleMoves));
         }
+
+        return moves;
     }
+
+    void moveTiger(int tigerIndex, const Cell& dest) {
+        initCell = tiger[tigerIndex].getSpot();
+        finalCell = dest;
+        cell[getCellIndex(tiger[tigerIndex].getSpot())].setState(EMPTY);
+        tiger[tigerIndex].setPosition(dest.coord.x, dest.coord.y);
+        tiger[tigerIndex].setPosition(dest);
+        cell[getCellIndex(dest)].setState(TIGER);
+    }
+
 private:
     int getCellIndex(const Cell &cell);//returns the index of the cell
     bool checkMove();//checks if the move is valid
@@ -69,6 +86,7 @@ private:
     int findCell();//return the initial index of final cell
     std::vector<Cell> getPossibleMoves(const Cell &);//returns possible moves of the tiger
     void getGoatEatenMoves(int direction);//creates the goat eating moves of the tiger
+
 };
 
 #endif

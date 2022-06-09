@@ -8,7 +8,6 @@ void Piece::render(sf::RenderWindow &mWindow)
 {
     image.setPosition(position.x,position.y);
     mWindow.draw(image);
-//    image.setPosition(pos.getCoord().x,pos.getCoord().y);
 }
 
 
@@ -28,14 +27,15 @@ void Piece::setPosition(float x, float y)
     position.y=y;
 }
 
-void Piece::setPosition(Cell *cell)
+void Piece::setPosition(Cell cell)
 {
-    pos=cell;
+    pos.coord = cell.coord;
+    pos.state = cell.state;
 }
 
 Cell Piece::getSpot()
 {
-    return *pos;
+    return pos;
 }
 
 Piece::Piece() {

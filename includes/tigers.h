@@ -19,7 +19,7 @@ public:
     Tiger();//constructor
 
     bool operator < (Tiger t) const {
-        return *pos < *t.pos;
+        return pos < t.pos;
     } 
 };
 

@@ -20,7 +20,7 @@ enum STATE
 
 class Cell
 {
-private:
+public:
     sf::Vector2i coord;
     STATE state;
 public:

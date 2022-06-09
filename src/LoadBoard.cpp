@@ -50,7 +50,7 @@ Board::Board() //Constructor
     goatsAtt[0].setFont(font);
     goatsAtt[1].setFont(font);
     normalMoveBuffer.loadFromFile("Media/Sound/tyak.wav");
-    normalMove.setBuffer(normalMoveBuffer);
+    normalMoveSound.setBuffer(normalMoveBuffer);
     goatEatenMoveBuffer.loadFromFile("Media/Sound/swapp.wav");
     goatEatenMoveSound.setBuffer(goatEatenMoveBuffer);
     for(int i=0;i<25;i++)
@@ -71,7 +71,7 @@ Board::Board() //Constructor
         if (i==0 or i==4 or i==20 or i==24)
         {
             tiger[j].setPosition((cell+i)->getCoord().x,(cell+i)->getCoord().y);//Sets co ordinates
-            tiger[j].setPosition(cell+i);
+            tiger[j].setPosition(cell[i]);
             (cell+i)->setState(TIGER);
             j++;
         }
@@ -232,8 +232,8 @@ bool Board::checkMove()
                     num=i;
                     temp.x=cell[i].getCoord().x;
                     temp.y=cell[i].getCoord().y;
-                    tiger[tigerChosen].setPosition(&finalCell);
-                    tiger[tigerChosen].setPosition(&cell[i]);
+                    tiger[tigerChosen].setPosition(finalCell);
+                    tiger[tigerChosen].setPosition(cell[i]);
                     setEmpty();
                     (cell + i)->setState(TIGER);
                     break;
@@ -244,7 +244,7 @@ bool Board::checkMove()
                     temp.x=cell[i].getCoord().x;
                     temp.y=cell[i].getCoord().y;
                     finalCell = cell[i];
-                    tiger[tigerChosen].setPosition(&cell[i]);
+                    tiger[tigerChosen].setPosition(cell[i]);
                     setEmpty();
                     (cell + i)->setState(TIGER);
                     break;
@@ -272,7 +272,7 @@ sf::Vector2i Board::toPosition(Tiger &tiger,sf::Vector2i &pos)
     {
         if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
         {
-            tiger.setPosition(cell+i);
+            tiger.setPosition(cell[i]);
             return (cell+i)->getCoord();
         }
     }
@@ -430,7 +430,7 @@ void Board::placements(sf::Event &event , sf::RenderWindow &mWindow,Goat *goat )
         isMove=false;
         if(checkMove(*goat,false))
         {
-            normalMove.play();
+            normalMoveSound.play();
 //            (goat)->setPosition(toPosition(*goat).x, toPosition(*goat).y);
             isGoatPressed=false;
             isGoatReleased=false;
@@ -460,7 +460,7 @@ bool Board::checkMove(Goat &goat,bool flag=false)
             if ((bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)) and (cell + i)->getState() == EMPTY)
             {
                 goat.setPosition(cell[i].getCoord().x,cell[i].getCoord().y);//gets the co ordinate  of the goat
-                goat.setPosition(&cell[i]);//sets the cell to goat
+                goat.setPosition(cell[i]);//sets the cell to goat
                 (cell + i)->setState(GOAT);//sets the state of the the final cell to GOAT
                 return true;
             }
@@ -478,7 +478,7 @@ bool Board::checkMove(Goat &goat,bool flag=false)
                 if(search(possibleMoves,cell[i]))
                 {
                     goat.setPosition(cell[i].getCoord().x,cell[i].getCoord().y);
-                    goat.setPosition(&cell[i]);
+                    goat.setPosition(cell[i]);
                     finalCell=cell[i];
                     setEmpty();
                     cell[i].setState(GOAT);
@@ -499,7 +499,7 @@ sf::Vector2i Board::toPosition(Goat &goat)
     {
         if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
         {
-            goat.setPosition(cell+i);
+            goat.setPosition(cell[i]);
             return (cell+i)->getCoord();
         }
     }
@@ -758,7 +758,7 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
         isMove=false;
         if(checkMove(*(goat+goatChosen),true))
         {
-            normalMove.play();
+            normalMoveSound.play();
             isReleased=false;
             moveCompleted=true;
             isGoatPressed=false;
@@ -796,26 +796,25 @@ bool Board::checkMove(Tiger &_tiger)
             (bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10))) {
             if (search(possibleMoves, cell[i]))
             {
-                normalMove.play();
+                normalMoveSound.play();
                 flag = true;
                 finalCell = cell[i];
                 num = i;
                 temp.x = cell[i].getCoord().x;
                 temp.y = cell[i].getCoord().y;
-                _tiger.setPosition(&finalCell);
-                _tiger.setPosition(&cell[i]);
+                _tiger.setPosition(finalCell);
+                _tiger.setPosition(cell[i]);
                 setEmpty();
                 (cell + i)->setState(TIGER);
                 break;
             }
             else if (search(goatEatenMoves, cell[i]))
             {
-                goatEatenMoveSound.play();
                 flag = true;
                 temp.x = cell[i].getCoord().x;
                 temp.y = cell[i].getCoord().y;
                 finalCell = cell[i];
-                _tiger.setPosition(&cell[i]);
+                _tiger.setPosition(cell[i]);
                 setEmpty();
                 (cell + i)->setState(TIGER);
                 break;
