@@ -9,8 +9,11 @@
 void Game::getBestMove() {
     if (tigerTurn) {
         std::map<int, std::vector<Cell>> moves = board.getTigerMoves();
+
+        int random_tiger = rand() % 4;
+        int random_move = rand() % moves[random_tiger].size();
         
-        board.moveTiger(0, moves[0][0]);
+        board.moveTiger(random_tiger, moves[random_tiger][random_move]);
         tigerTurn = false;
     }
 }
