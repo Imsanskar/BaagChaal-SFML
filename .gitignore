@@ -7,3 +7,4 @@ Baagchaal
 cmake_install.cmake
 CMakeCache.txt
 build/
+.cache/
