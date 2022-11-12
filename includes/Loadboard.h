@@ -13,6 +13,7 @@
 #include "tigers.h"
 #include "goats.h"
 #include <map>
+#include "const.h"
 
 
 class Board
@@ -21,7 +22,6 @@ public:
     const int MAX_GRID_X = 5;
     const int MAX_GRID_Y = 5;
     sf::Font font;
-    Cell cell[25];
     Cell initCell,finalCell;
     sf::Texture boardTexture;
     sf::RectangleShape boardImage;
@@ -36,6 +36,37 @@ public:
     int position;
     std::vector<Cell> possibleMoves;
     std::vector<Cell> goatEatenMoves;
+    int goatEaten = 0;
+    int numberOfGoatPlaced = 0;
+
+
+    Cell cells[25] = {
+        Cell((0 % 5) * 187.5 + 75, (0 / 5) * 147.5 + 30),
+        Cell((1 % 5) * 187.5 + 75, (1 / 5) * 147.5 + 30),
+        Cell((2 % 5) * 187.5 + 75, (2 / 5) * 147.5 + 30),
+        Cell((3 % 5) * 187.5 + 75, (3 / 5) * 147.5 + 30),
+        Cell((4 % 5) * 187.5 + 75, (4 / 5) * 147.5 + 30),
+        Cell((5 % 5) * 187.5 + 75, (5 / 5) * 147.5 + 30),
+        Cell((6 % 5) * 187.5 + 75, (6 / 5) * 147.5 + 30),
+        Cell((7 % 5) * 187.5 + 75, (7 / 5) * 147.5 + 30),
+        Cell((8 % 5) * 187.5 + 75, (8 / 5) * 147.5 + 30),
+        Cell((9 % 5) * 187.5 + 75, (9 / 5) * 147.5 + 30),
+        Cell((10 % 5) * 187.5 + 75, (10 / 5) * 147.5 + 30),
+        Cell((11 % 5) * 187.5 + 75, (11 / 5) * 147.5 + 30),
+        Cell((12 % 5) * 187.5 + 75, (12 / 5) * 147.5 + 30),
+        Cell((13 % 5) * 187.5 + 75, (13 / 5) * 147.5 + 30),
+        Cell((14 % 5) * 187.5 + 75, (14 / 5) * 147.5 + 30),
+        Cell((15 % 5) * 187.5 + 75, (15 / 5) * 147.5 + 30),
+        Cell((16 % 5) * 187.5 + 75, (16 / 5) * 147.5 + 30),
+        Cell((17 % 5) * 187.5 + 75, (17 / 5) * 147.5 + 30),
+        Cell((18 % 5) * 187.5 + 75, (18 / 5) * 147.5 + 30),
+        Cell((19 % 5) * 187.5 + 75, (19 / 5) * 147.5 + 30),
+        Cell((20 % 5) * 187.5 + 75, (20 / 5) * 147.5 + 30),
+        Cell((21 % 5) * 187.5 + 75, (21 / 5) * 147.5 + 30),
+        Cell((22 % 5) * 187.5 + 75, (22 / 5) * 147.5 + 30),
+        Cell((23 % 5) * 187.5 + 75, (23 / 5) * 147.5 + 30),
+        Cell((24 % 5) * 187.5 + 75, (24 / 5) * 147.5 + 30)
+    };
 
 public:
     void render(sf::RenderWindow &,Goat *,const bool *, bool ,bool,int ,int );//renders the goat into ths screen
@@ -51,29 +82,16 @@ public:
     bool isClosed(Cell &_cell);//checks if the cell is closed
     int noOfClosedCell();//return the number of closed cell
 
-
-    std::map <int, std::vector<Cell>> getTigerMoves() {
-        std::map<int, std::vector<Cell>> moves;
-        for (int i = 0; i < 4; i++) {
-            std::vector<Cell> possibleMoves;
-            std::vector<Cell> normalMoves = getPossibleMoves(tiger[i].getSpot());
-            possibleMoves.reserve(normalMoves.size() + goatEatenMoves.size());
-            possibleMoves.insert(possibleMoves.end(), goatEatenMoves.begin(), goatEatenMoves.end());
-            possibleMoves.insert(possibleMoves.end(), normalMoves.begin(), normalMoves.end());
-            moves.insert(std::pair<int, std::vector<Cell>> (i, possibleMoves));
-        }
-
-        return moves;
-    }
-
-    void moveTiger(int tigerIndex, const Cell& dest) {
-        initCell = tiger[tigerIndex].getSpot();
-        finalCell = dest;
-        cell[getCellIndex(tiger[tigerIndex].getSpot())].setState(EMPTY);
-        tiger[tigerIndex].setPosition(dest.coord.x, dest.coord.y);
-        tiger[tigerIndex].setPosition(dest);
-        cell[getCellIndex(dest)].setState(TIGER);
-    }
+    std::vector <std::pair<int, std::vector<Cell>>> getTigerMoves();
+    std::vector <std::pair<int, std::vector<Cell>>> getGoatMoves(Goat goats[20]);
+    void moveTiger(int tigerIndex, const Cell& dest);
+    std::vector <Cell> getEmptyCells();
+    void placeGoat(const Cell& cell, Goat& goat);
+    void moveGoat(Goat &goat, const Cell& dest);
+    uint64_t getBoardEncoding();
+    void decodeBoard(uint64_t value);
+    bool isGameOver();
+    bool tigerWin();
 
 private:
     int getCellIndex(const Cell &cell);//returns the index of the cell

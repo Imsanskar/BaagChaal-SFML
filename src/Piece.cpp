@@ -27,13 +27,12 @@ void Piece::setPosition(float x, float y)
     position.y=y;
 }
 
-void Piece::setPosition(Cell cell)
+void Piece::setPosition(int _pos)
 {
-    pos.coord = cell.coord;
-    pos.state = cell.state;
+    pos = _pos;
 }
 
-Cell Piece::getSpot()
+int Piece::getSpot()
 {
     return pos;
 }

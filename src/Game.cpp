@@ -3,164 +3,105 @@
 //
 
 
-#include "../includes/Game.h"
+#include "Game.h"
+#include "MainMenuState.h"
 
-
+// for later use maybe
+#if 0
 void Game::getBestMove() {
+    std::unordered_map<int64_t, int32_t> valueFunction;
+    Node node;
+    node.state = board.getBoardEncoding();
+
+    Board evaluationBoard;
+    evaluationBoard.decodeBoard(node.state);
+    int max_iter = 10000;
+
+    int itr = 0;
+    
+    std::vector <std::pair<int, std::vector<Cell>>> moves;
     if (tigerTurn) {
-        std::map<int, std::vector<Cell>> moves = board.getTigerMoves();
-
-        int random_tiger = rand() % 4;
-        int random_move = rand() % moves[random_tiger].size();
-        
-        board.moveTiger(random_tiger, moves[random_tiger][random_move]);
-        tigerTurn = false;
+        moves = board.getTigerMoves();
+    } else {
+        moves = board.getGoatMoves(goat);
     }
-}
 
+    // flag to indicate turn in simulation, cause OOP sucks 
+    bool is_tiger_turn = tigerTurn;
+    bool goat_chosen = 0;
+    std::vector <uint64_t> exploredState;
+    while (itr < max_iter) {
+        while (true) {
+            if (is_tiger_turn) {
+                // tiger section
+                std::vector <std::pair<int, std::vector<Cell>>> moves = board.getTigerMoves();
+                auto it = moves.begin();
+                while (it != moves.end()){
+                    if (it->second.size() == 0) {
+                        it = moves.erase(it++);
+                    } else {
+                        it++;
+                    }
+                }
+                
+                int random_tiger = rand() % moves.size();
+                std::pair<int, std::vector<Cell>> tiger = moves[random_tiger];
+                int random_move = rand() % tiger.second.size();
+                evaluationBoard.moveTiger(tiger.first, tiger.second[random_move]);
+                Node *child_node = new Node;
+                child_node->state = evaluationBoard.getBoardEncoding();
+                child_node->parent = &node;
+                is_tiger_turn = false;
+                node.child = child_node;
+                exploredState.push_back(child_node->state);
+            } else {
+                // goat section
+                if (goat_chosen < 20) {
+                    std::vector <Cell> emptyCells = board.getEmptyCells();  
+                    evaluationBoard.placeGoat(emptyCells[rand() % emptyCells.size()], goat[evaluationBoard.numberOfGoatPlaced]);
+                    evaluationBoard.numberOfGoatPlaced++;
+                    evaluationBoard.numberOfGoatPlaced++;
+                } else {
+                    moves = board.getGoatMoves(goat);
+                    auto it = moves.begin();
+                    //checks if the the move if goat eating move
+                    if(board.eatGoat(&goat[0])) {
+                        evaluationBoard.goatEaten++;
+                    }
+                    while (it != moves.end()){
+                        if (it->second.size() == 0) {
+                            it = moves.erase(it++);
+                        } else {
+                            it++;
+                        }
+                    }
+                    
+                    int random_goat = rand() % moves.size();
+                    std::pair<int, std::vector<Cell>> chosen_goat = moves[random_goat];
+                    int random_move = rand() % chosen_goat.second.size();
 
-Game::Game(unsigned int _width, unsigned int _height)
-{
-    mWindow.create(sf::VideoMode(_width, _height), "Baagchaal", sf::Style::Default);
-    goatChosen=0;
-    tigerTurn=false;
-    tigerWin=false;
-    goatWin=false;
-    gameOver=false;
-    goatChosen=0;
-    goatEaten=0;
-    quit = false;
-    pos=sf::Mouse::getPosition(mWindow);
-    backButtonTexture.loadFromFile("Media/Images/backButton.png");
-    backButtonImage.setTexture(&backButtonTexture);
-    backButtonImage.setPosition(1190,25);
-    backButtonImage.setSize(sf::Vector2f(150,70));
-    tigerWinTexture.loadFromFile("Media/Images/tigerWins.jpg");
-    tigerWinImage.setTexture(&tigerWinTexture);
-    tigerWinImage.setPosition(0,0);
-    tigerWinImage.setSize(sf::Vector2f(1377,720));
-    goatWinTexture.loadFromFile("Media/Images/goatWins.jpg");
-    goatWinImage.setTexture(&goatWinTexture);
-    goatWinImage.setPosition(0,0);
-    goatWinImage.setSize(sf::Vector2f(1377,720));
-    
-}
-
-//handles the event of the game
-void Game::processEvents()
-{
-    while (mWindow.pollEvent(event)) {
-        pos=sf::Mouse::getPosition(mWindow);
-        if (event.type == sf::Event::Closed) {
-            quit= true;
-        }
-        if (event.type == sf::Event::KeyPressed) {
-            handlePlayerInput(event.key.code);
-        }
-        if(tigerTurn) {
-            // board.tigerMove(event, mWindow);//for the movement of goat
-            getBestMove();
-    
-            tigerTurn = false;
-            if(board.eatGoat(&goat[0]))//checks if the the move if goat eating move
-            {
-                goatEaten++;
-                board.goatEatenMoveSound.play();
+                    evaluationBoard.moveGoat(goat[chosen_goat.first], chosen_goat.second[random_move]);
+                }
+                is_tiger_turn = true;
+                Node *child_node = new Node;
+                child_node->state = evaluationBoard.getBoardEncoding();
+                child_node->parent = &node;
+                is_tiger_turn = false;
+                node.child = child_node;
+                exploredState.push_back(child_node->state);
             }
-        }
-        else if(goatChosen<20)//placing the goat
-        {
-            board.placements(event,mWindow,&goat[goatChosen]);
-            if(board.getState())
-            {
-                tigerTurn = true;
-                goatChosen++;
-                board.setState(false);
-            }
-        }
-        else if(goatChosen>=20)
-        {
-            board.goatMove(event,pos,&goat[0]);//moving the goat after all the goats are pressed
-            if(board.getState())
-            {
-                tigerTurn=true;
-                board.setState(false);
+
+            if (evaluationBoard.isGameOver()) {
+                break;
             }
         }
     }
-    if(gameOver and backButtonImage.getGlobalBounds().contains(pos.x,pos.y))
-    {
-        if(event.type==sf::Event::MouseButtonPressed) {
-            mWindow.close();
-            MainMenu menu(1377, 720);
-            menu.run();
-        }
-    }
 }
+#endif
 
 
-void Game::handlePlayerInput(sf::Keyboard::Key & key)
-{
-    switch(key)
-    {
-        case sf::Keyboard::Escape:
-            MainMenu myMenu(1377,720);
-            quit= true;
-            break;
-
-    }
+Game::Game(uint16_t width, uint16_t height): game_data(width, height), main_menu(&game_data) {
+    // main_menu = new MainMenuState(&game_data);
+    game_data.state_machine.push_state(&main_menu);
+    game_data.state_machine.get_current_state()->init();
 }
-
-void Game::run()//main game loo[
-{
-    while(mWindow.isOpen())
-    {
-        mWindow.clear();
-        if(quit)
-        {
-            quitGame q;
-            q.gameExit(mWindow);
-            quit=false;
-        }
-        processEvents();
-        if(!gameOver)
-            board.render(mWindow,&goat[0],&tigerTurn,tigerWin,goatWin,20-goatChosen,goatEaten);
-        checkGameOver();
-        mWindow.display();  
-    }
-}
-
-void Game::checkGameOver()//checks if the game is over
-{
-    if(goatEaten>=5 )
-    {
-        gameOver=true;
-        tigerWins();
-    }
-    if(board.goatWin())
-    {
-        gameOver=true;
-        goatWins();
-    }
-}
-
-
-
-void Game::goatWins()
-{
-    mWindow.clear();
-    mWindow.draw(goatWinImage);
-    mWindow.draw(backButtonImage);
-    mWindow.display();
-}
-
-void Game::tigerWins()
-{
-    mWindow.clear();
-    mWindow.draw(tigerWinImage);
-    mWindow.draw(backButtonImage);
-    mWindow.display();
-}
-
-
-

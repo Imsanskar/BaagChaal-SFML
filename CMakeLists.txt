@@ -11,9 +11,11 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(source includes/MainMenu.h src/Mainmenu.cpp includes/Loadboard.h src/LoadBoard.cpp includes/tigers.h src/tigers.cpp includes/goats.h src/goats.cpp includes/Game.h src/Game.cpp includes/Cell.h src/Cell.cpp src/quitGame.cpp includes/quitGame.h src/Piece.cpp includes/Piece.h)
-add_executable(Baagchaal main.cpp ${source})
+file (GLOB HEADERS includes/*.h)
+file (GLOB SRC src/*.cpp)
+add_executable(Baagchaal main.cpp ${HEADERS} ${SRC})
 
+include_directories(${CMAKE_SOURCE_DIR}/includes)
 
 if(SFML_FOUND)
     include_directories("C:/SFML/include")

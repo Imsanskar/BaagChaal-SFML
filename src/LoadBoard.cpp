@@ -1,6 +1,6 @@
 
 #include "../includes/Loadboard.h"
-#include "../includes/MainMenu.h"
+// #include "../includes/MainMenu.h"
 
 //linear search of vector
 bool search(std::vector<Cell> list,Cell cell)
@@ -55,8 +55,8 @@ Board::Board() //Constructor
     goatEatenMoveSound.setBuffer(goatEatenMoveBuffer);
     for(int i=0;i<25;i++)
     {
-        (cell+i)->setCoord(i);//sets the co ordinates
-        goatEatenMoves.push_back(cell[i]);//just because the vector wont be empty  at the beginning
+        (cells+i)->setCoord(i);//sets the co ordinates
+        goatEatenMoves.push_back(cells[i]);//just because the vector wont be empty  at the beginning
     }
     boardTexture.loadFromFile("Media/Images/board1.jpg");
     boardImage.setTexture(&boardTexture);
@@ -70,9 +70,9 @@ Board::Board() //Constructor
     {
         if (i==0 or i==4 or i==20 or i==24)
         {
-            tiger[j].setPosition((cell+i)->getCoord().x,(cell+i)->getCoord().y);//Sets co ordinates
-            tiger[j].setPosition(cell[i]);
-            (cell+i)->setState(TIGER);
+            tiger[j].setPosition((cells+i)->getCoord().x,(cells+i)->getCoord().y);//Sets co ordinates
+            tiger[j].setPosition(i);
+            (cells+i)->setState(TIGER);
             j++;
         }
     }
@@ -138,7 +138,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
         {
             isReleased=false;
             if (tiger[0].getGlobalBounds().contains(pos.x, pos.y)) {
-                initCell=tiger[0].getSpot();
+                initCell=cells[tiger[0].getSpot()];
                 position=getCellIndex(initCell);
                 isTigerPressed=true;
                 isMove = true;
@@ -147,7 +147,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
                 oldPos.y=tiger[tigerChosen].getPosition().y;
             }
             else if (tiger[1].getGlobalBounds().contains(pos.x, pos.y)) {
-                initCell=tiger[1].getSpot();
+                initCell=cells[tiger[1].getSpot()];
                 tigerChosen = 1;
                 isTigerPressed=true ;
                 position=getCellIndex(initCell);
@@ -156,7 +156,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
                 oldPos.y=tiger[tigerChosen].getPosition().y;
             }
             else if (tiger[2].getGlobalBounds().contains(pos.x, pos.y)) {
-                initCell=tiger[2].getSpot();
+                initCell=cells[tiger[2].getSpot()];
                 tigerChosen = 2;
                 isTigerPressed=true;
                 position=getCellIndex(initCell);
@@ -166,7 +166,7 @@ void Board::tigerMove(sf::Event &event,sf::RenderWindow &mWindow)
             }
             else if (tiger[3].getGlobalBounds().contains(pos.x, pos.y)) {
                 tigerChosen = 3;
-                initCell=tiger[3].getSpot();
+                initCell=cells[tiger[3].getSpot()];
                 isTigerPressed=true;
                 position=getCellIndex(initCell);
                 isMove = true;
@@ -219,34 +219,34 @@ bool Board::checkMove()
     sf::FloatRect bounds;
     bounds=tiger[tigerChosen].getGlobalBounds();
     bounds.left=bounds.left-20;
-    Cell _cell=tiger[tigerChosen].getSpot();
+    Cell _cell=cells[tiger[tigerChosen].getSpot()];
     possibleMoves=getPossibleMoves(_cell);
     for(int i=0;i<25;i++)
     {
-        if( (cell+i)->getState()==EMPTY and (bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
+        if( (cells+i)->getState()==EMPTY and (bounds.contains((cells+i)->getCoord().x+10,(cells+i)->getCoord().y+10)))
         {
-                if (search(possibleMoves, cell[i]))
+                if (search(possibleMoves, cells[i]))
                 {
                     flag=true;
-                    finalCell = cell[i];
+                    finalCell = cells[i];
                     num=i;
-                    temp.x=cell[i].getCoord().x;
-                    temp.y=cell[i].getCoord().y;
-                    tiger[tigerChosen].setPosition(finalCell);
-                    tiger[tigerChosen].setPosition(cell[i]);
+                    temp.x=cells[i].getCoord().x;
+                    temp.y=cells[i].getCoord().y;
+                    tiger[tigerChosen].setPosition(getCellIndex(finalCell));
+                    tiger[tigerChosen].setPosition(i);
                     setEmpty();
-                    (cell + i)->setState(TIGER);
+                    (cells + i)->setState(TIGER);
                     break;
                 }
-                else if (search(goatEatenMoves, cell[i]))
+                else if (search(goatEatenMoves, cells[i]))
                 {
                     flag=true;
-                    temp.x=cell[i].getCoord().x;
-                    temp.y=cell[i].getCoord().y;
-                    finalCell = cell[i];
-                    tiger[tigerChosen].setPosition(cell[i]);
+                    temp.x=cells[i].getCoord().x;
+                    temp.y=cells[i].getCoord().y;
+                    finalCell = cells[i];
+                    tiger[tigerChosen].setPosition(i);
                     setEmpty();
-                    (cell + i)->setState(TIGER);
+                    (cells + i)->setState(TIGER);
                     break;
                 }
         }
@@ -270,10 +270,10 @@ sf::Vector2i Board::toPosition(Tiger &tiger,sf::Vector2i &pos)
     bounds=tiger.getGlobalBounds();
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
+        if((bounds.contains((cells+i)->getCoord().x+10,(cells+i)->getCoord().y+10)))
         {
-            tiger.setPosition(cell[i]);
-            return (cell+i)->getCoord();
+            tiger.setPosition(i);
+            return (cells+i)->getCoord();
         }
     }
 }
@@ -284,9 +284,9 @@ void Board::setEmpty()
 {
     for(int i=0;i<25;i++)
     {
-        if(oldPos==(cell+i)->getCoord())
+        if(oldPos==(cells+i)->getCoord())
         {
-            cell[i].setState(EMPTY);
+            cells[i].setState(EMPTY);
         }
     }
 }
@@ -296,7 +296,9 @@ void Board::getGoatEatenMoves(int direction)
 {
     if((position+direction)>=0 && (position+direction)<25)//checks the overflow  of cell array
     {
-        goatEatenMoves.push_back(cell[position+direction]);
+        if (cells[position + direction].state == EMPTY) {
+            goatEatenMoves.push_back(cells[position+direction]);
+        }
     }
 }
 
@@ -311,9 +313,9 @@ std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
     // Check for left-corner case
     if (position % MAX_GRID_X != 0)
     {
-        if(cell[position-1].getState()==EMPTY)
-            results.push_back(cell[position - 1]);
-        if(cell[position-1].getState()==GOAT)//checks for goat eaten moves
+        if(cells[position-1].getState()==EMPTY)
+            results.push_back(cells[position - 1]);
+        if(cells[position-1].getState()==GOAT)//checks for goat eaten moves
         {
             getGoatEatenMoves(-2);
         }
@@ -324,9 +326,9 @@ std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
         //check for downward right downward diagonal movement
         if(position<MAX_GRID_Y*(MAX_GRID_X-1) and position%MAX_GRID_X!=(MAX_GRID_X-1))
         {
-            if(cell[position+6].getState()==EMPTY)
-                results.push_back(cell[position + 6]);
-            if(cell[position+6].getState()==GOAT)//checks for goar eaten moves
+            if(cells[position+6].getState()==EMPTY)
+                results.push_back(cells[position + 6]);
+            if(cells[position+6].getState()==GOAT)//checks for goar eaten moves
             {
                 getGoatEatenMoves(12);
             }
@@ -334,9 +336,9 @@ std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
         //check for downward left downward diagonal movement
         if(position % MAX_GRID_X != 0 and position<MAX_GRID_Y*(MAX_GRID_X-1) )
         {
-            if(cell[position+4].getState()==EMPTY)
-                results.push_back(cell[position + 4]);
-            if(cell[position+4].getState()==GOAT)
+            if(cells[position+4].getState()==EMPTY)
+                results.push_back(cells[position + 4]);
+            if(cells[position+4].getState()==GOAT)
             {
                 getGoatEatenMoves(8);
             }
@@ -344,9 +346,9 @@ std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
         //check for upward right upward diagonal movement
         if((position>MAX_GRID_X-1) and (position % MAX_GRID_X)!=(MAX_GRID_X-1) )
         {
-            if(cell[position-4].getState()==EMPTY)
-                results.push_back(cell[position - 4]);
-            if(cell[position-4].getState()==GOAT)
+            if(cells[position-4].getState()==EMPTY)
+                results.push_back(cells[position - 4]);
+            if(cells[position-4].getState()==GOAT)
             {
                 getGoatEatenMoves(-8);
             }
@@ -354,9 +356,9 @@ std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
         //check for upward left upward diagonal movement
         if((position)%MAX_GRID_X!=0 and position>MAX_GRID_X)//checks for goat eaten moves
         {
-            if(cell[position-6].getState()==EMPTY)
-                results.push_back(cell[position-6]);
-            if(cell[position-6].getState()==GOAT )
+            if(cells[position-6].getState()==EMPTY)
+                results.push_back(cells[position-6]);
+            if(cells[position-6].getState()==GOAT )
             {
                 getGoatEatenMoves(-12);
             }
@@ -365,9 +367,9 @@ std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
     // Check for right-corner case
     if ((position + 1) % MAX_GRID_X != 0)
     {
-        if(cell[position+1].getState()==EMPTY)
-            results.push_back(cell[position + 1]);
-        if(cell[position+1].getState()==GOAT )//checks for goat eaten moves
+        if(cells[position+1].getState()==EMPTY)
+            results.push_back(cells[position + 1]);
+        if(cells[position+1].getState()==GOAT )//checks for goat eaten moves
         {
             getGoatEatenMoves(2);
         }
@@ -375,9 +377,9 @@ std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
     // Check for upper-corner case
     if (position / MAX_GRID_Y != 0)
     {
-        if(cell[position-5].getState()==EMPTY)
-            results.push_back(cell[position - 5]);
-        if(cell[position-MAX_GRID_X].getState()==GOAT )//checks for goat eaten moves
+        if(cells[position-5].getState()==EMPTY)
+            results.push_back(cells[position - 5]);
+        if(cells[position-MAX_GRID_X].getState()==GOAT )//checks for goat eaten moves
         {
             getGoatEatenMoves(-(MAX_GRID_X*2));
         }
@@ -385,9 +387,9 @@ std::vector<Cell> Board::getPossibleMoves(const Cell &_cell)
     // Check for lower-corner case
     if (position < MAX_GRID_X*(MAX_GRID_Y-1))//checks for goat eaten moves
     {
-        if(cell[position+5].getState()==EMPTY)
-            results.push_back(cell[position + 5]);
-        if(cell[position+MAX_GRID_X].getState()==GOAT )
+        if(cells[position+5].getState()==EMPTY)
+            results.push_back(cells[position + 5]);
+        if(cells[position+MAX_GRID_X].getState()==GOAT )
         {
             getGoatEatenMoves(MAX_GRID_X*2);
         }
@@ -457,31 +459,31 @@ bool Board::checkMove(Goat &goat,bool flag=false)
     if(!flag)//checks move for  placement part
     {
         for (int i = 0; i < 25; i++) {
-            if ((bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)) and (cell + i)->getState() == EMPTY)
+            if ((bounds.contains((cells + i)->getCoord().x + 10, (cells + i)->getCoord().y + 10)) and (cells + i)->getState() == EMPTY)
             {
-                goat.setPosition(cell[i].getCoord().x,cell[i].getCoord().y);//gets the co ordinate  of the goat
-                goat.setPosition(cell[i]);//sets the cell to goat
-                (cell + i)->setState(GOAT);//sets the state of the the final cell to GOAT
+                goat.setPosition(cells[i].getCoord().x,cells[i].getCoord().y);//gets the co ordinate  of the goat
+                goat.setPosition(i);//sets the cell to goat
+                (cells + i)->setState(GOAT);//sets the state of the the final cell to GOAT
                 return true;
             }
         }
     }
     if(flag)//checks move for movement part
     {
-        Cell _cell=goat.getSpot();
+        Cell _cell=cells[goat.getSpot()];
         possibleMoves=getPossibleMoves(_cell);
 
         for (int i = 0; i < 25; i++)
         {
-            if ((bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10)) and (cell + i)->getState() == EMPTY)
+            if ((bounds.contains((cells + i)->getCoord().x + 10, (cells + i)->getCoord().y + 10)) and (cells + i)->getState() == EMPTY)
             {;
-                if(search(possibleMoves,cell[i]))
+                if(search(possibleMoves,cells[i]))
                 {
-                    goat.setPosition(cell[i].getCoord().x,cell[i].getCoord().y);
-                    goat.setPosition(cell[i]);
-                    finalCell=cell[i];
+                    goat.setPosition(cells[i].getCoord().x,cells[i].getCoord().y);
+                    goat.setPosition(i);
+                    finalCell=cells[i];
                     setEmpty();
-                    cell[i].setState(GOAT);
+                    cells[i].setState(GOAT);
                     return true;
                 }
             }
@@ -497,10 +499,10 @@ sf::Vector2i Board::toPosition(Goat &goat)
     bounds.left=bounds.left;
     for(int i=0;i<25;i++)
     {
-        if((bounds.contains((cell+i)->getCoord().x+10,(cell+i)->getCoord().y+10)))
+        if((bounds.contains((cells+i)->getCoord().x+10,(cells+i)->getCoord().y+10)))
         {
-            goat.setPosition(cell[i]);
-            return (cell+i)->getCoord();
+            goat.setPosition(i);
+            return (cells+i)->getCoord();
         }
     }
 }
@@ -511,7 +513,7 @@ int Board::findCell()
 {
     for(int i=0;i<25;i++)
     {
-        if(initCell.getCoord().x==cell[i].getCoord().x && initCell.getCoord().y==cell[i].getCoord().y)
+        if(initCell.getCoord().x==cells[i].getCoord().x && initCell.getCoord().y==cells[i].getCoord().y)
         {
             return i;
         }
@@ -524,7 +526,7 @@ int Board::getCellIndex(const Cell &_cell)
 {
     for(int i=0;i<25;i++)
     {
-        if (cell[i]==_cell)
+        if (cells[i]==_cell)
         {
             return i;
         }
@@ -545,13 +547,13 @@ bool Board::eatGoat(Goat *goat)
         if((initIndex/5-finalIndex/5)!=1 and (-initIndex/5+finalIndex/5)!=1)
         {
             int index = (getCellIndex(initCell) + getCellIndex(finalCell)) / 2;
-            deadGoatCell = cell[index];
-            cell[index].setState(EMPTY);
+            deadGoatCell = cells[index];
+            cells[index].setState(EMPTY);
             for (int i = 0; i < 20; i++) {
                 if (goat[i].getState() == Dead) {
                     continue;
                 }
-                tempCell=goat[i].getSpot();
+                tempCell=cells[goat[i].getSpot()];
                 if (tempCell== deadGoatCell)
                 {
                     goat[i].setState(Dead);
@@ -574,22 +576,22 @@ bool Board::goatWin()
 
     for(auto & i : tiger)
     {
-        Cell _cell=i.getSpot();
+        Cell _cell=cells[i.getSpot()];
         int currentPosition=getCellIndex(_cell);
         // Check for left-corner case
         if (currentPosition % MAX_GRID_X != 0)
         {
             direction=-1;
-            if(cell[currentPosition-1].getState()==GOAT and cell[currentPosition-2].getState()==EMPTY and (currentPosition/5-(currentPosition-2)/5!=1))
+            if(cells[currentPosition-1].getState()==GOAT and cells[currentPosition-2].getState()==EMPTY and (currentPosition/5-(currentPosition-2)/5!=1))
             {
                 if((currentPosition+direction*2)>=0 && (currentPosition+direction*2)<25 )//checks the overflow  of cell array
                 {
-                    move.push_back(cell[currentPosition+direction*2]);
+                    move.push_back(cells[currentPosition+direction*2]);
                 }
             }
-            if(cell[currentPosition-1].getState()==EMPTY)
+            if(cells[currentPosition-1].getState()==EMPTY)
             {
-                move.push_back(cell[currentPosition + direction]);
+                move.push_back(cells[currentPosition + direction]);
             }
         }
         //Check for diagonal  movement
@@ -599,64 +601,64 @@ bool Board::goatWin()
             if(currentPosition<MAX_GRID_Y*(MAX_GRID_X-1) and currentPosition%MAX_GRID_X!=(MAX_GRID_X-1))
             {
                 direction=6;
-                if(cell[currentPosition+6].getState()==GOAT and cell[currentPosition+6*2].getState()==EMPTY)
+                if(cells[currentPosition+6].getState()==GOAT and cells[currentPosition+6*2].getState()==EMPTY)
                 {
                     if((currentPosition+6*2)>=0 && (currentPosition+6*2)<25)//checks the overflow  of cell array
                     {
-                        move.push_back(cell[currentPosition+6*2]);
+                        move.push_back(cells[currentPosition+6*2]);
                     }
                 }
-                if(cell[currentPosition+6].getState()==EMPTY)
+                if(cells[currentPosition+6].getState()==EMPTY)
                 {
-                    move.push_back(cell[currentPosition + 6]);
+                    move.push_back(cells[currentPosition + 6]);
                 }
             }
             //check for downward left downward diagonal movement
             if(currentPosition % MAX_GRID_X != 0 && currentPosition<MAX_GRID_Y*(MAX_GRID_X-1))
             {
                 direction = 4;
-                if(cell[currentPosition+4].getState()==GOAT and cell[currentPosition+4*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+8)/5!=1))
+                if(cells[currentPosition+4].getState()==GOAT and cells[currentPosition+4*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+8)/5!=1))
                 {
                     if((currentPosition+4*2)>=0 && (currentPosition+4*2)<25)//checks the overflow  of cell array
                     {
-                        move.push_back(cell[currentPosition+4*2]);
+                        move.push_back(cells[currentPosition+4*2]);
                     }
                 }
-                if(cell[currentPosition+4].getState()==EMPTY)
+                if(cells[currentPosition+4].getState()==EMPTY)
                 {
-                    move.push_back(cell[currentPosition + 4]);
+                    move.push_back(cells[currentPosition + 4]);
                 }
             }
             //check for upward right upward diagonal movement
             if(currentPosition>MAX_GRID_X-1 and (currentPosition % MAX_GRID_X)!=(MAX_GRID_X-1))
             {
                 direction=-4;
-                if(cell[currentPosition-4].getState()==GOAT and cell[currentPosition-4*2].getState()==EMPTY and (currentPosition/5-(currentPosition-8)/5!=1))
+                if(cells[currentPosition-4].getState()==GOAT and cells[currentPosition-4*2].getState()==EMPTY and (currentPosition/5-(currentPosition-8)/5!=1))
                 {
                     if((currentPosition-4*2)>=0 && (currentPosition-4*2)<25)//checks the overflow  of cell array
                     {
-                        move.push_back(cell[currentPosition-4*2]);
+                        move.push_back(cells[currentPosition-4*2]);
                     }
                 }
-                if(cell[currentPosition-4].getState()==EMPTY and currentPosition-4>=0 )
+                if(cells[currentPosition-4].getState()==EMPTY and currentPosition-4>=0 )
                 {
-                    move.push_back(cell[currentPosition -4]);
+                    move.push_back(cells[currentPosition -4]);
                 }
             }
             //check for upward left upward diagonal movement
             if((currentPosition)%MAX_GRID_X!=0 && currentPosition>MAX_GRID_X-1)
             {
                 direction=-6;
-                if(cell[currentPosition-6*2].getState()==GOAT and cell[currentPosition-6*2].getState()==EMPTY )
+                if(cells[currentPosition-6*2].getState()==GOAT and cells[currentPosition-6*2].getState()==EMPTY )
                 {
                     if((currentPosition+-6*2)>=0 && (currentPosition+-6*2)<25)//checks the overflow  of cell array
                     {
-                        move.push_back(cell[currentPosition-12]);
+                        move.push_back(cells[currentPosition-12]);
                     }
                 }
-                if(cell[currentPosition-6].getState()==EMPTY and currentPosition-6>=0)
+                if(cells[currentPosition-6].getState()==EMPTY and currentPosition-6>=0)
                 {
-                    move.push_back(cell[currentPosition  -6]);
+                    move.push_back(cells[currentPosition  -6]);
                 }
             }
         }
@@ -664,48 +666,48 @@ bool Board::goatWin()
         if ((currentPosition + 1) % MAX_GRID_X != 0)
         {
             direction = 1;
-            if(cell[currentPosition+1].getState()==GOAT and cell[currentPosition+1*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+2)/5!=1))//checks for goar eaten moves
+            if(cells[currentPosition+1].getState()==GOAT and cells[currentPosition+1*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+2)/5!=1))//checks for goar eaten moves
             {
                 if((currentPosition+1*2)>=0 && (currentPosition+2)<25)//checks the overflow  of cell array
                 {
-                    move.push_back(cell[currentPosition+1*2]);
+                    move.push_back(cells[currentPosition+1*2]);
                 }
             }
-            if(cell[currentPosition+1].getState()==EMPTY and currentPosition+1>=0 and currentPosition+1<25)
+            if(cells[currentPosition+1].getState()==EMPTY and currentPosition+1>=0 and currentPosition+1<25)
             {
-                move.push_back(cell[currentPosition + 1]);
+                move.push_back(cells[currentPosition + 1]);
             }
         }
         // Check for upper-corner case
         if (currentPosition / MAX_GRID_Y != 0)
         {
             direction=-MAX_GRID_X;
-            if(cell[currentPosition-5].getState()==GOAT and cell[currentPosition-5*2].getState()==EMPTY and (currentPosition/5-(currentPosition-10)/5!=1))
+            if(cells[currentPosition-5].getState()==GOAT and cells[currentPosition-5*2].getState()==EMPTY and (currentPosition/5-(currentPosition-10)/5!=1))
             {
                 if((currentPosition-10)>=0)//checks the overflow  of cell array
                 {
-                    move.push_back(cell[currentPosition-5*2]);
+                    move.push_back(cells[currentPosition-5*2]);
                 }
             }
-            if(cell[currentPosition-5].getState()==EMPTY and currentPosition-5>=0 )
+            if(cells[currentPosition-5].getState()==EMPTY and currentPosition-5>=0 )
             {
-                move.push_back(cell[currentPosition + direction]);
+                move.push_back(cells[currentPosition + direction]);
             }
         }
         // Check for lower-corner case
         if (currentPosition < MAX_GRID_X*(MAX_GRID_Y-1))
         {
             direction = MAX_GRID_X;
-            if(cell[currentPosition+5].getState()==GOAT and cell[currentPosition+5*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+10)/5!=1))
+            if(cells[currentPosition+5].getState()==GOAT and cells[currentPosition+5*2].getState()==EMPTY and (-currentPosition/5+(currentPosition+10)/5!=1))
             {
                 if((currentPosition+5*2)>=0 && (currentPosition+5*2)<25)//checks the overflow  of cell array
                 {
-                    move.push_back(cell[currentPosition+5*2]);
+                    move.push_back(cells[currentPosition+5*2]);
                 }
             }
-            if(cell[currentPosition+5].getState()==EMPTY)
+            if(cells[currentPosition+5].getState()==EMPTY)
             {
-                move.push_back(cell[currentPosition + direction]);
+                move.push_back(cells[currentPosition + direction]);
             }
         }
     }
@@ -728,7 +730,7 @@ void Board::goatMove(sf::Event &event, sf::Vector2i &pos,Goat *goat)
                 if((goat+i)->getGlobalBounds().contains(pos.x,pos.y))
                 {
                     goatChosen=i;
-                    initCell=(goat+i)->getSpot();
+                    initCell=cells[(goat+i)->getSpot()];
                     position=findCell();
                     isGoatPressed=true;
                     isMove=true;
@@ -789,34 +791,34 @@ bool Board::checkMove(Tiger &_tiger)
     sf::FloatRect bounds;
     bounds=_tiger.getGlobalBounds();
     bounds.left=bounds.left-20;
-    Cell _cell=_tiger.getSpot();
+    Cell _cell=cells[_tiger.getSpot()];
     possibleMoves=getPossibleMoves(_cell);
     for(int i=0;i<25;i++) {
-        if ((cell + i)->getState() == EMPTY and
-            (bounds.contains((cell + i)->getCoord().x + 10, (cell + i)->getCoord().y + 10))) {
-            if (search(possibleMoves, cell[i]))
+        if ((cells + i)->getState() == EMPTY and
+            (bounds.contains((cells + i)->getCoord().x + 10, (cells + i)->getCoord().y + 10))) {
+            if (search(possibleMoves, cells[i]))
             {
                 normalMoveSound.play();
                 flag = true;
-                finalCell = cell[i];
+                finalCell = cells[i];
                 num = i;
-                temp.x = cell[i].getCoord().x;
-                temp.y = cell[i].getCoord().y;
-                _tiger.setPosition(finalCell);
-                _tiger.setPosition(cell[i]);
+                temp.x = cells[i].getCoord().x;
+                temp.y = cells[i].getCoord().y;
+                _tiger.setPosition(i);
+                _tiger.setPosition(i);
                 setEmpty();
-                (cell + i)->setState(TIGER);
+                (cells + i)->setState(TIGER);
                 break;
             }
-            else if (search(goatEatenMoves, cell[i]))
+            else if (search(goatEatenMoves, cells[i]))
             {
                 flag = true;
-                temp.x = cell[i].getCoord().x;
-                temp.y = cell[i].getCoord().y;
-                finalCell = cell[i];
-                _tiger.setPosition(cell[i]);
+                temp.x = cells[i].getCoord().x;
+                temp.y = cells[i].getCoord().y;
+                finalCell = cells[i];
+                _tiger.setPosition(i);
                 setEmpty();
-                (cell + i)->setState(TIGER);
+                (cells + i)->setState(TIGER);
                 break;
             }
         }
@@ -855,4 +857,104 @@ bool Board::isClosed(Cell &_cell)
 
 int Board::noOfClosedCell() {
     return 0;
+}
+
+
+std::vector <std::pair<int, std::vector<Cell>>> Board::getTigerMoves() {
+    std::vector <std::pair<int, std::vector<Cell>>> moves;
+    for (int i = 0; i < 4; i++) {
+        std::vector<Cell> possibleMoves;
+        std::vector<Cell> normalMoves = getPossibleMoves(cells[tiger[i].getSpot()]);
+        possibleMoves.reserve(normalMoves.size() + goatEatenMoves.size());
+        possibleMoves.insert(possibleMoves.end(), goatEatenMoves.begin(), goatEatenMoves.end());
+        possibleMoves.insert(possibleMoves.end(), normalMoves.begin(), normalMoves.end());
+        moves.push_back(std::pair<int, std::vector<Cell>> (i, possibleMoves));
+    }
+
+    return moves;
+}
+
+
+std::vector <std::pair<int, std::vector<Cell>>> Board::getGoatMoves(Goat goat[20]) {
+    std::vector <std::pair<int, std::vector<Cell>>> moves;
+    for (int i = 0; i < 20; i++) {
+        if (goat[i].getState() != Alive) {
+            continue;
+        }
+        std::vector<Cell> possibleMoves = getPossibleMoves(cells[goat[i].getSpot()]);
+        moves.push_back(std::pair<int, std::vector<Cell>> (i, possibleMoves));
+    }
+
+    return moves;
+}
+
+
+void Board::moveTiger(int tigerIndex, const Cell& dest) {
+    initCell = cells[tiger[tigerIndex].getSpot()];
+    finalCell = dest;
+    cells[tiger[tigerIndex].getSpot()].setState(EMPTY);
+    tiger[tigerIndex].setPosition(dest.coord.x, dest.coord.y);
+    tiger[tigerIndex].setPosition(getCellIndex(dest));
+    cells[getCellIndex(dest)].setState(TIGER);
+}
+
+void Board::moveGoat(Goat& goat, const Cell& dest) {
+    cells[goat.getSpot()].setState(EMPTY);
+    goat.setPosition(dest.coord.x, dest.coord.y);
+    goat.setPosition(getCellIndex(dest));
+    cells[getCellIndex(dest)].setState(GOAT);
+}
+
+std::vector <Cell> Board::getEmptyCells() {
+    std::vector <Cell> emptyCells;
+
+    for (int i = 0; i < 25; i++) {
+        if (cells[i].state == EMPTY) {
+            emptyCells.push_back(cells[i]);
+        }
+    }
+
+    return emptyCells;
+}
+
+
+void Board::placeGoat(const Cell& _cell, Goat &goat) {
+    int cellIndex = getCellIndex(_cell);
+    cells[cellIndex].setState(GOAT);
+    goat.setState(Alive);
+    goat.setPosition(getCellIndex(_cell));
+    goat.setPosition(_cell.coord.x, _cell.coord.y);
+}
+
+uint64_t Board::getBoardEncoding() {
+    uint64_t value = 0;
+    for (int i = 0; i < 25; i++) {
+        uint64_t cellValue = cells[i].state;
+        value |= (cellValue & 0b11) << (2 * i);
+    }
+
+    value |= (goatEaten & 0b111) << 50;
+    value |= (numberOfGoatPlaced & 0b11111) << 53;
+
+    return value;
+}
+
+void Board::decodeBoard(uint64_t value) {
+    for (int i = 0; i < 25; i++) {
+        cells[i].state = (STATE)((value >> (2 * i)) & 0b11);
+    }
+    goatEaten = (value >> 50) & 0b111;
+    numberOfGoatPlaced = (value >> 53) & 0b11111;
+}
+
+bool Board::tigerWin() {
+    if (goatEaten >= 5) {
+        return true;
+    }
+
+    return false;
+}
+
+bool Board::isGameOver() {
+    return goatWin() || tigerWin();
 }

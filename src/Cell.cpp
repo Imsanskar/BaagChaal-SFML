@@ -8,6 +8,12 @@ Cell::Cell()
 {
     state=EMPTY;
 }
+
+Cell::Cell(int x, int y) {
+    coord.x = x;
+    coord.y = y;
+}
+
 void Cell ::setCoord(int i) {
     coord.x=(i%5)*187.5+75;
     coord.y=(i/5)*147.5+30;

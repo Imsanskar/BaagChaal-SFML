@@ -1,45 +1,31 @@
 //
 // Created by imsanskar on 2020-01-10.
 //
-
+#pragma once
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics.hpp>
-#include "Loadboard.h"
-#include "MainMenu.h"
-#include "quitGame.h"
-#include <unistd.h>
-#include <unordered_map>
+#include "MainMenuState.h"
+#include "asset_manager.h"
+#include "GameData.h"
+#include "state.h"
 
 
-struct Game
-{
-public:
-    sf::Texture goatWinTexture;
-    sf::Texture tigerWinTexture;
-    sf::RectangleShape goatWinImage;
-    sf::RectangleShape tigerWinImage;
-    sf::Texture backButtonTexture;
-    sf::RectangleShape backButtonImage;
-    sf::Event event{};
-    Goat goat[20];
-    Board board;
-    int goatChosen,goatEaten;
-    bool gameOver,tigerTurn=true;
-    bool tigerWin,goatWin;
-    sf::Vector2i pos;
-    bool quit;
-    void getBestMove();
+struct Game {
+private:
+    GameData game_data;
+    MainMenuState main_menu;
 
 public:
-    Game(unsigned int ,unsigned int );
-    void run();
-    void processEvents();
-    void handlePlayerInput(sf::Keyboard::Key & );
-    void checkGameOver();
-    void goatWins();
-    void tigerWins();
-protected:
-    sf::RenderWindow mWindow;
+    Game(uint16_t width, uint16_t height); 
+
+    void run() {
+        while (game_data.is_running) {
+            StateRef state = game_data.state_machine.get_current_state();
+            state->render(0.3);
+            state->handle_input();
+            state->update();
+        }
+    }
 };

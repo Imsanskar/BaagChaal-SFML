@@ -11,19 +11,19 @@
 // Created by imsanskar on 2020-02-06.
 //
 
-enum STATE
-{
-    EMPTY,
-    GOAT,
-    TIGER
+enum STATE{
+    EMPTY = 0,
+    GOAT = 1,
+    TIGER = 2
 };
 
 class Cell
 {
 public:
     sf::Vector2i coord;
-    STATE state;
+    STATE state = EMPTY;
 public:
+    Cell(int x, int y);
     Cell();
     void setCoord(int i) ;//sets the co ordinates of the cell object
     sf::Vector2i getCoord() const;//getter of the co-ordinates of the cell object

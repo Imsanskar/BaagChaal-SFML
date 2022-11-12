@@ -14,7 +14,7 @@ protected:
     sf::Texture texture;
     sf::CircleShape image;
     sf::Vector2f position;
-    Cell pos;
+    int pos;
 
 public:
     Piece();//constructor
@@ -22,8 +22,8 @@ public:
     sf::Rect<float> getGlobalBounds();//returns the boundary of the tiger
     sf::Vector2f getPosition();//getter of the position of the tiger
     void setPosition(float x,float y);//setter of the position of the  tiger
-    void setPosition(Cell );//setter of the cell of the tiger
-    Cell getSpot();//getter of the cell of the tiger
+    void setPosition(int );//setter of the cell of the tiger
+    int getSpot();//getter of the cell of the tiger
 };
 
 
